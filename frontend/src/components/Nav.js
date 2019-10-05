@@ -17,7 +17,7 @@ export default class Nav extends Component {
              <NavLink to="/" exact activeClassName="active-nav">
                <FontAwesomeIcon className="def-icon" icon={logo} />
                <FontAwesomeIcon className="act-icon" icon={logoActive} />
-               &nbsp; StartupMatch
+               &nbsp; ProjectName
              </NavLink>
            </li>
            <li>
