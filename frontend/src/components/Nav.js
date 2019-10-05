@@ -49,6 +49,7 @@ export default class Nav extends Component {
              </span>
              <div className="dropdown-content">
                <NavLink to="/user-profile">Profile</NavLink>
+               <NavLink to="/applications">Applied</NavLink>
                <NavLink to="/user-settings">Settings</NavLink>
              </div>
            </li>
