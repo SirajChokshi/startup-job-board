@@ -29,7 +29,7 @@ export default class Nav extends Component {
            <li>
              <NavLink to="/jobs" exact activeClassName="active-nav">
                <FontAwesomeIcon className="def-icon" icon={jobs} />
-               <FontAwesomeIcon className="act-icon" icon={jobsActive} />
+               <FontAwesomeIcon className= "act-icon" icon={jobsActive} />
                &nbsp; Jobs
              </NavLink>
            </li>
