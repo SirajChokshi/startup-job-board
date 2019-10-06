@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 // Icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBookmark as bookmarkActive, faBell as bellActive, faUser as userActive, faSearch as search, faCaretDown as darr, faFolderOpen as jobsActive, faCommentAlt as logoActive} from '@fortawesome/free-solid-svg-icons'
+import { faBookmark as bookmarkActive, faBell as bellActive, faUser as userActive, faSearch as search, faCaretDown as darr, faFolderOpen as jobsActive, faCommentAlt as logoActive } from '@fortawesome/free-solid-svg-icons'
 import { faBookmark as bookmark, faBell as bell, faUser as user, faFolderOpen as jobs, faCommentAlt as logo } from '@fortawesome/free-regular-svg-icons'
 
 export default class Nav extends Component {
@@ -20,7 +20,7 @@ export default class Nav extends Component {
                &nbsp; ProjectName
              </NavLink>
            </li>
-           <li>
+           <li id="search-nav">
              <span id="nav-search-icon-wrapper">
                <FontAwesomeIcon icon={search} style={{verticalAlign: 'middle', color: '#8e8e8e', fontSize: 14 + 'px', marginBottom: 2.6 + 'px'}} />
              </span>

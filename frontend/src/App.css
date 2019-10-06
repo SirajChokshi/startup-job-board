@@ -1,7 +1,3 @@
-* {
-  font-family: "Lato", -apple-system, sans-serif;
-}
-
 :root {
   --main-color: #3d5afe;
   --light-color: #82b1ff;
@@ -73,11 +69,11 @@ nav ul {
   text-align: center;
   margin: 0 auto;
   text-decoration: none;
-  padding: 18px 0px;
+  padding: 18px 0;
   z-index: 2;
-  -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, .5);
-  -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, .5);
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, .5);
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+  -moz-box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+  box-shadow: 0 0 10px rgba(0, 0, 0, .5);
 }
 
 nav ul li {
@@ -109,16 +105,16 @@ nav ul li a:hover {
 }
 
 nav ul li input.search {
-  font-size: 16px;
-  border-radius: 0px 8px 8px 0px;
+  font-size: 16.5px;
+  border-radius: 0 8px 8px 0;
   outline: none;
   border: none;
   padding: 5px 100px 5px 10px;
 }
 
 span#nav-search-icon-wrapper {
-  padding: 5px 0px 5px 10px;
-  border-radius: 8px 0px 0px 8px;
+  padding: 5px 0 5px 10px;
+  border-radius: 8px 0 0 8px;
   background-color: var(--secondary-text-color);
 }
 
@@ -145,6 +141,12 @@ span#nav-search-icon-wrapper {
 
 .active-nav .def-icon, .act-icon, .active-nav #alert {
   display: none;
+}
+
+@media only screen and (max-width: 1050px) {
+  nav ul li#search-nav {
+    display: none;
+  }
 }
 
 /* FOOTER */
@@ -188,7 +190,7 @@ footer span.lastlines {
 /* SEARCH BAR */
 #search-bar-wrapper input.search {
   font-size: 22px;
-  border-radius: 0px 12px 12px 0px;
+  border-radius: 0 12px 12px 0;
   outline: none;
   border: none;
   width: 90%;
@@ -197,7 +199,7 @@ footer span.lastlines {
 }
 
 span#search-icon-wrapper {
-  font-size: 22px;
+  font-size: 21.5px;
   padding: 10px 10px 10px 20px;
   border-radius: 12px 0px 0px 12px;
   background-color: var(--secondary-text-color);
@@ -224,4 +226,16 @@ span#search-icon-wrapper {
 
 #below {
   padding: 7vh 0;
+}
+
+/* JOBS */
+#jobs-hero {
+  padding: 6vh 0 10vh 0;
+  background-color: var(--secondary-background-color);;
+}
+
+#jobs-hero-inner {
+  max-width: 760px;
+  text-align: left;
+  margin: 0 auto;
 }

@@ -3,14 +3,14 @@ import React, { Component } from 'react';
 // Components
 import Listing from '../components/Listing';
 
-export default class Results extends Component {
+export default class Feed extends Component {
   state = {
   }
 
   render () {
       return (
         <div>
-           <h1> results </h1>
+           <h1> Feed </h1>
         </div>
       )
    }

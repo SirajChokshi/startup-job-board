@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-grid-system';
 
 // Components
-import Results from '../components/Results';
+import Feed from '../components/Feed';
 
 var userName = "Siraj";
 
@@ -14,7 +14,7 @@ export default class StudentLanding extends Component {
       return (
         <Container id="below">
           <h2>Welcome back {userName},<br></br>Here are some newly posted positions:</h2>
-          <Results />
+          <Feed />
         </Container>
       )
     }
