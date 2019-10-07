@@ -3,6 +3,7 @@
   --light-color: #82b1ff;
   --dark-color: #0031ca;
   --secondary-text-color: #ffffff;
+  --tertiary-text-color: #8e8e8e;
   --text-color: #171518;
   --background-color: #ffffff;
   --secondary-background-color: #eeeeee;
@@ -195,7 +196,7 @@ footer span.lastlines {
   border: none;
   width: 90%;
   padding: 10px 10px 10px 10px;
-  color: #8e8e8e;
+  color: var(--tertiary-text-color);
 }
 
 span#search-icon-wrapper {
@@ -261,7 +262,7 @@ span#search-icon-wrapper {
 
 .listing .image-wrapper {
   float: left;
-  width: 20%;
+  width: 25%;
 }
 
 .listing .image-wrapper img {
@@ -270,7 +271,7 @@ span#search-icon-wrapper {
 
 .listing .inf {
   float: right;
-  width: 78%;
+  width: 73%;
 }
 
 .listing .inf p {
@@ -282,14 +283,20 @@ span#search-icon-wrapper {
   margin: 0;
 }
 
-.commitment-wrapper {
-  color: #8e8e8e;
+.title-ext-wrapper {
+  color: var(--tertiary-text-color);
+}
+
+.listing p.sub-title {
+  color: var(--tertiary-text-color);
+  font-size: 16px;
 }
 
 a.similar-pos {
   text-decoration: none;
   opacity: 0.5;
-  color: #8e8e8e;
+  font-size: 18px;
+  color: var(--tertiary-text-color);
   -webkit-transition: opacity .2s;
   -o-transition: opacity .2s;
   transition: opacity .2s;
@@ -315,13 +322,42 @@ a.similar-pos:hover {
   z-index: -1;
 }
 
+button.button-secondary.bookmarked {
+  padding: 10px 25px 10px 25px;
+  border-radius: 10px;
+  color: var(--secondary-text-color);
+  background-color: var(--success-color);
+  text-decoration: none;
+  font-weight: 700;
+  border: solid 3px var(--success-color);
+  margin-right: 12px;
+  cursor: pointer;
+}
+
+button.button-secondary.bookmark {
+  color: var(--tertiary-text-color);
+  border: solid 3px var(--tertiary-text-color);
+  cursor: pointer;
+}
+
+button.button-secondary.bookmark:hover {
+  color: var(--success-color);
+  border: solid 3px var(--success-color);
+}
+
+.listing a {
+  text-decoration: none;
+  color: var(--text-color);
+}
+
 /* UI */
 
 .button-wrapper {
   margin-top: 30px;
 }
 
-a.button {
+a.button, button.button {
+  font-size: inherit;
   padding: 10px 25px 10px 25px;
   border-radius: 10px;
   background-color: var(--main-color);
@@ -330,9 +366,14 @@ a.button {
   color: var(--secondary-text-color);
   font-weight: 700;
   margin-right: 12px;
+  outline: none;
+  -webkit-transition: all .2s;
+  -o-transition: all .2s;
+  transition: all .2s;
 }
 
-a.button-secondary {
+a.button-secondary, button.button-secondary {
+  font-size: inherit;
   padding: 10px 25px 10px 25px;
   border-radius: 10px;
   color: var(--main-color);
@@ -340,4 +381,8 @@ a.button-secondary {
   font-weight: 700;
   border: solid 3px var(--main-color);
   margin-right: 12px;
+  outline: none;
+  -webkit-transition: all .2s;
+  -o-transition: all .2s;
+  transition: all .2s;
 }
