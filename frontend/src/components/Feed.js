@@ -11,6 +11,7 @@ export default class Feed extends Component {
       return (
         <div>
            <h1> Feed </h1>
+           <Listing />
         </div>
       )
    }

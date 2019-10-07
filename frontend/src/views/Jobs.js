@@ -13,8 +13,8 @@ export default class Jobs extends Component {
   render () {
       return (
         <span>
-          <div id="jobs-hero">
-            <div id="jobs-hero-inner">
+          <div className="hero" style={{paddingBottom: 12 + "vh"}}>
+            <div className="hero-inner">
               <h1>Look for a job,</h1>
               <Search />
             </div>
