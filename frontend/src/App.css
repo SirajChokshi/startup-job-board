@@ -267,6 +267,7 @@ span#search-icon-wrapper {
 
 .listing .image-wrapper img {
   width: 100%;
+  border-radius: 8px;
 }
 
 .listing .inf {
@@ -348,6 +349,11 @@ button.button-secondary.bookmark:hover {
 .listing a {
   text-decoration: none;
   color: var(--text-color);
+}
+
+a.read-more {
+  color: var(--light-color);
+  text-decoration: underline;
 }
 
 /* UI */

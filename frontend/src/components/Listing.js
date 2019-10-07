@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBookmark as bookmarkIcon, faExternalLinkAlt as appIcon, faMapMarkerAlt as locationIcon } from '@fortawesome/free-solid-svg-icons'
 import { faClock as deadlineIcon } from '@fortawesome/free-regular-svg-icons'
 
-var logo = "https://via.placeholder.com/200x200";
+var logo = "https://via.placeholder.com/100";
 var bookmarked = false;
 var bookmarkButtonClass = "bookmark button-secondary";
 var jobPage = "/";
@@ -39,7 +39,7 @@ export default class Listing extends Component {
             </p>
             <p>
               {shortDesc}
-              <Link to="jobPage">read more...</Link>
+              &nbsp;<Link to="jobPage" className="read-more">Read more...</Link>
             </p>
             <div className="button-wrapper">
               <Link to={jobPage} className="button">
