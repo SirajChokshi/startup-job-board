@@ -12,6 +12,9 @@ export default class Feed extends Component {
         <div>
            <h1> Feed </h1>
            <Listing />
+           <Listing />
+           <Listing />
+           <Listing />
         </div>
       )
    }
