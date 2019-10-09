@@ -12,11 +12,9 @@ var bookmarked = false;
 var bookmarkButtonClass = "bookmark button-secondary";
 var jobPage = "/";
 var deadline = "November 2nd";
-var location = "Champaign IL";
+var location = "Champaign, IL";
 var company = "StartupName";
-var jobName = "Job Title Here Internship Summer 2020";
 var shortDesc = "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.";
-
 
 if (bookmarked) {
   bookmarkButtonClass = "button-secondary bookmarked";
@@ -26,24 +24,28 @@ export default class Listing extends Component {
   state = {
   }
 
+  addDefaultSrc(ev) {
+    ev.target.src = 'https://via.placeholder.com/300';
+  }
+
   render () {
       return (
         <div className="listing">
-          <Link className="image-wrapper"><img src={logo}></img></Link>
+          <Link className="image-wrapper" to={this.props.appLink}><img onError={this.addDefaultSrc} src={this.props.logo} alt={this.props.company}></img></Link>
           <div className="inf">
-            <Link to={jobPage}><h2>{jobName} | {company}</h2></Link>
+            <Link to={this.props.jobPage}><h2>{this.props.jobName} | {this.props.company}</h2></Link>
             <p className="sub-title">
               <FontAwesomeIcon icon={locationIcon}></FontAwesomeIcon>
-              &nbsp; {location} &nbsp; &mdash; &nbsp;&nbsp;
+              &nbsp; {this.props.location} &nbsp; &mdash; &nbsp;&nbsp;
               <FontAwesomeIcon icon={deadlineIcon}></FontAwesomeIcon>
-              &nbsp; {deadline}
+              &nbsp; {this.props.deadline}
             </p>
             <p>
-              {shortDesc}
-              &nbsp;<Link to="jobPage" className="read-more">Read more...</Link>
+              {this.props.shortDesc}
+              &nbsp;<Link to={this.props.jobPage} className="read-more">Read more...</Link>
             </p>
             <div className="button-wrapper">
-              <Link to={jobPage} className="button">
+              <Link to={this.props.jobPage} className="button">
                 Apply &nbsp;
                 <FontAwesomeIcon icon={appIcon}></FontAwesomeIcon>
               </Link>

@@ -50,11 +50,12 @@ export default class Nav extends Component {
              <div className="dropdown-content">
                <NavLink to="/user-profile">Profile</NavLink>
                <NavLink to="/applications">Applied</NavLink>
+               <hr></hr>
                <NavLink to="/user-settings">Settings</NavLink>
              </div>
            </li>
            <li>
-             <NavLink to="/notfication" id="noti-anchor" exact activeClassName="active-nav">
+             <NavLink to="/notifications" id="noti-anchor" exact activeClassName="active-nav">
                <span id="noti-bell">
                  <FontAwesomeIcon className="def-icon" icon={bell} />
                  <FontAwesomeIcon className="act-icon" icon={bellActive} />

@@ -8,17 +8,24 @@ import Jobs from './views/Jobs'
 import Bookmarks from './views/Bookmarks';
 import Profile from './views/Profile';
 import Settings from './views/Settings';
+import Notifications from './views/Notifications';
 
 // Components
 import Nav from './components/Nav';
 import NavAdmin from './components/NavAdmin';
 import Footer from './components/Footer';
 
+
+/*
+ * TEMP: To switch between startup/student navigation bars just
+ * change the <NavAdmin /> OR <Nav /> reques while we wait for
+ * user auth to be prepared
+ */
 function App() {
   return (
     <div className="App">
     <BrowserRouter>
-        <Nav />
+        <NavAdmin />
           <Route exact={true} path='/' render={() => (
               <Home />
           )}/>
@@ -31,8 +38,11 @@ function App() {
           <Route exact={true} path='/user-settings' render={() => (
               <Settings />
           )}/>
-          <Route exact={true} path='/Bookmarks' render={() => (
+          <Route exact={true} path='/bookmarks' render={() => (
               <Bookmarks />
+          )}/>
+          <Route exact={true} path='/notifications' render={() => (
+              <Notifications />
           )}/>
         <Footer />
     </BrowserRouter>

@@ -24,6 +24,14 @@ p, h1, h2, h3, h4, h5, h6 {
   padding-bottom: 12vh;
 }
 
+hr {
+  display: block; height: 0px;
+  border: 0;
+  border-top: 2px solid var(--secondary-background-color);
+  margin: 0;
+  padding: 0;
+}
+
 /* NAV */
 
 .dropdown {
@@ -245,6 +253,20 @@ span#search-icon-wrapper {
   max-width: 760px;
   text-align: left;
   margin: 0 auto;
+}
+
+.hero-inner .sub-title {
+  color: var(--secondary-text-color);
+  font-size: 18px;
+}
+
+.hero-inner a {
+  color: var(--secondary-text-color);
+  text-decoration: none;
+}
+
+.hero-inner a:hover {
+  text-decoration: underline;
 }
 
 /* LISTINGS */

@@ -10,8 +10,7 @@ export default class Feed extends Component {
   render () {
       return (
         <div>
-           <h1> Feed </h1>
-           <Listing />
+           <Listing jobName="Job Title Here Internship Summer 2020" company="StartupName" logo="/foobar.png" />
            <Listing />
            <Listing />
            <Listing />
