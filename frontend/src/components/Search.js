@@ -13,7 +13,7 @@ export default class Search extends Component {
           <span id="search-icon-wrapper">
             <FontAwesomeIcon icon={search} style={{verticalAlign: 'middle', color: '#8e8e8e', fontSize: 18 + 'px', marginBottom: 4 + 'px'}} />
           </span>
-           <input type="text" placeholder={"Search for a job, role or position..."} className="search"></input>
+           <input type="text" placeholder={this.props.placeholder} className="search"></input>
         </div>
       )
    }

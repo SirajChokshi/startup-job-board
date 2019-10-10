@@ -13,7 +13,7 @@ export default class NavAdmin extends Component {
       return (
         <nav>
           <ul>
-            // Logo/Home Link
+           {/*Logo/Home Link*/}
            <li>
              <NavLink to="/" exact activeClassName="active-nav">
                <FontAwesomeIcon className="def-icon" icon={logo} />
@@ -21,14 +21,14 @@ export default class NavAdmin extends Component {
                &nbsp; ProjectName
              </NavLink>
            </li>
-           // Search Bar
+           {/*Search Bar*/}
            <li id="search-nav">
              <span id="nav-search-icon-wrapper">
                <FontAwesomeIcon icon={search} style={{verticalAlign: 'middle', color: '#8e8e8e', fontSize: 14 + 'px', marginBottom: 2.6 + 'px'}} />
              </span>
              <input type="text" placeholder={"Recruit a student..."} className="search" style={{color: '#8e8e8e'}}></input>
            </li>
-           // Search for students/recruit
+           {/*Search for students/recruit*/}
            <li>
              <NavLink to="/students" exact activeClassName="active-nav">
                <FontAwesomeIcon className="def-icon" icon={students} />
@@ -36,7 +36,7 @@ export default class NavAdmin extends Component {
                &nbsp; Students
              </NavLink>
            </li>
-           // This Startup's Listings
+           {/*This Startup's Listings*/}
            <li>
              <NavLink to="/bookmarks" exact activeClassName="active-nav">
                <FontAwesomeIcon className="def-icon" icon={listings} />
@@ -44,7 +44,7 @@ export default class NavAdmin extends Component {
                &nbsp; My Listings
              </NavLink>
            </li>
-           // Dropdown for settings/extra links
+           {/*Dropdown for settings/extra links*/}
            <li className="dropdown">
              <span id="nav-drop-link">
                <FontAwesomeIcon className="def-icon" icon={user} />
@@ -60,7 +60,7 @@ export default class NavAdmin extends Component {
                <NavLink to="/company-settings">Settings</NavLink>
              </div>
            </li>
-           // Notification area
+           {/*Notification area*/}
            <li>
              <NavLink to="/notifications" id="noti-anchor" exact activeClassName="active-nav">
                <span id="noti-bell">

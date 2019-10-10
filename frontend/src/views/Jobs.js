@@ -17,7 +17,7 @@ export default class Jobs extends Component {
           <div className="hero" style={{paddingBottom: 12 + "vh"}}>
             <div className="hero-inner">
               <h1>Look for a job,</h1>
-              <Search />
+              <Search placeholder={"Search for a job, role or position..."} />
               <br></br>
               <span className="sub-title">
                   <Link to="/applications">My Applications</Link>&nbsp;
