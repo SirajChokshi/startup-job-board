@@ -13,7 +13,7 @@ export default class LandingHero extends Component {
             <Container>
               <div id="hero-inner">
                 <h1>What type of experience are you looking for?</h1>
-                <Search />
+                <Search placeholder="Search for a job, role or position..." />
               </div>
             </Container>
           </div>

@@ -6,9 +6,23 @@ import { Link } from 'react-router-dom';
 import Filter from '../components/Filter';
 import Feed from '../components/Feed';
 import Search from '../components/Search';
+import Order from '../components/Order';
 
 export default class Jobs extends Component {
   state = {
+    jobs: []
+  }
+
+  async componentDidMount() {
+    try {
+      const res = await fetch('http://127.0.0.1:8000/api/');
+      const jobs = await res.json();
+      this.setState({
+        jobs
+      });
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   render () {
@@ -18,6 +32,15 @@ export default class Jobs extends Component {
             <div className="hero-inner">
               <h1>Look for a job,</h1>
               <Search placeholder={"Search for a job, role or position..."} />
+
+                {this.state.jobs.map(item => (
+                  <div key={item.id}>
+                    <h1>{item.name}</h1>
+                    <h1>{item.major}</h1>
+                    <h1>{item.status}</h1>
+                  </div>
+                ))}
+
               <br></br>
               <span className="sub-title">
                   <Link to="/applications">My Applications</Link>&nbsp;
@@ -33,7 +56,12 @@ export default class Jobs extends Component {
                 <Filter />
               </Col>
               <Col xl={9} lg={8}>
-                <h2>Results</h2>
+                <div className="result-header-wrapper">
+                  <h2>Results</h2>
+                  <div className="order-wrapper">
+                    <Order className="results-sort" />
+                  </div>
+                </div>
                 <Feed />
               </Col>
             </Row>

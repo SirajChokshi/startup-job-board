@@ -25,7 +25,7 @@ function App() {
   return (
     <div className="App">
     <BrowserRouter>
-        <NavAdmin />
+        <Nav />
           <Route exact={true} path='/' render={() => (
               <Home />
           )}/>
