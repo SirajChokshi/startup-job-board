@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
+import { SegmentedControl } from 'segmented-control-react';
+
+const segments = [
+  { name: 'All' },
+  { name: 'Internships'},
+  { name: 'Full Time' }
+];
 
 const tempOptions = [
   { label: "Any", value: 0 },
@@ -12,11 +19,18 @@ const tempOptions = [
 
 export default class Filter extends Component {
   state = {
+    segments: segments,
+    selected: 0
   }
 
   render () {
       return (
-        <div>
+        <>
+          <SegmentedControl
+              segments={this.state.segments}
+              selected={this.state.selected}
+              variant="base"
+          /><br></br>
            <label className="filter-label">Industry</label>
            <Select
              options={tempOptions}
@@ -34,8 +48,8 @@ export default class Filter extends Component {
             })}>
           </Select>
           <br></br>
-          <input id="paidSelector" type="checkbox" /><label for="paidSelector"> Paid</label>
-        </div>
+          <input id="paidSelector" type="checkbox" /><label htmlFor="paidSelector"> Paid</label>
+        </>
       )
    }
 }

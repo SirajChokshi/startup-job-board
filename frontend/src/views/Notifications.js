@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-grid-system';
 
 // Components
-import Noti from '../components/Noti';
+import Notification from '../components/Notification';
 import Feed from '../components/Feed';
 
 export default class Notifications extends Component {
@@ -19,6 +19,7 @@ export default class Notifications extends Component {
           </div>
           <br></br>
           <Container>
+            <Notification />
           </Container>
         </span>
       )

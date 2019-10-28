@@ -2,17 +2,62 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 // Icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBookmark as bookmarkActive, faBell as bellActive, faUser as userActive, faSearch as search, faCaretDown as darr, faFolderOpen as jobsActive, faCommentAlt as logoActive } from '@fortawesome/free-solid-svg-icons'
+import { faBookmark as bookmarkActive, faBell as bellActive, faUser as userActive, faSearch as search, faCaretDown as darr, faFolderOpen as jobsActive, faCommentAlt as logoActive, faSignInAlt as login, faPlusCircle as menu } from '@fortawesome/free-solid-svg-icons'
 import { faBookmark as bookmark, faBell as bell, faUser as user, faFolderOpen as jobs, faCommentAlt as logo } from '@fortawesome/free-regular-svg-icons'
+
+function LoginNav(props) {
+  const isLoggedIn = props.isLoggedIn;
+  if (isLoggedIn) {
+    return (
+      <li className="dropdown">
+        <span id="nav-drop-link">
+          <FontAwesomeIcon className="def-icon" icon={user} />
+          <FontAwesomeIcon className="act-icon" icon={userActive} />
+          &nbsp; Me &nbsp;
+          <span className="dropdown-arr"><FontAwesomeIcon icon={darr} /></span>
+        </span>
+        <div className="dropdown-content">
+          <NavLink to="/user-profile">Profile</NavLink>
+          <NavLink to="/applications">Applied</NavLink>
+          <hr></hr>
+          <NavLink to="/user-settings">Settings</NavLink>
+        </div>
+      </li>
+    );
+  }
+  else return (
+    <>
+    <li>
+      <NavLink to="/login" exact activeClassName="active-nav">
+        <FontAwesomeIcon icon={login} />
+        &nbsp; Login
+      </NavLink>
+    </li>
+    </>
+  );
+}
 
 export default class Nav extends Component {
   state = {
+    open: false
   }
 
   render () {
       return (
         <nav>
-          <ul>
+          <ul className="mobile-nav">
+            <li>
+              <NavLink to="/" exact activeClassName="active-nav" id="logo-nav-mobile">
+                <FontAwesomeIcon className="def-icon" icon={logo} />
+                <FontAwesomeIcon className="act-icon" icon={logoActive} />
+                &nbsp; ProjectName
+              </NavLink>
+            </li>
+            <li>
+              <button id="mobile-menu-toggle"><FontAwesomeIcon icon={menu} /></button>
+            </li>
+          </ul>
+          <ul className="nav-links" >
            <li>
              <NavLink to="/" exact activeClassName="active-nav">
                <FontAwesomeIcon className="def-icon" icon={logo} />
@@ -40,20 +85,8 @@ export default class Nav extends Component {
                &nbsp; Bookmarks
              </NavLink>
            </li>
-           <li className="dropdown">
-             <span id="nav-drop-link">
-               <FontAwesomeIcon className="def-icon" icon={user} />
-               <FontAwesomeIcon className="act-icon" icon={userActive} />
-               &nbsp; Me &nbsp;
-               <span className="dropdown-arr"><FontAwesomeIcon icon={darr} /></span>
-             </span>
-             <div className="dropdown-content">
-               <NavLink to="/user-profile">Profile</NavLink>
-               <NavLink to="/applications">Applied</NavLink>
-               <hr></hr>
-               <NavLink to="/user-settings">Settings</NavLink>
-             </div>
-           </li>
+           <LoginNav isLoggedIn={false} />
+           {/*}
            <li>
              <NavLink to="/notifications" id="noti-anchor" exact activeClassName="active-nav">
                <span id="noti-bell">
@@ -63,6 +96,7 @@ export default class Nav extends Component {
                </span>
              </NavLink>
            </li>
+           { */}
           </ul>
         </nav>
       )

@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 // Icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit as listingsActive, faBell as bellActive, faBuilding as userActive, faSearch as search, faCaretDown as darr, faAddressCard as studentsActive, faCommentAlt as logoActive } from '@fortawesome/free-solid-svg-icons'
-import { faEdit as listings, faBell as bell, faBuilding as user, faAddressCard as students, faCommentAlt as logo } from '@fortawesome/free-regular-svg-icons'
+import { faEdit as listingsActive, faBell as bellActive, faBuilding as userActive, faSearch as search, faCaretDown as darr, faAddressCard as studentsActive, faCommentAlt as logoActive, faCompass as dashboardActive } from '@fortawesome/free-solid-svg-icons'
+import { faEdit as listings, faBell as bell, faBuilding as user, faAddressCard as students, faCommentAlt as logo, faCompass as dashboard } from '@fortawesome/free-regular-svg-icons'
 
 export default class NavAdmin extends Component {
   state = {
@@ -21,12 +21,13 @@ export default class NavAdmin extends Component {
                &nbsp; ProjectName
              </NavLink>
            </li>
-           {/*Search Bar*/}
-           <li id="search-nav">
-             <span id="nav-search-icon-wrapper">
-               <FontAwesomeIcon icon={search} style={{verticalAlign: 'middle', color: '#8e8e8e', fontSize: 14 + 'px', marginBottom: 2.6 + 'px'}} />
-             </span>
-             <input type="text" placeholder={"Recruit a student..."} className="search" style={{color: '#8e8e8e'}}></input>
+           {/* Dashboard */}
+           <li>
+             <NavLink to="/dashboard" exact activeClassName="active-nav">
+               <FontAwesomeIcon className="def-icon" icon={dashboard} />
+               <FontAwesomeIcon className="act-icon" icon={dashboardActive} />
+               &nbsp; Dashboard
+             </NavLink>
            </li>
            {/*Search for students/recruit*/}
            <li>
@@ -38,7 +39,7 @@ export default class NavAdmin extends Component {
            </li>
            {/*This Startup's Listings*/}
            <li>
-             <NavLink to="/bookmarks" exact activeClassName="active-nav">
+             <NavLink to="/edit-listings" exact activeClassName="active-nav">
                <FontAwesomeIcon className="def-icon" icon={listings} />
                <FontAwesomeIcon className="act-icon" icon={listingsActive} />
                &nbsp; My Listings

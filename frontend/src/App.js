@@ -9,6 +9,10 @@ import Bookmarks from './views/Bookmarks';
 import Profile from './views/Profile';
 import Settings from './views/Settings';
 import Notifications from './views/Notifications';
+import Dashboard from './views/Dashboard';
+import OrgProfile from './views/OrgProfile';
+import MyListings from './views/MyListings';
+import LogIn from './views/LogIn';
 
 // Components
 import Nav from './components/Nav';
@@ -43,6 +47,18 @@ function App() {
           )}/>
           <Route exact={true} path='/notifications' render={() => (
               <Notifications />
+          )}/>
+          <Route exact={true} path='/edit-listings' render={() => (
+              <MyListings />
+          )}/>
+          <Route exact={true} path='/company-profile' render={() => (
+              <OrgProfile />
+          )}/>
+          <Route exact={true} path='/dashboard' render={() => (
+              <Dashboard />
+          )}/>
+          <Route exact={true} path='/login' render={() => (
+              <LogIn />
           )}/>
         <Footer />
     </BrowserRouter>

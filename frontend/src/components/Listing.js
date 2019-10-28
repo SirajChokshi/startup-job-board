@@ -6,15 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBookmark as bookmarkIcon, faExternalLinkAlt as appIcon, faMapMarkerAlt as locationIcon } from '@fortawesome/free-solid-svg-icons'
 import { faClock as deadlineIcon } from '@fortawesome/free-regular-svg-icons'
 
-var jobid = 0;
-var logo = "https://via.placeholder.com/100";
 var bookmarked = false;
 var bookmarkButtonClass = "bookmark button-secondary";
-var jobPage = "/";
-var deadline = "November 2nd";
-var location = "Champaign, IL";
-var company = "StartupName";
-var shortDesc = "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.";
 
 if (bookmarked) {
   bookmarkButtonClass = "button-secondary bookmarked";
@@ -25,23 +18,23 @@ export default class Listing extends Component {
   }
 
   addDefaultSrc(ev) {
-    ev.target.src = 'https://via.placeholder.com/300';
+    ev.target.src = '/img/company/missing.png';
   }
 
   render () {
       return (
         <div className="listing">
-          <Link className="image-wrapper" to={this.props.appLink}><img onError={this.addDefaultSrc} src={this.props.logo} alt={this.props.company}></img></Link>
+          <Link className="image-wrapper" to={this.props.company}><img onError={this.addDefaultSrc} src={this.props.logo} alt={this.props.company}></img></Link>
           <div className="inf">
-            <Link to={this.props.jobPage}><h2>{this.props.jobName} | {this.props.company}</h2></Link>
+            <Link to={this.props.jobPage}><h2>{this.props.listName} | {this.props.company}</h2></Link>
             <p className="sub-title">
               <FontAwesomeIcon icon={locationIcon}></FontAwesomeIcon>
-              &nbsp; {this.props.location} &nbsp; &mdash; &nbsp;&nbsp;
+              &nbsp; {this.props.listLocation} &nbsp; &mdash; &nbsp;&nbsp;
               <FontAwesomeIcon icon={deadlineIcon}></FontAwesomeIcon>
               &nbsp; {this.props.deadline}
             </p>
             <p>
-              {this.props.shortDesc}
+              {this.props.listDesc}
               &nbsp;<Link to={this.props.jobPage} className="read-more">Read more...</Link>
             </p>
             <div className="button-wrapper">
