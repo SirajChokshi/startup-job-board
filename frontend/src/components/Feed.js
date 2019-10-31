@@ -11,7 +11,7 @@ const Test = ({listings}) => (
         listLocation={post.listLocation}
         listDesc={post.listDesc}
         company={post.listOrgID}
-        logo={"/img/company/" + post.listOrgID + ".png"}
+        logo={"/img/org/" + post.listOrgID + ".png"}
       ></Listing>
     ))}
   </>
@@ -20,8 +20,8 @@ const Test = ({listings}) => (
 var listings = [
   {
         "id": 1,
-        "listName": "Backend Developer",
-        "listDesc": "Need a developer to help Davis on Backend",
+        "listName": "Django/REST Developer",
+        "listDesc": "Need a developer to help Davis on the Backend",
         "isPaid": true,
         "listLocation": "Urbana, IL",
         "isOpen": true,
@@ -30,19 +30,19 @@ var listings = [
     },
     {
         "id": 2,
-        "listName": "Frontend Developer",
-        "listDesc": "Need a developer to help Siraj on Frontend",
+        "listName": "React.js Developer",
+        "listDesc": "Need a developer to help Siraj on the Frontend",
         "isPaid": false,
         "listLocation": "Champaign, IL",
         "isOpen": true,
         "listLongDesc": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-        "listOrgID": "Founders @ ILL"
+        "listOrgID": "Founders 2"
     }
 ];
 
 export default class Feed extends Component {
   state = {
-    
+
   }
 
   render () {

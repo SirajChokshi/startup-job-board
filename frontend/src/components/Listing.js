@@ -18,7 +18,7 @@ export default class Listing extends Component {
   }
 
   addDefaultSrc(ev) {
-    ev.target.src = '/img/company/missing.png';
+    ev.target.src = '/img/org/missing.png';
   }
 
   render () {
