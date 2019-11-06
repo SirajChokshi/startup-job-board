@@ -61,7 +61,7 @@ export default class LogIn extends Component {
                 <h1>Login</h1>
                 <form>
                   <label className="text-input-label" htmlFor="user-email" >Email:</label>
-                  <input id="user-email" className="input-text" type="email" required autoComplete="username" ></input>
+                  <input id="user-email" className="input-text" type="email" autoComplete="username" required></input>
                   <label className="text-input-label" htmlFor="user-pass">Password:</label>
                   <input id="user-pass" className="input-text" type="password" autoComplete="current-password" required></input>
                   <div id="remember-me-wrapper">
