@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
-import { SegmentedControl } from 'segmented-control-react';
 
 const segments = [
   { name: 'All' },
@@ -19,18 +18,12 @@ const tempOptions = [
 
 export default class Filter extends Component {
   state = {
-    segments: segments,
-    selected: 0
+
   }
 
   render () {
       return (
         <>
-          <SegmentedControl
-              segments={this.state.segments}
-              selected={this.state.selected}
-              variant="base"
-          /><br></br>
            <label className="filter-label">Industry</label>
            <Select
              options={tempOptions}

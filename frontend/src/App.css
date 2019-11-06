@@ -15,6 +15,7 @@
 html {
   background-color: var(--background-color);
   overflow-x: hidden;
+  min-height: 100vh;
 }
 
 * {
@@ -26,7 +27,10 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 .App {
-  padding-bottom: 12vh;
+  min-height: 100vh;
+  padding-bottom: 16vh;
+  overflow-x: hidden;
+  position: relative;
 }
 
 hr {
@@ -284,7 +288,7 @@ span#search-icon-wrapper {
 
 /* LISTINGS */
 
-.listing {
+.listing, .education.profile-block {
   position: relative;
   display: block;
   height: auto;
@@ -554,9 +558,21 @@ a.button-secondary, button.button-secondary {
   transition: all .2s;
 }
 
-/* Notifications */
+/* Profile */
 
+#user-profile #user-profile-image {
+  border-radius: 50%;
+  width: 100%;
+}
 
+#user-profile a {
+  color: var(--light-color);
+  text-decoration: underline;
+}
+
+#user-profile #stats {
+  color: var(--tertiary-text-color);
+}
 
 /* Responsive */
 
@@ -565,6 +581,10 @@ a.button-secondary, button.button-secondary {
 }
 
 ul.mobile-nav {
+  display: none;
+}
+
+.show-on-mobile {
   display: none;
 }
 
@@ -587,7 +607,33 @@ ul.mobile-nav {
     clear: both;
   }
 
-  nav ul.nav-links {
+  nav ul#nav-links {
+    position: absolute;
+    min-height: 100vh;
+    width: 100vw;
+    background-color: white;
+    right: -100vw;
+    -webkit-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
+  }
+
+  nav ul#nav-links li, nav ul#nav-links li a {
+    display: block;
+    color: var(--main-color);
+    border: none;
+    text-align: left;
+  }
+
+  nav ul.toggle-mobile-nav {
+    right: 0 !important;
+  }
+
+  .show-on-mobile {
+    display: auto;
+  }
+
+  #nav-drop-links, nav ul li#search-nav, nav ul#nav-links li.dropdown {
     display: none;
   }
 

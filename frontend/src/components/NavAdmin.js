@@ -12,7 +12,7 @@ export default class NavAdmin extends Component {
   render () {
       return (
         <nav>
-          <ul>
+          <ul style={{height: "64px"}}>
            {/*Logo/Home Link*/}
            <li>
              <NavLink to="/" exact activeClassName="active-nav">
@@ -61,7 +61,7 @@ export default class NavAdmin extends Component {
                <NavLink to="/company-settings">Settings</NavLink>
              </div>
            </li>
-           {/*Notification area*/}
+           {/*}
            <li>
              <NavLink to="/notifications" id="noti-anchor" exact activeClassName="active-nav">
                <span id="noti-bell">
@@ -69,8 +69,9 @@ export default class NavAdmin extends Component {
                  <FontAwesomeIcon className="act-icon" icon={bellActive} />
                  <div id="alert"></div>
                </span>
-             </NavLink>
+             </NavLink>}
            </li>
+           {*/}
           </ul>
         </nav>
       )

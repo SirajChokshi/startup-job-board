@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 // Components
 import Listing from '../components/Listing';
 
-const Test = ({listings}) => (
+const ListGen = ({listings}) => (
   <>
     {listings.map(post => (
       <Listing
@@ -48,7 +48,7 @@ export default class Feed extends Component {
   render () {
       return (
         <>
-          <Test listings={listings} />
+          <ListGen listings={listings} />
         </>
       )
    }

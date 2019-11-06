@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 // Icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBookmark as bookmarkActive, faBell as bellActive, faUser as userActive, faSearch as search, faCaretDown as darr, faFolderOpen as jobsActive, faCommentAlt as logoActive, faSignInAlt as login, faPlusCircle as menu } from '@fortawesome/free-solid-svg-icons'
-import { faBookmark as bookmark, faBell as bell, faUser as user, faFolderOpen as jobs, faCommentAlt as logo } from '@fortawesome/free-regular-svg-icons'
+import { faBookmark as bookmarkActive, faBell as bellActive, faUser as userActive, faSearch as search, faCaretDown as darr, faFolderOpen as jobsActive, faCommentAlt as logoActive, faSignInAlt as login, faBars as menu, faListAlt as applicationsActive, faCog as settings, faCogs as settingsActive } from '@fortawesome/free-solid-svg-icons'
+import { faBookmark as bookmark, faBell as bell, faUser as user, faFolderOpen as jobs, faCommentAlt as logo, faListAlt as applications } from '@fortawesome/free-regular-svg-icons'
 
 function LoginNav(props) {
   const isLoggedIn = props.isLoggedIn;
   if (isLoggedIn) {
     return (
+      <>
       <li className="dropdown">
         <span id="nav-drop-link">
           <FontAwesomeIcon className="def-icon" icon={user} />
@@ -23,6 +24,28 @@ function LoginNav(props) {
           <NavLink to="/user-settings">Settings</NavLink>
         </div>
       </li>
+      <li className="show-on-mobile">
+        <NavLink to="/user-profile" exact activeClassName="active-nav">
+          <FontAwesomeIcon className="def-icon" icon={user} />
+          <FontAwesomeIcon className="act-icon" icon={userActive} />
+          &nbsp; Profile
+        </NavLink>
+      </li>
+      <li className="show-on-mobile">
+        <NavLink to="/applications" exact activeClassName="active-nav">
+          <FontAwesomeIcon className="def-icon" icon={applications} />
+          <FontAwesomeIcon className="act-icon" icon={applicationsActive} />
+          &nbsp; Applications
+        </NavLink>
+      </li>
+      <li className="show-on-mobile">
+        <NavLink to="/user-settings" exact activeClassName="active-nav">
+          <FontAwesomeIcon className="def-icon" icon={settings} />
+          <FontAwesomeIcon className="act-icon" icon={settingsActive} />
+          &nbsp; Settings
+        </NavLink>
+      </li>
+      </>
     );
   }
   else return (
@@ -39,7 +62,7 @@ function LoginNav(props) {
 
 export default class Nav extends Component {
   state = {
-    open: false
+    active: false
   }
 
   render () {
@@ -54,11 +77,11 @@ export default class Nav extends Component {
               </NavLink>
             </li>
             <li>
-              <button id="mobile-menu-toggle"><FontAwesomeIcon icon={menu} /></button>
+              <button id="mobile-menu-toggle" onClick={ () => this.setState({active: !this.state.active}) }><FontAwesomeIcon icon={menu} /></button>
             </li>
           </ul>
-          <ul className="nav-links" >
-           <li>
+          <ul id="nav-links" className={this.state.active && 'toggle-mobile-nav'} >
+           <li id="nav-logo-link">
              <NavLink to="/" exact activeClassName="active-nav">
                <FontAwesomeIcon className="def-icon" icon={logo} />
                <FontAwesomeIcon className="act-icon" icon={logoActive} />
@@ -85,7 +108,7 @@ export default class Nav extends Component {
                &nbsp; Bookmarks
              </NavLink>
            </li>
-           <LoginNav isLoggedIn={false} />
+           <LoginNav isLoggedIn={true} />
            {/*}
            <li>
              <NavLink to="/notifications" id="noti-anchor" exact activeClassName="active-nav">
