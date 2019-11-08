@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import {BrowserRouter, Route} from 'react-router-dom';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
 // Pages
 import Home from './views/Home';
@@ -13,23 +13,25 @@ import Dashboard from './views/Dashboard';
 import OrgProfile from './views/OrgProfile';
 import MyListings from './views/MyListings';
 import LogIn from './views/LogIn';
+import Error from './views/Error';
 
 // Components
 import Nav from './components/Nav';
 import NavAdmin from './components/NavAdmin';
 import Footer from './components/Footer';
 
-
 /*
  * TEMP: To switch between startup/student navigation bars just
  * change the <NavAdmin /> OR <Nav /> reques while we wait for
  * user auth to be prepared
  */
+
 function App() {
   return (
-    <div className="App">
+    <div className="App" >
     <BrowserRouter>
         <Nav />
+        <Switch>
           <Route exact={true} path='/' render={() => (
               <Home />
           )}/>
@@ -60,7 +62,9 @@ function App() {
           <Route exact={true} path='/login' render={() => (
               <LogIn />
           )}/>
-        <Footer />
+        <Route component={Error} />
+        </Switch>
+        <Footer id="footer" />
     </BrowserRouter>
   </div>
   );

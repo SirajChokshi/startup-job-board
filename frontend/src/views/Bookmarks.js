@@ -25,7 +25,7 @@ export default class Bookmarks extends Component {
           <br></br>
           <Container>
             <Sort />
-            <Feed />
+            <Feed listings={[]} />
           </Container>
         </span>
       )

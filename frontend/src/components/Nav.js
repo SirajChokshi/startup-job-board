@@ -68,24 +68,33 @@ export default class Nav extends Component {
   render () {
       return (
         <nav>
-          <ul className="mobile-nav">
+          <ul className="mobile-nav" id="mobile-nav-fetch">
             <li>
               <NavLink to="/" exact activeClassName="active-nav" id="logo-nav-mobile">
                 <FontAwesomeIcon className="def-icon" icon={logo} />
                 <FontAwesomeIcon className="act-icon" icon={logoActive} />
-                &nbsp; ProjectName
+                &nbsp; StartupMatch
               </NavLink>
             </li>
             <li>
-              <button id="mobile-menu-toggle" onClick={ () => this.setState({active: !this.state.active}) }><FontAwesomeIcon icon={menu} /></button>
+              <button id="mobile-menu-toggle" onClick={ () =>
+                  {
+                    this.setState({active: !this.state.active})
+                    var x = document.getElementById('html');
+                    if (x.style.overflow === "hidden") x.style.overflow = "auto";
+                    else x.style.overflow = "hidden";
+                  }
+                }>
+                <FontAwesomeIcon icon={menu} />
+              </button>
             </li>
           </ul>
-          <ul id="nav-links" className={this.state.active && 'toggle-mobile-nav'} >
+          <ul id="nav-links" className={this.state.active ? 'toggle-mobile-nav' : undefined} >
            <li id="nav-logo-link">
              <NavLink to="/" exact activeClassName="active-nav">
                <FontAwesomeIcon className="def-icon" icon={logo} />
                <FontAwesomeIcon className="act-icon" icon={logoActive} />
-               &nbsp; ProjectName
+               &nbsp; StartupMatch
              </NavLink>
            </li>
            <li id="search-nav">

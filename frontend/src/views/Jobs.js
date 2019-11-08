@@ -8,10 +8,21 @@ import Feed from '../components/Feed';
 import Search from '../components/Search';
 import Order from '../components/Order';
 
+var api = 'https://e63214ab.ngrok.io';
+
 export default class Jobs extends Component {
   state = {
-    jobs: []
+    listings: []
   }
+
+  componentDidMount() {
+      fetch(api + '/api/listings/?format=json')
+      .then(res => res.json())
+      .then((data) => {
+        this.setState({ listings: data })
+      })
+      .catch(console.log)
+    }
 
   render () {
       return (
@@ -41,7 +52,7 @@ export default class Jobs extends Component {
                     <Order className="results-sort" />
                   </div>
                 </div>
-                <Feed />
+                <Feed listings={this.state.listings} api={api} />
               </Col>
             </Row>
           </Container>

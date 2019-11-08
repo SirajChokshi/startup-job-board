@@ -30,9 +30,37 @@ function showSignupPass() {
   }
 }
 
+// var formData = new FormData();
+// formData.append("username", "foundersadmin");
+// formData.append("password", "fndrs1!2@pa55");
+
+// var request = new XMLHttpRequest();
+// request.open("POST", "https://e63214ab.ngrok.io/api/auth/login/");
+// request.send([{username: "foundersadmin", password: "fndrs1!2@pa55"}]);
+
+const url = 'https://e63214ab.ngrok.io/api/auth/login';
+const data = { "username" : "foundersadmin", "password" : "fndrs1!2@pa55" };
 
 export default class LogIn extends Component {
   state = {
+
+  }
+
+  async postLogin() {
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'content-type': 'application/json'
+        }
+      });
+      console.log(data);
+      const json = await response.json();
+      console.log('Success:', JSON.stringify(json));
+    } catch (error) {
+      console.error('Error:', error);
+    }
   }
 
   render () {
@@ -59,7 +87,7 @@ export default class LogIn extends Component {
             <Row>
               <Col lg={5.75}>
                 <h1>Login</h1>
-                <form>
+                <form onSubmit={(e) => {e.preventDefault(); this.postLogin();}}>
                   <label className="text-input-label" htmlFor="user-email" >Email:</label>
                   <input id="user-email" className="input-text" type="email" autoComplete="username" required></input>
                   <label className="text-input-label" htmlFor="user-pass">Password:</label>
@@ -73,7 +101,7 @@ export default class LogIn extends Component {
                       &nbsp;Show Password
                     </label>
                   </div>
-                  <button type="submit"><FontAwesomeIcon icon={login} />&nbsp; Login</button>
+                  <button type="submit" ><FontAwesomeIcon icon={login} />&nbsp; Login</button>
                 </form>
               </Col>
               <Col lg={0.5}>

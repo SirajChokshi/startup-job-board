@@ -28,8 +28,7 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 .App {
-  overflow: hidden;
-  padding-bottom: 16vh;
+  padding-bottom: 15vh;
   position: relative;
 }
 
@@ -541,6 +540,7 @@ form input, form textarea {
 
 form textarea {
   resize: vertical;
+  font-family: sans-serif;
 }
 
 form input:focus, form textarea:focus {
@@ -661,7 +661,7 @@ ul.mobile-nav {
 
   nav ul#nav-links {
     position: absolute;
-    min-height: 100vh;
+    min-height: calc(100vh - 65px);
     width: 100vw;
     background-color: white;
     right: -100vw;
@@ -675,6 +675,7 @@ ul.mobile-nav {
     color: var(--main-color);
     border: none;
     text-align: left;
+    padding-left: 15px;
   }
 
   nav ul.toggle-mobile-nav {
@@ -687,6 +688,10 @@ ul.mobile-nav {
 
   #nav-drop-links, nav ul li#search-nav, nav ul#nav-links li.dropdown {
     display: none;
+  }
+
+  .App {
+    overflow: hidden;
   }
 
   ul.mobile-nav input {
