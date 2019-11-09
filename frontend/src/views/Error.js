@@ -21,7 +21,7 @@ export default class Error extends Component {
                 <div style={{fontSize: '80px'}}><strong>ERROR 404</strong> <br></br> <Link to="/">Back to<br></br> home &rarr;</Link></div>
               </Col>
               <Col md={6}>
-                <img src="https://media.giphy.com/media/jWexOOlYe241y/giphy.gif"></img>
+                <img src="https://media.giphy.com/media/jWexOOlYe241y/giphy.gif" alt="" ></img>
               </Col>
             </Row>
           </Container>

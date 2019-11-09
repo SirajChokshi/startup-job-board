@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-grid-system';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
-// Components
-import * as EmailValidator from "email-validator";
 // Icons
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar as favoriteIcon, faEnvelope as emailIcon, faGraduationCap as educationIcon, faFile as resumeIcon, faBook as majorIcon, faTools as skillsIcon } from '@fortawesome/free-solid-svg-icons'
-import { faClock as deadlineIcon } from '@fortawesome/free-regular-svg-icons'
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import { faStar as favoriteIcon, faEnvelope as emailIcon, faGraduationCap as educationIcon, faFile as resumeIcon, faBook as majorIcon, faTools as skillsIcon } from '@fortawesome/free-solid-svg-icons'
+// import { faClock as deadlineIcon } from '@fortawesome/free-regular-svg-icons'
 
 /* ------------------------- */
 
@@ -101,7 +99,7 @@ export default class Settings extends Component {
                 </Row>
                 <Row className="setting-row">
                   <Col md={2} sm={12}><label htmlFor="skills" >Skills (seperate each with a comma):</label></Col>
-                  <Col md={10} sm={12}><textarea id="skills" contentEditable="true" maxLength="220" >{skills}</textarea></Col>
+                  <Col md={10} sm={12}><textarea id="skills" maxLength="220" defaultValue={skills} ></textarea></Col>
                 </Row>
                 <Row className="setting-row">
                   <Col md={2} sm={12}><label htmlFor="confirm-password">Confirm Password:</label></Col>

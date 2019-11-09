@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-grid-system';
 import { Link } from 'react-router-dom';
 
-// Components
-import Education from '../components/Education';
-
 // Icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar as favoriteIcon, faEnvelope as emailIcon, faGraduationCap as educationIcon, faFile as resumeIcon, faBook as majorIcon, faTools as skillsIcon } from '@fortawesome/free-solid-svg-icons'
@@ -25,7 +22,7 @@ var profileImage = "";
 var studentName = "Siraj Chokshi";
 var studentPitch = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
 var studentEmail = "sirajchokshi@gmail.com";
-var gpa = "4.00";
+var gpa = 4.00;
 var gradDate = "2023";
 var major = "Psychology";
 var skills = ['Web Development', 'Illustrator', 'Photoshop', 'CSS', 'JavaScript', 'C#', 'User Interface', 'User Experience', 'Graphic Design'];
@@ -70,7 +67,7 @@ export default class Profile extends Component {
                   <Col md={4} sm={12}>
                     <FontAwesomeIcon icon={educationIcon}></FontAwesomeIcon> <strong>Class:</strong>&nbsp; {gradDate}
                     <br></br>
-                    <FontAwesomeIcon icon={majorIcon}></FontAwesomeIcon> &nbsp; <strong>Major:</strong>&nbsp; {major}
+                    <FontAwesomeIcon icon={majorIcon}></FontAwesomeIcon> &nbsp; <strong>Major/GPA:</strong>&nbsp; {major + " / " + parseFloat(gpa).toFixed(2)}
                   </Col>
                   <Col md={4} sm={12}>
                     <FontAwesomeIcon icon={emailIcon}></FontAwesomeIcon> &nbsp; <a href={"mailto:" + studentEmail}>{studentEmail}</a>

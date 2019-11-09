@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Container, Row, Col } from 'react-grid-system';
+import { Container } from 'react-grid-system';
 
 // Components
 import Notification from '../components/Notification';
-import Feed from '../components/Feed';
+// import Feed from '../components/Feed';
 
 export default class Notifications extends Component {
   state = {

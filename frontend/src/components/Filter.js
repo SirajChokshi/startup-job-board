@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
 
-const segments = [
-  { name: 'All' },
-  { name: 'Internships'},
-  { name: 'Full Time' }
-];
+// const segments = [
+//   { name: 'All' },
+//   { name: 'Internships'},
+//   { name: 'Full Time' }
+// ];
 
 const tempOptions = [
   { label: "Any", value: 0 },

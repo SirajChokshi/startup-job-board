@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-grid-system';
+
+import PropTypes from 'prop-types';
+
 import { Link } from 'react-router-dom';
 
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSignInAlt as login, faUserPlus as signup } from '@fortawesome/free-solid-svg-icons'
-import { faEyeSlash as hide, faEye as show } from '@fortawesome/free-regular-svg-icons'
+import { faSignInAlt as loginIcon, faUserPlus as signupIcon } from '@fortawesome/free-solid-svg-icons'
+import { faEyeSlash as hideIcon, faEye as showIcon } from '@fortawesome/free-regular-svg-icons'
 
 var userAuth = false;
-
 
 function showPass() {
   var x = document.getElementById("user-pass");
@@ -30,49 +35,31 @@ function showSignupPass() {
   }
 }
 
-// var formData = new FormData();
-// formData.append("username", "foundersadmin");
-// formData.append("password", "fndrs1!2@pa55");
-
-// var request = new XMLHttpRequest();
-// request.open("POST", "https://e63214ab.ngrok.io/api/auth/login/");
-// request.send([{username: "foundersadmin", password: "fndrs1!2@pa55"}]);
 
 const url = 'https://e63214ab.ngrok.io/api/auth/login';
 const data = { "username" : "foundersadmin", "password" : "fndrs1!2@pa55" };
 
-export default class LogIn extends Component {
-  state = {
+class LogIn extends Component {
 
-  }
-
-  async postLogin() {
-    try {
-      const response = await fetch(url, {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-          'content-type': 'application/json'
-        }
-      });
-      console.log(data);
-      const json = await response.json();
-      console.log('Success:', JSON.stringify(json));
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  }
+  // async postLogin() {
+  //   try {
+  //     const response = await fetch(url, {
+  //       method: 'POST',
+  //       body: JSON.stringify(data),
+  //       headers: {
+  //         'content-type': 'application/json'
+  //       }
+  //     });
+  //     console.log(data);
+  //     const json = await response.json();
+  //     console.log('Success:', JSON.stringify(json));
+  //   } catch (error) {
+  //     console.error('Error:', error);
+  //   }
+  // }
 
   render () {
-    if (userAuth) {
-        // BOUNCE-BACK ON AUTH
-        return (
-          <>
-            <h1>LOGGED IN</h1>
-          </>
-        )
-      } else {
-      // LOG-IN FIELD
+      // const { username, password } = this.state;
       return (
         <>
           <div className="hero">
@@ -87,7 +74,7 @@ export default class LogIn extends Component {
             <Row>
               <Col lg={5.75}>
                 <h1>Login</h1>
-                <form onSubmit={(e) => {e.preventDefault(); this.postLogin();}}>
+                <form onSubmit={this.onSubmit}>
                   <label className="text-input-label" htmlFor="user-email" >Email:</label>
                   <input id="user-email" className="input-text" type="email" autoComplete="username" required></input>
                   <label className="text-input-label" htmlFor="user-pass">Password:</label>
@@ -96,12 +83,12 @@ export default class LogIn extends Component {
                     <input type="checkbox" id="remember-me"></input><label htmlFor="remember-me">&nbsp;Keep me logged in</label>
                     <input type="checkbox" id="show-pass" onClick={showPass}></input>
                     <label htmlFor="show-pass" id="show-label">
-                      <FontAwesomeIcon icon={show} id="show-icon"></FontAwesomeIcon>
-                      <FontAwesomeIcon icon={hide} id="hide-icon"></FontAwesomeIcon>
+                      <FontAwesomeIcon icon={showIcon} id="show-icon"></FontAwesomeIcon>
+                      <FontAwesomeIcon icon={hideIcon} id="hide-icon"></FontAwesomeIcon>
                       &nbsp;Show Password
                     </label>
                   </div>
-                  <button type="submit" ><FontAwesomeIcon icon={login} />&nbsp; Login</button>
+                  <button type="submit" ><FontAwesomeIcon icon={loginIcon} />&nbsp; Login</button>
                 </form>
               </Col>
               <Col lg={0.5}>
@@ -119,18 +106,19 @@ export default class LogIn extends Component {
                   <div id="remember-me-wrapper">
                     <input type="checkbox" id="show-signup-pass" onClick={showSignupPass}></input>
                     <label htmlFor="show-signup-pass" id="show-signup-label">
-                      <FontAwesomeIcon icon={show} id="show-signup-icon"></FontAwesomeIcon>
-                      <FontAwesomeIcon icon={hide} id="hide-signup-icon"></FontAwesomeIcon>
+                      <FontAwesomeIcon icon={showIcon} id="show-signup-icon"></FontAwesomeIcon>
+                      <FontAwesomeIcon icon={hideIcon} id="hide-signup-icon"></FontAwesomeIcon>
                       &nbsp;Show Password
                     </label>
                   </div>
-                  <button type="submit"><FontAwesomeIcon icon={signup} />&nbsp; Signup</button>
+                  <button type="submit"><FontAwesomeIcon icon={signupIcon} />&nbsp; Signup</button>
                 </form>
               </Col>
             </Row>
           </Container>
         </>
       )
-    }
    }
 }
+
+export default LogIn;

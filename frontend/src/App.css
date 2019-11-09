@@ -636,6 +636,14 @@ ul.mobile-nav {
   display: none;
 }
 
+button#mobile-menu-toggle {
+  background: none;
+  color: white;
+  outline: none;
+  border: none;
+  font-size: 22px;
+}
+
 .show-on-mobile {
   display: none;
 }
@@ -668,6 +676,7 @@ ul.mobile-nav {
     -webkit-transition: all 0.2s;
     -o-transition: all 0.2s;
     transition: all 0.2s;
+    box-shadow: none;
   }
 
   nav ul#nav-links li, nav ul#nav-links li a {

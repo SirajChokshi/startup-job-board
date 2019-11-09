@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col } from 'react-grid-system';
+import { Container } from 'react-grid-system';
 
 // Components
 import Feed from '../components/Feed';

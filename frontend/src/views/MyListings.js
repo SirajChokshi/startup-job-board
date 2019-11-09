@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 // Components
-import { Container, Row, Col } from 'react-grid-system';
+import { Container } from 'react-grid-system';
 import { Link } from 'react-router-dom';
 import Feed from '../components/Feed';
 import Order from '../components/Order';
