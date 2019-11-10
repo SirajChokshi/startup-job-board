@@ -66,14 +66,13 @@ export default class Feed extends Component {
 
   checkFeedValidity() {
     if (this.props.listings != null && this.props.listings.length < 1) {
-      errorMessage = "No results";
+      errorMessage = "End of results";
     }
   }
 
   render() {
       return (
         <>
-          <script>{this.checkFeedValidity()}</script>
           {this.props.listings.map(post => (
             <Listing
               listName={post.listName}
@@ -81,9 +80,9 @@ export default class Feed extends Component {
               listDesc={post.listDesc}
               company={post.listOrgID}
               logo={"/img/org/" + post.listOrgID + ".png"}
-              api={this.props.api}
             ></Listing>
           ))}
+          {this.checkFeedValidity()}
           <p style={{fontSize: "22px", color: "#8e8e8e"}}>{errorMessage}</p>
         </>
       )

@@ -19,12 +19,12 @@ export default class Listing extends Component {
   }
 
   componentDidMount() {
-      fetch(this.props.api + '/api/startups/' + this.props.company + '/?format=json', {
+      fetch('/api/startups/' + this.props.company + '/?format=json', {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
           'content-type': 'application/json',
-          'Authorization': ' Token '+'',
+          'Authorization': ' Token ' + localStorage.getItem("token"),
         }
       })
       .then(res => res.json())
@@ -63,7 +63,6 @@ export default class Listing extends Component {
                 <FontAwesomeIcon icon={bookmarkIcon}></FontAwesomeIcon>
                 &nbsp; Bookmark
               </button>
-              <a href="" className="similar-pos">Similar positions...</a>
             </div>
           </div>
           <div style={{clear: "both"}}></div>

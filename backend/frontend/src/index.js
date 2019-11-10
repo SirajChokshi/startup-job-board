@@ -1,16 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import Store from './store';
+import { createStore, applyMiddleware, compose } from 'redux';
 import './index.css';
+import auth from './reducers/auth'
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-// const initialState = {
-//   result: 0,
-//   lastValues: []
-// };
-//
+const initialState = {
+  result: 0,
+  lastValues: []
+};
+
 // const reducer = (state = initialState, action) => {
 //   switch (action.type) {
 //       case "ADD":
@@ -30,8 +31,8 @@ import * as serviceWorker from './serviceWorker';
 //   }
 //   return state;
 // };
-//
-// const store = createStore(reducer);
+
+const store = createStore(auth);
 
 // store.subscribe(() => {
 //   console.log("STORE updated to: ", store.getState());
@@ -50,7 +51,8 @@ import * as serviceWorker from './serviceWorker';
 // const StoreInstance = Store();
 
 ReactDOM.render(
-    <App />, document.getElementById('root')
+    <Provider store={store}><App /></Provider>,
+    document.getElementById('root')
 );
 
 

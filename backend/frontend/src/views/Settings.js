@@ -71,17 +71,21 @@ export default class Settings extends Component {
                   <Col md={10} sm={12}><input id="confirm-email" type="email" ></input></Col>
                 </Row>
                 <Row className="setting-row">
-                  <Col md={2} sm={12}><label htmlFor="confirm-password">Confirm Password:</label></Col>
-                  <Col md={10} sm={12}><input id="confirm-password" type="password" autoComplete="current-password" title="Confirm Password to make changes." required></input></Col>
+                  <Col md={2} sm={12}><label htmlFor="confirm-password-1">Confirm Password:</label></Col>
+                  <Col md={10} sm={12}><input id="confirm-password-1" type="password" autoComplete="current-password" title="Confirm Password to make changes." required></input></Col>
                 </Row>
                 <Row className="setting-row">
-                  <Col md={2} sm={12}><label htmlFor="submit">Submit Changes</label></Col>
-                  <Col md={10} sm={12}><button id="submit" type="submit">Submit Changes</button></Col>
+                  <Col md={2} sm={12}><label htmlFor="submit-settings">Submit Changes</label></Col>
+                  <Col md={10} sm={12}><button id="submit-settings" type="submit">Submit Changes</button></Col>
                 </Row>
               </form>
             <hr></hr>
             <h1>Profile Settings</h1>
               <form>
+                <Row className="setting-row">
+                  <Col md={2} sm={12}><label htmlFor="bio" >Biography (220 characters):</label></Col>
+                  <Col md={10} sm={12}><textarea id="bio" maxLength="220" defaultValue={studentPitch} ></textarea></Col>
+                </Row>
                 <Row className="setting-row">
                   <Col md={2} sm={12}><label htmlFor="grad-date" >Graduation Year:</label></Col>
                   <Col md={10} sm={12}><input id="grad-date" type="number" defaultValue={gradDate} step="1" min={minDate} max={maxDate} ></input></Col>
@@ -102,12 +106,12 @@ export default class Settings extends Component {
                   <Col md={10} sm={12}><textarea id="skills" maxLength="220" defaultValue={skills} ></textarea></Col>
                 </Row>
                 <Row className="setting-row">
-                  <Col md={2} sm={12}><label htmlFor="confirm-password">Confirm Password:</label></Col>
-                  <Col md={10} sm={12}><input id="confirm-password" type="password" autoComplete="current-password" title="Confirm Password to make changes." required></input></Col>
+                  <Col md={2} sm={12}><label htmlFor="confirm-password-2">Confirm Password:</label></Col>
+                  <Col md={10} sm={12}><input id="confirm-password-2" type="password" autoComplete="current-password" title="Confirm Password to make changes." required></input></Col>
                 </Row>
                 <Row className="setting-row">
-                  <Col md={2} sm={12}><label htmlFor="submit">Update Profile</label></Col>
-                  <Col md={10} sm={12}><button id="submit" type="submit">Update Profile</button></Col>
+                  <Col md={2} sm={12}><label htmlFor="submit-profile">Update Profile</label></Col>
+                  <Col md={10} sm={12}><button id="submit-profile" type="submit">Update Profile</button></Col>
                 </Row>
               </form>
               <hr></hr>
@@ -120,8 +124,8 @@ export default class Settings extends Component {
                     <Col md={10} sm={12}><input id="avatar" type="file" name="pic" accept=".png" ></input></Col>
                   </Row>
                   <Row className="setting-row">
-                    <Col md={2} sm={12}><label htmlFor="submit">Update Avatar</label></Col>
-                    <Col md={10} sm={12}><button id="submit" type="submit">Update Avatar</button></Col>
+                    <Col md={2} sm={12}><label htmlFor="submit-avatar">Update Avatar</label></Col>
+                    <Col md={10} sm={12}><button id="submit-avatar" type="submit">Update Avatar</button></Col>
                   </Row>
                 </form>
           </Container>
