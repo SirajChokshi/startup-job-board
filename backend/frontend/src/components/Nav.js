@@ -2,12 +2,24 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 // Icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBookmark as bookmarkActive, faBell as bellActive, faUser as userActive, faSearch as search, faCaretDown as darr, faFolderOpen as jobsActive, faCommentAlt as logoActive, faSignInAlt as login, faBars as menu, faListAlt as applicationsActive, faCog as settings, faCogs as settingsActive } from '@fortawesome/free-solid-svg-icons'
+import { faBookmark as bookmarkActive, faBell as bellActive, faUser as userActive, faSearch as search, faCaretDown as darr, faFolderOpen as jobsActive, faCommentAlt as logoActive, faSignInAlt as login, faBars as menu, faListAlt as applicationsActive, faCog as settings, faCogs as settingsActive, faSignOutAlt as signoutIcon } from '@fortawesome/free-solid-svg-icons'
 import { faBookmark as bookmark, faBell as bell, faUser as user, faFolderOpen as jobs, faCommentAlt as logo, faListAlt as applications } from '@fortawesome/free-regular-svg-icons'
+// redux
+import { connect } from 'react-redux';
 
 function LoginNav(props) {
   const isLoggedIn = props.isLoggedIn;
-  if (isLoggedIn) {
+
+  // logout = () => {
+  //   localStorage.removeItem("token");
+  //   this.props.dispatch({ type: "LOGOUT" });
+  // };
+
+  function logout() {
+    console.log("x");
+  }
+
+  if (props.isLoggedIn) {
     return (
       <>
       <li className="dropdown">
@@ -19,9 +31,10 @@ function LoginNav(props) {
         </span>
         <div className="dropdown-content">
           <NavLink to="/user-profile">Profile</NavLink>
-          <NavLink to="/applications">Applied</NavLink>
+          <NavLink to="/login">Applied</NavLink>
           <hr></hr>
           <NavLink to="/user-settings">Settings</NavLink>
+          <button onClick={(e) => {e.preventDefault(); this.logout()}} >Logout</button>
         </div>
       </li>
       <li className="show-on-mobile">
@@ -45,6 +58,12 @@ function LoginNav(props) {
           &nbsp; Settings
         </NavLink>
       </li>
+      <li className="show-on-mobile">
+        <a onClick={(e) => {e.preventDefault(); this.logout()}}>
+          <FontAwesomeIcon icon={signoutIcon} />
+          &nbsp; Logout
+        </a>
+      </li>
       </>
     );
   }
@@ -60,7 +79,7 @@ function LoginNav(props) {
   );
 }
 
-export default class Nav extends Component {
+class Nav extends Component {
   state = {
     active: false
   }
@@ -98,10 +117,10 @@ export default class Nav extends Component {
              </NavLink>
            </li>
            <li id="search-nav">
+             <input type="text" placeholder={"Search for a job..."} className="search" style={{color: '#8e8e8e'}}></input>
              <span id="nav-search-icon-wrapper">
                <FontAwesomeIcon icon={search} style={{verticalAlign: 'middle', color: '#8e8e8e', fontSize: 14 + 'px', marginBottom: 2.6 + 'px'}} />
              </span>
-             <input type="text" placeholder={"Search for a job..."} className="search" style={{color: '#8e8e8e'}}></input>
            </li>
            <li>
              <NavLink to="/jobs" exact activeClassName="active-nav">
@@ -117,7 +136,7 @@ export default class Nav extends Component {
                &nbsp; Bookmarks
              </NavLink>
            </li>
-           <LoginNav isLoggedIn={true} />
+           <LoginNav isLoggedIn={this.props.isAuthenticated} />
            {/*}
            <li>
              <NavLink to="/notifications" id="noti-anchor" exact activeClassName="active-nav">
@@ -134,3 +153,10 @@ export default class Nav extends Component {
       )
    }
 }
+
+const mapStateToProps = (state) => ({
+  user: state.user,
+  isAuthenticated: state.isAuthenticated
+});
+
+export default connect(mapStateToProps)(Nav);

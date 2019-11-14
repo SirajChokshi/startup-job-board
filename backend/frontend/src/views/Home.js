@@ -4,30 +4,39 @@ import React, { Component } from 'react';
 import LandingHero from '../components/LandingHero';
 import GuestLanding from '../components/GuestLanding';
 import StudentLanding from '../components/StudentLanding';
+// redux
+import { connect } from 'react-redux';
 
 var userAuth = false;
 
-export default class Home extends Component {
+class Home extends Component {
   state = {
   }
 
   render () {
-    if (userAuth) {
+    if (this.props.isAuthenticated) {
         // LOGGED IN STUDENT LANDING
         return (
-          <span>
+          <>
             <LandingHero />
-            <StudentLanding />
-          </span>
+            <StudentLanding userName={(this.props.user).user.username} />
+          </>
         )
       } else {
       // GUEST LANDING
       return (
-        <span>
+        <>
           <LandingHero />
           <GuestLanding />
-        </span>
+        </>
       )
     }
    }
 }
+
+const mapStateToProps = (state) => ({
+  user: state.user,
+  isAuthenticated: state.isAuthenticated
+});
+
+export default connect(mapStateToProps)(Home);

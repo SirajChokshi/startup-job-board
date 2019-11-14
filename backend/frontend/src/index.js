@@ -3,52 +3,40 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import './index.css';
-import auth from './reducers/auth'
+// import auth from './reducers/auth'
+// import { login, logout } from './actions/authActions'
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 const initialState = {
-  result: 0,
-  lastValues: []
+  user: null,
+  isAuthenticated: false
 };
 
-// const reducer = (state = initialState, action) => {
-//   switch (action.type) {
-//       case "ADD":
-//         state = {
-//           ...state,
-//           result: state.result + action.payload,
-//           lastValues: [...state.lastValues, action.payload]
-//         };
-//         break;
-//       case "SUB":
-//         state = {
-//           ...state,
-//           result: state.result - action.payload,
-//           lastValues: [...state.lastValues, action.payload]
-//         };
-//         break;
-//   }
-//   return state;
-// };
+const reducer = (state = initialState, action) => {
+  console.log(action);
+  switch (action.type) {
+      case "LOGIN":
+        state = {
+          ...state,
+          user: action.user,
+          isAuthenticated: true
+        };
+        break;
+      case "LOGOUT":
+        state = {
+          ...state,
+          user: null,
+          isAuthenticated: false
+        };
+        break;
+  }
+  return state;
+};
 
-const store = createStore(auth);
+const testUser = {"user":{"id":4,"username":"sirajchokshi@gmail.com","email":"sirajchokshi@gmail.com"},"token":"48270b5a81ab2506f7a24c91243d5462b4b1d96e40f3503dfeaab36efef90c61"};
 
-// store.subscribe(() => {
-//   console.log("STORE updated to: ", store.getState());
-// });
-//
-// store.dispatch({
-//   type: "ADD",
-//   payload: 10
-// });
-//
-// store.dispatch({
-//   type: "SUB",
-//   payload: 80
-// });
-
-// const StoreInstance = Store();
+const store = createStore(reducer);
 
 ReactDOM.render(
     <Provider store={store}><App /></Provider>,

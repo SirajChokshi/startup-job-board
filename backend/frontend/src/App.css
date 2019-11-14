@@ -129,15 +129,15 @@ nav ul li a:hover {
 
 nav ul li input.search {
   font-size: 16.5px;
-  border-radius: 0 8px 8px 0;
+  border-radius: 8px 0 0 8px;
   outline: none;
   border: none;
   padding: 5px 100px 5px 10px;
 }
 
 span#nav-search-icon-wrapper {
-  padding: 5px 0 5px 10px;
-  border-radius: 8px 0 0 8px;
+  padding: 5px 10px 5px 0;
+  border-radius: 0 8px 8px 0;
   background-color: var(--secondary-text-color);
 }
 
@@ -213,19 +213,20 @@ footer span.lastlines {
 /* SEARCH BAR */
 #search-bar-wrapper input.search {
   font-size: 22px;
-  border-radius: 0 12px 12px 0;
+  border-radius: 12px 0 0 12px;
   outline: none;
   border: none;
   width: 90%;
-  padding: 10px 10px 10px 10px;
+  padding: 10px 10px 10px 20px;
   color: var(--tertiary-text-color);
 }
 
-span#search-icon-wrapper {
+button#search-icon-wrapper {
   font-size: 21.5px;
-  padding: 10px 10px 10px 20px;
-  border-radius: 12px 0px 0px 12px;
+  padding: 10px 20px 10px 10px;
+  border-radius: 0 12px 12px 0;
   background-color: var(--secondary-text-color);
+  border: none;
 }
 
 /* LANDING */
@@ -395,6 +396,53 @@ a.read-more {
   text-decoration: underline;
 }
 
+/* Job Page */
+
+article.job {
+  position: relative;
+  display: block;
+  height: auto;
+  padding: 20px;
+  background-color: var(--background-color);
+  border-radius: 12px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+article.job .image-wrapper img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+article.job h1 {
+  font-size: 30px;
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+article.job h2 {
+  margin: 0;
+}
+
+article.job p.header-right {
+  font-size: 16px;
+  margin-top: 3px;
+  margin-bottom: 2px;
+  font-weight: 700;
+}
+
+article.job p#industry {
+  margin-top: 0px;
+  font-size: 18px;
+}
+
+article.job .company-profile a {
+  text-decoration: none;
+}
+
+article.job .company-profile p {
+  margin: 10px 0;
+}
 /* Filter/Sort */
 
 .filter-label {
@@ -520,7 +568,24 @@ input#show-pass:checked ~ label#show-label #hide-icon, input#show-signup-pass:ch
   display: inline;
 }
 
+label.text-input-label.login-error {
+  color: green !important;
+}
+
+label.text-input-labellogin-error {
+  color: green !important;
+}
+
 /* User Settings */
+
+span.req {
+  color: var(--alert-color);
+  font-size: 18px;
+}
+
+span.req::before {
+  content: "*";
+}
 
 form label {
   display: block;
@@ -537,6 +602,11 @@ form input, form textarea {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
 }
+
+form input::-webkit-input-placeholder { font-style: italic; }
+form input:-moz-placeholder { font-style: italic; }
+form input::-moz-placeholder {font-style: italic; }
+form input:-ms-input-placeholder { font-style: italic; }
 
 form textarea {
   resize: vertical;
@@ -648,7 +718,51 @@ button#mobile-menu-toggle {
   display: none;
 }
 
+#company-industry {
+  display: inline;
+}
+
+@media only screen and (max-width: 500px) {
+  .company-profile .hide-pipe {
+    display: none;
+  }
+  #company-industry {
+    display: block;
+    margin-top: 2px;
+    color: var(--tertiary-text-color);
+  }
+  #top-apply-button {
+    display: none;
+  }
+  #hide-full-company-button {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 769px) {
+  #top-apply-button {
+    display: none;
+  }
+
+  article.job p#industry {
+    margin-bottom: 5px;
+  }
+
+  article.job #dl-wrapper {
+    margin-bottom: 10px;
+  }
+
+  article.job #job-desc {
+    margin-top: 5px;
+  }
+}
+
 @media only screen and (max-width: 992px) {
+
+  .hide-ext {
+    display: none;
+  }
+
   .hero-inner h1 {
     text-align: center;
     font-size: 40px;
@@ -716,7 +830,7 @@ button#mobile-menu-toggle {
 
   }
 
-  #search-icon-wrapper {
+  button#search-icon-wrapper {
     display: none;
   }
 

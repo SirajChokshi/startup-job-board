@@ -1,22 +1,25 @@
-//import { SET_CURRENT_USER } from '../actions/login';
-
 const initialState = {
-  isAuthenticated: false,
-  user: {}
+  user: null,
+  isAuthenticated: false
 };
 
 export default (state = initialState, action = {}) => {
-  switch(action.type) {
-    case "LOGIN":
-      return {
-        isAuthenticated: true,
-        user: action.user
-      };
-    case  "LOGOUT":
-      return {
-        isAuthenticated: false,
-        user: {}
-      }
-    default: return state;
+  console.log(action);
+  switch (action.type) {
+      case "LOGIN":
+        state = {
+          ...state,
+          user: action.user,
+          isAuthenticated: true
+        };
+        break;
+      case "LOGOUT":
+        state = {
+          ...state,
+          user: null,
+          isAuthenticated: false
+        };
+        break;
   }
+  return state;
 }

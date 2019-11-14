@@ -39,7 +39,7 @@ export default class NavAdmin extends Component {
            </li>
            {/*This Startup's Listings*/}
            <li>
-             <NavLink to="/edit-listings" exact activeClassName="active-nav">
+             <NavLink to="/my-listings" exact activeClassName="active-nav">
                <FontAwesomeIcon className="def-icon" icon={listings} />
                <FontAwesomeIcon className="act-icon" icon={listingsActive} />
                &nbsp; My Listings

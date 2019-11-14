@@ -14,10 +14,12 @@ import OrgProfile from './views/OrgProfile';
 import MyListings from './views/MyListings';
 import LogIn from './views/LogIn';
 import Error from './views/Error';
+import NewListing from './views/NewListing';
+import JobPage from './views/JobPage';
 
 // Components
 import Nav from './components/Nav';
-//import NavAdmin from './components/NavAdmin';
+import NavAdmin from './components/NavAdmin';
 import Footer from './components/Footer';
 
 /*
@@ -31,39 +33,47 @@ function App() {
     <div className="App" >
     <BrowserRouter>
         <Nav />
-        <Switch>
-          <Route exact={true} path='/' render={() => (
-              <Home />
-          )}/>
-          <Route exact={true} path='/user-profile' render={() => (
-              <Profile />
-          )}/>
-          <Route exact={true} path='/jobs' render={() => (
-              <Jobs />
-          )}/>
-          <Route exact={true} path='/user-settings' render={() => (
-              <Settings />
-          )}/>
-          <Route exact={true} path='/bookmarks' render={() => (
-              <Bookmarks />
-          )}/>
-          <Route exact={true} path='/notifications' render={() => (
-              <Notifications />
-          )}/>
-          <Route exact={true} path='/edit-listings' render={() => (
-              <MyListings />
-          )}/>
-          <Route exact={true} path='/company-profile' render={() => (
-              <OrgProfile />
-          )}/>
-          <Route exact={true} path='/dashboard' render={() => (
-              <Dashboard />
-          )}/>
-          <Route exact={true} path='/login' render={() => (
-              <LogIn />
-          )}/>
-        <Route component={Error} />
-        </Switch>
+        <span style={{ height: "40vh" }} >
+          <Switch>
+            <Route exact={true} path='/' render={() => (
+                <Home />
+            )}/>
+            <Route exact={true} path='/user-profile' render={() => (
+                <Profile />
+            )}/>
+            <Route exact={true} path='/jobs' render={() => (
+                <Jobs />
+            )}/>
+            <Route exact={true} path='/user-settings' render={() => (
+                <Settings />
+            )}/>
+            <Route exact={true} path='/bookmarks' render={() => (
+                <Bookmarks />
+            )}/>
+            <Route exact={true} path='/notifications' render={() => (
+                <Notifications />
+            )}/>
+            <Route exact={true} path='/my-listings' render={() => (
+                <MyListings />
+            )}/>
+            <Route exact={true} path='/company-profile' render={() => (
+                <OrgProfile />
+            )}/>
+            <Route exact={true} path='/dashboard' render={() => (
+                <Dashboard />
+            )}/>
+            <Route exact={true} path='/login' render={() => (
+                <LogIn />
+            )}/>
+            <Route exact={true} path='/my-listings/new' render={() => (
+                <NewListing />
+            )}/>
+            <Route exact={true} path='/listing' render={() => (
+                <JobPage />
+            )}/>
+            <Route component={Error} />
+          </Switch>
+        </span>
         <Footer id="footer" />
     </BrowserRouter>
   </div>

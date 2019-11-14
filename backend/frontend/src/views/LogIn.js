@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-grid-system';
 
 import * as axios from 'axios';
-
 import PropTypes from 'prop-types';
 
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, withRouter } from 'react-router-dom';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -35,6 +34,8 @@ function showSignupPass() {
   }
 }
 
+var loginError = false;
+
 class LogIn extends Component {
 
   async postLogin() {
@@ -49,18 +50,25 @@ class LogIn extends Component {
           },
           data: data
       });
-
+      console.log(response.result);
       //console.log(data);
       const json = await response.data;
       console.log('Success:', JSON.stringify(json));
+      loginError = false;
+      this.props.dispatch({ type: "LOGIN", user: json })
       localStorage.setItem("token", json.token);
+      this.props.history.push('/');
     } catch (error) {
-      console.error('Error:', error);
-      document.getElementById('user-pass').style.borderColor = '#ff4444';
-      document.getElementById('user-email').style.borderColor = '#ff4444';
-      document.getElementById('user-pass').style.backgroundColor = '#ffe6e6';
-      document.getElementById('user-email').style.backgroundColor = '#ffe6e6';
-      document.getElementById('login-error').style.display = 'block';
+
+      loginError = true;
+      if (error.response.status == 400) {
+        document.getElementById('user-pass').style.borderColor = '#ff4444';
+        document.getElementById('user-email').style.borderColor = '#ff4444';
+        document.getElementById('user-pass').style.backgroundColor = '#ffe6e6';
+        document.getElementById('user-email').style.backgroundColor = '#ffe6e6';
+        document.getElementById('login-error').style.display = 'block';
+      }
+     else console.error('NOT 400: OTHER ERROR')
     }
   }
 
@@ -83,10 +91,6 @@ class LogIn extends Component {
     }
 
   render () {
-      // if (isAuthenticated === true) {
-      //   return <Redirect to='/' />
-      // }
-
       return (
         <>
           <div className="hero">
@@ -103,10 +107,10 @@ class LogIn extends Component {
                 <h1>Login</h1>
                 <span id="login-error" style={{ display: 'none', color: '#ff4444', fontWeight: '700' }}><FontAwesomeIcon icon={errorIcon} ></FontAwesomeIcon> &nbsp; Invalid Login Credentials</span>
                 <form onSubmit={(e) => {e.preventDefault(); this.postLogin()}}>
-                  <label className="text-input-label" htmlFor="user-email" >Email:</label>
-                  <input id="user-email" className="input-text login-input" type="email" autoComplete="username" defaultValue="" required></input>
-                  <label className="text-input-label" htmlFor="user-pass">Password:</label>
-                  <input id="user-pass" className="input-text login-input" type="password" autoComplete="current-password" defaultValue="" required></input>
+                  <label className={"text-input-label"} htmlFor="user-email" >Email:</label>
+                  <input id="user-email" className={"input-text"}  type="email" autoComplete="username" defaultValue="" required></input>
+                  <label className="text-input-label" htmlFor="user-pass" >Password:</label>
+                  <input id="user-pass" className={"input-text"} type="password" autoComplete="current-password" defaultValue="" required></input>
                   <div id="remember-me-wrapper">
                     {/*}<input type="checkbox" id="remember-me"></input><label htmlFor="remember-me">&nbsp;Keep me logged in</label>{*/}
                     <input type="checkbox" id="show-pass" onClick={showPass}></input>
@@ -146,7 +150,13 @@ class LogIn extends Component {
           </Container>
         </>
       )
+
    }
 }
 
-export default LogIn;
+const mapStateToProps = (state) => ({
+  user: state.user,
+  isAuthenticated: state.isAuthenticated
+});
+
+export default withRouter(connect()(LogIn));
