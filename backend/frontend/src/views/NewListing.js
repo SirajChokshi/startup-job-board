@@ -27,8 +27,10 @@ const Req = () => {
 // var date = new Date();
 
 var d = new Date();
-var minDate  = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + (d.getDay() + 1);
-var maxDate  = (d.getFullYear() + 1) + "-" + (d.getMonth() + 1) + "-" + (d.getDay() + 1);
+var minDate  = d.getFullYear() + "-" + d.getMonth() + "-" + ('0' + (d.getDay() + 1)).slice(-2);
+console.log(minDate);
+var maxDate  = (d.getFullYear() + 1) + "-" + d.getMonth() + "-" + ('0' + (d.getDay() + 1)).slice(-2);
+console.log(maxDate);
 
 const categoryList = [
   { label: "Accounting/Finance", value: "FIN" },
@@ -62,7 +64,7 @@ export default class NewListing extends Component {
         "listOrgID" : 1,
         "listDesc" : document.getElementById("short-desc").value,
         "listCategory": this.state.listCategory,
-        "isOpen": false,
+        "isOpen": true,
         "isPaid": true
       };
       const response = await axios({
@@ -107,6 +109,7 @@ export default class NewListing extends Component {
 
           <Container id="user-settings">
             <h1>Listing Information</h1>
+            <p><i><Req /> = Required Field</i></p>
               <form  onSubmit={(e) => {e.preventDefault(); this.postListing()}}>
                 <Row className="setting-row">
                   <Col md={2} sm={12}><label htmlFor="listing-title" >Position Title<Req />:</label></Col>
@@ -127,7 +130,7 @@ export default class NewListing extends Component {
                       options={categoryList}
                       className="filter-dropdown"
                       onChange={this.handleCategoryChange}
-                      defaultValue={categoryList[0]}
+                      defaultValue={categoryList[13]}
                       theme={theme => ({
                        ...theme,
                        borderRadius: "8px",
@@ -147,14 +150,14 @@ export default class NewListing extends Component {
                 </Row>
                 <Row className="setting-row">
                   <Col md={2} sm={12}><label htmlFor="deadline">Deadline<Req />:</label></Col>
-                  <Col md={10} sm={12}><input id="deadline" placeholder="Ex. Champaign, IL" min={minDate} max={maxDate} type="date" required></input></Col>
+                  <Col md={10} sm={12}><input id="deadline" min={minDate} max={maxDate} type="date" required></input></Col>
                 </Row>
                 <Row className="setting-row">
                   <Col md={2} sm={12}><label htmlFor="long-desc" >Full Description<Req />:</label></Col>
-                  <Col md={10} sm={12}><textarea id="long-desc" maxLength="6000" required></textarea></Col>
+                  <Col md={10} sm={12}><textarea id="long-desc" minLength="100" maxLength="7500" required></textarea></Col>
                 </Row>
                 <Row className="setting-row">
-                  <Col md={2} sm={12}><label htmlFor="create-listing">Create Listing<Req />:</label></Col>
+                  <Col md={2} sm={12}><label htmlFor="create-listing">Create Listing:</label></Col>
                   <Col md={10} sm={12}><button id="create-listing" type="submit">Create Listing</button></Col>
                 </Row>
               </form>

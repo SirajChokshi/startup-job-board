@@ -16,6 +16,7 @@ import LogIn from './views/LogIn';
 import Error from './views/Error';
 import NewListing from './views/NewListing';
 import JobPage from './views/JobPage';
+import InitAccount from './views/InitAccount';
 
 // Components
 import Nav from './components/Nav';
@@ -38,8 +39,8 @@ function App() {
             <Route exact={true} path='/' render={() => (
                 <Home />
             )}/>
-            <Route exact={true} path='/user-profile' render={() => (
-                <Profile />
+            <Route exact={true} path='/user-profile/:uid' render={({ match }) => (
+                <Profile userID={match.params.uid} />
             )}/>
             <Route exact={true} path='/jobs' render={() => (
                 <Jobs />
@@ -68,8 +69,14 @@ function App() {
             <Route exact={true} path='/my-listings/new' render={() => (
                 <NewListing />
             )}/>
-            <Route exact={true} path='/listing' render={() => (
-                <JobPage />
+            <Route exact={true} path='/listing/:lid' render={({ match }) => (
+                <JobPage listingID={match.params.lid} />
+            )}/>
+            <Route exact={true} path='/org/:oid' render={({ match }) => (
+                <JobPage listingID={match.params.oid} />
+            )}/>
+            <Route exact={true} path='/signup' render={() => (
+                <InitAccount />
             )}/>
             <Route component={Error} />
           </Switch>

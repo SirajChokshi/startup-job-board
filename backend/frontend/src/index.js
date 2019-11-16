@@ -14,7 +14,7 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
-  console.log(action);
+//  console.log(action);
   switch (action.type) {
       case "LOGIN":
         state = {
@@ -30,11 +30,15 @@ const reducer = (state = initialState, action) => {
           isAuthenticated: false
         };
         break;
+      case "UPDATEUSER":
+        state = {
+          ...state,
+          user: action.user,
+        };
+        break;
   }
   return state;
 };
-
-const testUser = {"user":{"id":4,"username":"sirajchokshi@gmail.com","email":"sirajchokshi@gmail.com"},"token":"48270b5a81ab2506f7a24c91243d5462b4b1d96e40f3503dfeaab36efef90c61"};
 
 const store = createStore(reducer);
 

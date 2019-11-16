@@ -57,32 +57,34 @@ import Listing from '../components/Listing';
 //     }
 // ];
 
-var errorMessage = "";
+var errorMessage = "End of results";
+var feedLength = -1;
 
 export default class Feed extends Component {
   state = {
 
   }
 
-  checkFeedValidity() {
-    if (this.props.listings != null && this.props.listings.length < 1) {
-      errorMessage = "End of results";
-    }
-  }
-
   render() {
+      if (this.props.feedLength > this.props.listings.length) {
+        feedLength = this.props.listings.length;
+      } else {
+        feedLength = this.props.feedLength;
+      }
+
       return (
         <>
-          {this.props.listings.map(post => (
+          {this.props.listings.slice(0, feedLength).map(post => (
             <Listing
               listName={post.listName}
               listLocation={post.listLocation}
               listDesc={post.listDesc}
               company={post.listOrgID}
               logo={"/img/org/" + post.listOrgID + ".png"}
+              jobPage={"/listing/" + post.id}
             ></Listing>
           ))}
-          {this.checkFeedValidity()}
+
           <p style={{fontSize: "22px", color: "#8e8e8e"}}>{errorMessage}</p>
         </>
       )

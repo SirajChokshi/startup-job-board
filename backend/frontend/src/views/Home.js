@@ -7,8 +7,6 @@ import StudentLanding from '../components/StudentLanding';
 // redux
 import { connect } from 'react-redux';
 
-var userAuth = false;
-
 class Home extends Component {
   state = {
   }
@@ -19,7 +17,7 @@ class Home extends Component {
         return (
           <>
             <LandingHero />
-            <StudentLanding userName={(this.props.user).user.username} />
+            <StudentLanding userName={(this.props.user).firstName} />
           </>
         )
       } else {

@@ -3,7 +3,7 @@ import { Container, Row, Col } from 'react-grid-system';
 import { Link } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faExternalLinkAlt as appIcon, faMapMarkerAlt as locationIcon, faCode as Software } from '@fortawesome/free-solid-svg-icons'
+import { faExternalLinkAlt as appIcon, faMapMarkerAlt as locationIcon, faBriefcase as jobCategoryIcon, faCode as Software } from '@fortawesome/free-solid-svg-icons'
 import { faClock as deadlineIcon } from '@fortawesome/free-regular-svg-icons'
 
 // Components
@@ -56,7 +56,7 @@ export default class JobPage extends Component {
         this.setState({ company: data })
       })
       .catch(console.log)
-      fetch('/api/listings/15/')
+      fetch('/api/listings/' + this.props.listingID +'/')
       .then(res => res.json())
       .then((data) => {
         this.setState({ listing: data })
@@ -82,18 +82,12 @@ export default class JobPage extends Component {
           <Container>
             <article className="job">
               <Row>
-                <Col md={5.5}>
+                <Col md={8}>
                   <h1>{this.state.listing.listName}</h1>
-                  <p id="industry">{getLabelFromValue(this.state.listing.listCategory)}</p>
-                </Col>
-                <Col md={2.5} id="dl-wrapper">
-                  <p className="header-right">
-                    &nbsp;<FontAwesomeIcon icon={locationIcon}></FontAwesomeIcon>
-                    &nbsp; {this.state.listing.listLocation}
-                  </p>
-                  <p className="header-right">
-                    <FontAwesomeIcon icon={deadlineIcon}></FontAwesomeIcon>
-                    &nbsp; February, 8th 2019
+                  <p id="industry">
+                    <FontAwesomeIcon icon={jobCategoryIcon}></FontAwesomeIcon> &nbsp; {getLabelFromValue(this.state.listing.listCategory)} &nbsp;
+                    &mdash; &nbsp;<FontAwesomeIcon icon={locationIcon}></FontAwesomeIcon> &nbsp; {this.state.listing.listLocation} &nbsp;
+                    &mdash; &nbsp;<FontAwesomeIcon icon={deadlineIcon}></FontAwesomeIcon> &nbsp; February, 8th 2019
                   </p>
                 </Col>
                 <Col md={4} id="top-apply-button" >

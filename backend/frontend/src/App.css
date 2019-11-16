@@ -27,6 +27,10 @@ p, h1, h2, h3, h4, h5, h6 {
   color: var(--text-color);
 }
 
+textarea {
+  white-space: pre-wrap;
+}
+
 .App {
   padding-bottom: 15vh;
   position: relative;
@@ -432,8 +436,9 @@ article.job p.header-right {
 }
 
 article.job p#industry {
-  margin-top: 0px;
-  font-size: 18px;
+  margin-top: 4px;
+  font-size: 16px;
+  color: var(--tertiary-text-color);
 }
 
 article.job .company-profile a {
@@ -521,6 +526,14 @@ article.job .company-profile p {
   color: white;
 }
 
+.error {
+  display: none;
+  padding: 15px 10px;
+  border-radius: 8px;
+  color: var(--secondary-text-color);
+  font-weight: 700;
+}
+
 #remember-me-wrapper {
   margin: 15px 0 0 0;
 }
@@ -531,9 +544,9 @@ article.job .company-profile p {
 
 #remember-me-wrapper * {
   -webkit-user-select: none; /* Safari 3.1+ */
--moz-user-select: none; /* Firefox 2+ */
--ms-user-select: none; /* IE 10+ */
-user-select: none; /* Standard syntax */
+  -moz-user-select: none; /* Firefox 2+ */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none; /* Standard syntax */
 }
 
 p#signup-cta {

@@ -13,6 +13,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignInAlt as loginIcon, faUserPlus as signupIcon, faExclamationTriangle as errorIcon } from '@fortawesome/free-solid-svg-icons'
 import { faEyeSlash as hideIcon, faEye as showIcon } from '@fortawesome/free-regular-svg-icons'
 
+var passMatch = true;
+
 function showPass() {
   var x = document.getElementById("user-pass");
   if (x.type === "password") {
@@ -34,11 +36,32 @@ function showSignupPass() {
   }
 }
 
-var loginError = false;
-
 class LogIn extends Component {
 
+  resetErrors() {
+    var errorBlocks = document.getElementsByClassName("error");
+    for (var i = 0; i < errorBlocks.length; ++i) {
+      errorBlocks[i].style.display = 'none';
+    }
+  }
+
+  checkPassMatch() {
+    try {
+      if (document.getElementById("new-user-pass").value == document.getElementById("confirm-user-pass").value || document.getElementById("confirm-user-pass").value == "") {
+        passMatch = true;
+        document.getElementById('match-confirm-pass').style.display = 'none';
+      } else {
+        passMatch = false;
+        document.getElementById('match-confirm-pass').style.display = 'block';
+      }
+    } catch (error) {
+      passMatch = false;
+      document.getElementById('match-confirm-pass').style.display = 'block';
+    }
+  }
+
   async postLogin() {
+    this.resetErrors();
     try {
       const data = { "username" : document.getElementById("user-email").value, "password" : document.getElementById("user-pass").value };
       const response = await axios({
@@ -50,17 +73,31 @@ class LogIn extends Component {
           },
           data: data
       });
-      console.log(response.result);
+      // console.log(response.result);
       //console.log(data);
       const json = await response.data;
-      console.log('Success:', JSON.stringify(json));
-      loginError = false;
-      this.props.dispatch({ type: "LOGIN", user: json })
+      // console.log('Success:', JSON.stringify(json));
+      // console.log(json.user.id);
       localStorage.setItem("token", json.token);
-      this.props.history.push('/');
+      try {
+        const userResponse = await axios({
+            url: '/api/users/' + json.user.id + '/',
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json;charset=UTF-8',
+              'Authorization': 'Token ' + localStorage.getItem("token")
+            }
+        });
+        // console.log(userResponse.data);
+        const userJson = await userResponse.data;
+        // console.log('Success:', JSON.stringify(userJson));
+        this.props.dispatch({ type: "LOGIN", user: userJson })
+        this.props.history.push('/');
+      } catch (error) {
+        console.error('USER RETRIEVAL ERROR');
+      }
     } catch (error) {
-
-      loginError = true;
       if (error.response.status == 400) {
         document.getElementById('user-pass').style.borderColor = '#ff4444';
         document.getElementById('user-email').style.borderColor = '#ff4444';
@@ -68,25 +105,25 @@ class LogIn extends Component {
         document.getElementById('user-email').style.backgroundColor = '#ffe6e6';
         document.getElementById('login-error').style.display = 'block';
       }
-     else console.error('NOT 400: OTHER ERROR')
+      else if (error.response.status == 401) {
+        localStorage.removeItem("token");
+        this.props.dispatch({ type: "LOGOUT" });
+        this.props.history.push('/login');
+      } else {
+        document.getElementById('server-error').style.display = 'block';
+      }
     }
   }
 
     async registerUser() {
-      try {
-        const data = { "username" : document.getElementById("new-user-email").value, "email" : document.getElementById("new-user-email").value, "password" : document.getElementById("new-user-pass").value };
-        const response = await fetch('api/auth/register', {
-          method: 'POST',
-          body: JSON.stringify(data),
-          headers: {
-            'content-type': 'application/json'
+      if(passMatch) {
+        this.props.history.push({
+          pathname: '/signup',
+          state: {
+            email: document.getElementById("new-user-email").value,
+            password: document.getElementById("new-user-pass").value
           }
-        });
-        console.log(data);
-        const json = await response.json();
-        console.log('Success:', JSON.stringify(json));
-      } catch (error) {
-        console.error('Error:', error);
+        })
       }
     }
 
@@ -105,7 +142,8 @@ class LogIn extends Component {
             <Row>
               <Col lg={5.75}>
                 <h1>Login</h1>
-                <span id="login-error" style={{ display: 'none', color: '#ff4444', fontWeight: '700' }}><FontAwesomeIcon icon={errorIcon} ></FontAwesomeIcon> &nbsp; Invalid Login Credentials</span>
+                <span id="login-error" className="error" style={{ backgroundColor: '#ff4444' }}><FontAwesomeIcon icon={errorIcon} ></FontAwesomeIcon> &nbsp; Invalid Login Credentials</span>
+                <span id="server-error" className="error" style={{ backgroundColor: '#ffbb33' }}><FontAwesomeIcon icon={errorIcon} ></FontAwesomeIcon> &nbsp; Server Error. Please Try again </span>
                 <form onSubmit={(e) => {e.preventDefault(); this.postLogin()}}>
                   <label className={"text-input-label"} htmlFor="user-email" >Email:</label>
                   <input id="user-email" className={"input-text"}  type="email" autoComplete="username" defaultValue="" required></input>
@@ -131,10 +169,10 @@ class LogIn extends Component {
                 <form onSubmit={(e) => {e.preventDefault(); this.registerUser()}}>
                   <label className="text-input-label" htmlFor="new-user-email" >Account Email:</label>
                   <input id="new-user-email" className="input-text" type="email" required></input>
-                  <label className="text-input-label" htmlFor="new-user-pass" >Create a Password:</label>
-                  <input id="new-user-pass" className="input-text" type="password" required autoComplete="new-password" ></input>
-                  <label className="text-input-label" htmlFor="confirm-user-pass" >Confirm Password:</label>
-                  <input id="confirm-user-pass" className="input-text" type="password" required autoComplete="new-password" ></input>
+                  <label className="text-input-label" htmlFor="new-user-pass" >Create a Password:<br></br><span style={{fontSize: "14px"}}>(8 or more characters in length containing a number, uppercase and lowercase letter)</span></label>
+                  <input id="new-user-pass" className="input-text" type="password" required autoComplete="new-password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Passwords must contain a number, an uppercase letter and a lowercase letter and must be 8 characters long" ></input>
+                  <label className="text-input-label" htmlFor="confirm-user-pass" >Confirm Password: <span id="match-confirm-pass" className="error" style={{display: 'none', backgroundColor: '#ff4444', marginTop: '8px'}}><FontAwesomeIcon icon={errorIcon} ></FontAwesomeIcon> &nbsp; Passwords do not match!</span></label>
+                  <input id="confirm-user-pass" className="input-text" type="password" required autoComplete="new-password" onChange={this.checkPassMatch} pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Passwords must contain a number, an uppercase letter and a lowercase letter and must be 8 characters long" ></input>
                   <div id="remember-me-wrapper">
                     <input type="checkbox" id="show-signup-pass" onClick={showSignupPass}></input>
                     <label htmlFor="show-signup-pass" id="show-signup-label">

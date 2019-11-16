@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import * as axios from 'axios';
 // Icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBookmark as bookmarkActive, faBell as bellActive, faUser as userActive, faSearch as search, faCaretDown as darr, faFolderOpen as jobsActive, faCommentAlt as logoActive, faSignInAlt as login, faBars as menu, faListAlt as applicationsActive, faCog as settings, faCogs as settingsActive, faSignOutAlt as signoutIcon } from '@fortawesome/free-solid-svg-icons'
@@ -10,13 +11,24 @@ import { connect } from 'react-redux';
 function LoginNav(props) {
   const isLoggedIn = props.isLoggedIn;
 
-  // logout = () => {
-  //   localStorage.removeItem("token");
-  //   this.props.dispatch({ type: "LOGOUT" });
-  // };
-
-  function logout() {
-    console.log("x");
+  async function logout(e) {
+    e.preventDefault();
+    try {
+      const response = await axios({
+          url: '/api/auth/logout',
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json;charset=UTF-8',
+            'Authorization': 'Token ' + localStorage.getItem("token")
+          }
+      });
+      localStorage.removeItem("token");
+      this.props.dispatch({ type: "LOGOUT" });
+      console.log('Successful Logoff');
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   if (props.isLoggedIn) {
@@ -30,11 +42,11 @@ function LoginNav(props) {
           <span className="dropdown-arr"><FontAwesomeIcon icon={darr} /></span>
         </span>
         <div className="dropdown-content">
-          <NavLink to="/user-profile">Profile</NavLink>
-          <NavLink to="/login">Applied</NavLink>
+          <NavLink to={"/user-profile/" + props.currentUserId}>Profile</NavLink>
+          <NavLink to="/applications/">Applied</NavLink>
           <hr></hr>
           <NavLink to="/user-settings">Settings</NavLink>
-          <button onClick={(e) => {e.preventDefault(); this.logout()}} >Logout</button>
+          <a onClick={logout} >Logout</a>
         </div>
       </li>
       <li className="show-on-mobile">
@@ -59,7 +71,7 @@ function LoginNav(props) {
         </NavLink>
       </li>
       <li className="show-on-mobile">
-        <a onClick={(e) => {e.preventDefault(); this.logout()}}>
+        <a onClick={logout}>
           <FontAwesomeIcon icon={signoutIcon} />
           &nbsp; Logout
         </a>
@@ -136,7 +148,7 @@ class Nav extends Component {
                &nbsp; Bookmarks
              </NavLink>
            </li>
-           <LoginNav isLoggedIn={this.props.isAuthenticated} />
+           <LoginNav isLoggedIn={this.props.isAuthenticated} currentUserId={this.props.isAuthenticated ? this.props.user.id : ""} />
            {/*}
            <li>
              <NavLink to="/notifications" id="noti-anchor" exact activeClassName="active-nav">

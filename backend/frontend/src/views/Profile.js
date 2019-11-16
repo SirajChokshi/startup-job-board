@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-grid-system';
-import { Link } from 'react-router-dom';
+import { Link, withRouter, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import * as axios from 'axios'
 
 // Icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -9,36 +11,21 @@ import { faClock as deadlineIcon } from '@fortawesome/free-regular-svg-icons'
 
 /* ------------------------- */
 
-var userAuth = true;
-var greeting = "Your";
+var profileImage, studentName, studentEmail, studentPitch, gpa, gradDate, major, skills, greeting = "";
+var loggedInID;
 
-if (userAuth) {
+// function printSkills(x) {
+//   if (x.length < 1) return "";
+//   var out = x[0] + "";
+//   var i = 1;
+//   while (i < x.length) {
+//     out += ", " + x[i];
+//     i = i + 1;
+//   }
+//   return out;
+// }
 
-} else {
-  greeting = "Somebody's";
-}
-
-var profileImage = "";
-var studentName = "Siraj Chokshi";
-var studentPitch = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
-var studentEmail = "sirajchokshi@gmail.com";
-var gpa = 4.00;
-var gradDate = "2023";
-var major = "Psychology";
-var skills = ['Web Development', 'Illustrator', 'Photoshop', 'CSS', 'JavaScript', 'C#', 'User Interface', 'User Experience', 'Graphic Design'];
-
-function printSkills(x) {
-  if (x.length < 1) return "";
-  var out = x[0] + "";
-  var i = 1;
-  while (i < x.length) {
-    out += ", " + x[i];
-    i = i + 1;
-  }
-  return out;
-}
-
-export default class Profile extends Component {
+class Profile extends Component {
   state = {
   }
 
@@ -46,7 +33,62 @@ export default class Profile extends Component {
     ev.target.src = '/img/usr/missing.png';
   }
 
+  async tryForUser(id) {
+    try {
+      const userResponse = await axios({
+          url: '/api/users/' + id + '/',
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json;charset=UTF-8',
+            'Authorization': 'Token ' + localStorage.getItem("token")
+          }
+      });
+      // console.log(userResponse.data);
+      const user = await userResponse.data;
+      greeting = user.firstName + "\'s";
+      profileImage = "/dff.g";
+      studentName = user.firstName + " " + user.lastName;
+      studentEmail = user.email;
+      gpa = user.userGPA;
+      gradDate = user.userDegree;
+      major = user.userMajor;
+      studentPitch = user.userPitch;
+      skills= user.extraCurriculars;
+    } catch (error) {
+      console.error('USER RETRIEVAL ERROR');
+    }
+  }
+
+  componentWillMount() {
+    try {
+      loggedInID = this.props.user.id;
+    } catch (error) {
+      loggedInID = -1;
+    }
+    if (this.props.userID == loggedInID) {
+      greeting = "Your";
+      profileImage = "/img/" + loggedInID + ".png";
+      studentName = this.props.user.firstName + " " + this.props.user.lastName;
+      studentEmail = this.props.user.email;
+      gpa = this.props.user.userGPA;
+      gradDate = this.props.user.userDegree;
+      major = this.props.user.userMajor;
+      studentPitch = this.props.user.userPitch;
+      skills = this.props.user.extraCurriculars;
+    }
+    else {
+      this.tryForUser(this.props.userID);
+    }
+  }
+
   render () {
+      if (!this.props.isAuthenticated) {
+        return (
+          <Redirect to="/login" />
+        )
+      }
+
       return (
         <>
           <div className="hero">
@@ -75,7 +117,7 @@ export default class Profile extends Component {
                     <FontAwesomeIcon icon={resumeIcon}></FontAwesomeIcon> &nbsp;&nbsp; <Link to="/usr/files/resume.pdf">Resume</Link>
                   </Col>
                   <Col md={4} sm={12}>
-                    <FontAwesomeIcon icon={skillsIcon}></FontAwesomeIcon> &nbsp; <strong>Skills:</strong>&nbsp; {printSkills(skills)}
+                    <FontAwesomeIcon icon={skillsIcon}></FontAwesomeIcon> &nbsp; <strong>Skills:</strong>&nbsp; {skills}
                   </Col>
                 </Row>
               </Col>
@@ -85,3 +127,10 @@ export default class Profile extends Component {
       )
    }
 }
+
+const mapStateToProps = (state) => ({
+  user: state.user,
+  isAuthenticated: state.isAuthenticated
+});
+
+export default withRouter(connect(mapStateToProps)(Profile));

@@ -19,6 +19,7 @@ export default class Listing extends Component {
   }
 
   componentDidMount() {
+    try {
       fetch('/api/startups/' + this.props.company + '/?format=json', {
         method: 'GET',
         headers: {
@@ -31,8 +32,10 @@ export default class Listing extends Component {
       .then((data) => {
         this.setState({ company: data })
       })
-      .catch(console.log)
+    } catch (error) {
+      console.log("Image Retrieval Error");
     }
+  }
 
   addDefaultSrc(ev) {
     ev.target.src = '/img/org/missing.png';
