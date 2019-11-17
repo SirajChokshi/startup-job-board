@@ -22,6 +22,8 @@ var date = new Date();
 var minDate = date.getFullYear() - 1;
 var maxDate = date.getFullYear() + 9;
 
+var successfulRegister = true;
+
 var passMatch = true;
 
 function printSkills(x) {
@@ -105,8 +107,8 @@ class InitAccount extends Component {
       const json = await response.json();
       console.log('Success:', JSON.stringify(json));
       const userData = {
-        "firstName" : document.getElementById("last-name").value,
-        "lastName" : document.getElementById("first-name").value,
+        "firstName" : document.getElementById("first-name").value,
+        "lastName" : document.getElementById("last-name").value,
         "email" : document.getElementById("new-user-email").value,
         "dateOfBirth" : document.getElementById("date-of-birth").value,
         "userMajor" : document.getElementById("major").value,
@@ -126,8 +128,17 @@ class InitAccount extends Component {
       console.log(userData);
       const userJson = await userResponse.json();
       console.log('Success:', JSON.stringify(userJson));
+      if (successfulRegister) {
+        this.props.history.push({
+          pathname: '/login',
+          state: {
+            newSignup: true
+          }
+        })
+      }
     } catch (error) {
       console.error('Error:', error);
+      successfulRegister = false;
     }
   }
 
@@ -151,7 +162,7 @@ class InitAccount extends Component {
             </div>
           </div>
           <br></br>
-          <Container id="user-settings">
+          <Container id="init-account">
             <h1>Account Configuration</h1>
             <p><i><Req /> = Required Field</i></p>
               <form onSubmit={(e) => {e.preventDefault(); this.registerUser()}}>
@@ -180,20 +191,20 @@ class InitAccount extends Component {
                 <Row className="setting-row">
                   <Col md={2} sm={12}><label htmlFor="first-name">First Name<Req />:</label></Col>
                   <Col md={10} sm={12}>
-                    <input id="first-name" minLength="1" pattern="[A-Za-z0-9 -]+" title="Only use alphanumeric characters and ' '' and '-'." maxLength="50" required>
+                    <input id="first-name" minLength="1" pattern="[A-Za-z0-9 -]+" title="Only use alphanumeric characters and ' '' and '-'." autoComplete="given-name" maxLength="50" required>
                     </input>
                  </Col>
                 </Row>
                 <Row className="setting-row">
                    <Col md={2} sm={12}><label htmlFor="last-name">Last Name<Req />:</label></Col>
                    <Col md={10} sm={12}>
-                     <input id="last-name" minLength="1" pattern="[A-Za-z0-9 -]+" title="Only use alphanumeric characters and ' '' and '-'." maxLength="50" required>
+                     <input id="last-name" minLength="1" pattern="[A-Za-z0-9 -]+" title="Only use alphanumeric characters and ' '' and '-'." maxLength="50" autoComplete="family-name" required>
                      </input>
                 </Col>
                 </Row>
                 <Row className="setting-row">
                   <Col md={2} sm={12}><label htmlFor="date-of-birth">Date of Birth<Req />:</label></Col>
-                  <Col md={10} sm={12}><input id="date-of-birth" defaultValue="1990-05-05" type="date" required></input></Col>
+                  <Col md={10} sm={12}><input id="date-of-birth" defaultValue="1990-05-05" type="date" autoComplete="bday" required></input></Col>
                 </Row>
                 <Row className="setting-row">
                   <Col md={2} sm={12}><label htmlFor="bio" >Biography (Describe yourself as a job candidate within 220 characters)<Req />:</label></Col>

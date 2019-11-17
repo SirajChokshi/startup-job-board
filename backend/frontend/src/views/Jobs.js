@@ -9,7 +9,6 @@ import { faSearch as search } from '@fortawesome/free-solid-svg-icons'
 import Filter from '../components/Filter';
 import Feed from '../components/Feed';
 import Search from '../components/Search';
-import Order from '../components/Order';
 
 const categoryList = [
     { label: "Any", value: "" },
@@ -29,6 +28,14 @@ const categoryList = [
     { label: "Other", value: "MISC" }
 ];
 
+const sortOptions = [
+  { label: "Deadline (Earliest)", value: "listDeadline" },
+  { label: "Deadline (Lastest)", value: "-listDeadline" },
+  { label: "Name (A - Z)", value: "listName" },
+  { label: "Name (Z - A)", value: "-listName" },
+  { label: "Company", value: "listOrgID" }
+];
+
 const isPaidList = [
   { label: "Any", value: "" },
   { label: "Paid Only", value: "true" },
@@ -40,7 +47,8 @@ export default class Jobs extends Component {
     listings: [],
     isPaid: "",
     listCategory: "",
-    search: ""
+    search: "",
+    sort: "listDeadline"
   }
 
   componentDidMount() {
@@ -56,6 +64,14 @@ export default class Jobs extends Component {
     this.setState({
       ...this.state,
       listCategory: selectedOption.value
+    }, this.componentDidMount);
+//    console.log(this.state.listCategory);
+  }
+
+  handleSortChange = (selectedOption) => {
+    this.setState({
+      ...this.state,
+      sort: selectedOption.value
     }, this.componentDidMount);
 //    console.log(this.state.listCategory);
   }
@@ -140,7 +156,24 @@ export default class Jobs extends Component {
                 <div className="result-header-wrapper">
                   <h2>Results</h2>
                   <div className="order-wrapper">
-                    <Order className="results-sort" />
+                    <Select
+                      style={{width: "100px !important"}}
+                      options={sortOptions}
+                      className="filter-dropdown results-sort"
+                      defaultValue={sortOptions[0]}
+                      onChange={this.handleSortChange}
+                      theme={theme => ({
+                       ...theme,
+                       borderRadius: "8px",
+                       colors: {
+                         ...theme.colors,
+                         primary25: '#eeeeee',
+                         primary: '#3d5afe',
+                         primary50: '#e8e8e8',
+                       },
+                     })}>
+                    </Select>
+
                   </div>
                 </div>
                 <Feed listings={this.state.listings} />

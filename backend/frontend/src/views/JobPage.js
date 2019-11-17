@@ -60,6 +60,7 @@ export default class JobPage extends Component {
       .then(res => res.json())
       .then((data) => {
         this.setState({ listing: data })
+        console.log(this.state.listing.listLongDesc)
       })
       .catch(console.log)
     }
@@ -97,7 +98,7 @@ export default class JobPage extends Component {
                 </Col>
               </Row>
               <h2>About This Position</h2>
-              <p id="job-desc">{this.state.listing.listLongDesc}</p>
+              <p id="job-desc" style={{whiteSpace: "pre-line"}}>{this.state.listing.listLongDesc}</p>
               <div className="button-wrapper">
                 <Link className="button">Apply <span className="hide-ext">Externally </span>&nbsp; <FontAwesomeIcon icon={appIcon}></FontAwesomeIcon></Link>
               </div>

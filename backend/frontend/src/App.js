@@ -73,7 +73,7 @@ function App() {
                 <JobPage listingID={match.params.lid} />
             )}/>
             <Route exact={true} path='/org/:oid' render={({ match }) => (
-                <JobPage listingID={match.params.oid} />
+                <OrgProfile listingID={match.params.oid} />
             )}/>
             <Route exact={true} path='/signup' render={() => (
                 <InitAccount />

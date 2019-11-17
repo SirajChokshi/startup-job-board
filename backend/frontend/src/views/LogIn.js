@@ -10,7 +10,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSignInAlt as loginIcon, faUserPlus as signupIcon, faExclamationTriangle as errorIcon } from '@fortawesome/free-solid-svg-icons'
+import { faSignInAlt as loginIcon, faUserPlus as signupIcon, faExclamationTriangle as errorIcon, faCheckCircle as successIcon } from '@fortawesome/free-solid-svg-icons'
 import { faEyeSlash as hideIcon, faEye as showIcon } from '@fortawesome/free-regular-svg-icons'
 
 var passMatch = true;
@@ -37,6 +37,10 @@ function showSignupPass() {
 }
 
 class LogIn extends Component {
+
+  state = {
+    newSignup: false
+  }
 
   resetErrors() {
     var errorBlocks = document.getElementsByClassName("error");
@@ -81,7 +85,7 @@ class LogIn extends Component {
       localStorage.setItem("token", json.token);
       try {
         const userResponse = await axios({
-            url: '/api/users/' + json.user.id + '/',
+            url: '/api/auth/user',
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -95,7 +99,7 @@ class LogIn extends Component {
         this.props.dispatch({ type: "LOGIN", user: userJson })
         this.props.history.push('/');
       } catch (error) {
-        console.error('USER RETRIEVAL ERROR');
+        console.error(error);
       }
     } catch (error) {
       if (error.response.status == 400) {
@@ -127,6 +131,12 @@ class LogIn extends Component {
       }
     }
 
+  componentDidMount() {
+    if(this.state.newSignup) {
+      document.getElementById('new-signup-error').style.display = 'block';
+    }
+  }
+
   render () {
       return (
         <>
@@ -144,6 +154,7 @@ class LogIn extends Component {
                 <h1>Login</h1>
                 <span id="login-error" className="error" style={{ backgroundColor: '#ff4444' }}><FontAwesomeIcon icon={errorIcon} ></FontAwesomeIcon> &nbsp; Invalid Login Credentials</span>
                 <span id="server-error" className="error" style={{ backgroundColor: '#ffbb33' }}><FontAwesomeIcon icon={errorIcon} ></FontAwesomeIcon> &nbsp; Server Error. Please Try again </span>
+                <span id="new-signup-error" className="error" style={{ backgroundColor: '#00C851' }}><FontAwesomeIcon icon={successIcon} ></FontAwesomeIcon> &nbsp; Account created! Login below </span>
                 <form onSubmit={(e) => {e.preventDefault(); this.postLogin()}}>
                   <label className={"text-input-label"} htmlFor="user-email" >Email:</label>
                   <input id="user-email" className={"input-text"}  type="email" autoComplete="username" defaultValue="" required></input>
