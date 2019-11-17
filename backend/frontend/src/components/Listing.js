@@ -14,6 +14,33 @@ class Listing extends Component {
     bookmarked: false
   }
 
+  async componentWillMount() {
+    if (this.props.isAuthenticated) {
+      try {
+        const userResponse = await axios({
+            url:'/api/users/' + this.props.user.id + "/",
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json;charset=UTF-8',
+              'Authorization': 'Token ' + localStorage.getItem("token")
+            },
+          });
+        const userJson = await userResponse.data;
+        this.props.dispatch({ type: "UPDATEUSER", user: userJson });
+        const oldUserBookmarks = Object.keys(userJson.userBookmarks);
+        for (var i = 0; i < oldUserBookmarks.length; ++i) {
+          if (this.props.id == oldUserBookmarks[i]) {
+            this.setState({bookmarked: true}, this.componentDidMount);
+            break;
+          }
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }
+
   componentDidMount() {
     if (!this.props.isAuthenticated) document.getElementById("bookmark-button-" + this.props.id).style.display = 'none';
     try {
@@ -34,6 +61,24 @@ class Listing extends Component {
     }
   }
 
+  async updateUser() {
+    try {
+      const userResponse = await axios({
+          url:' /api/user/' + this.props.user.id,
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json;charset=UTF-8',
+            'Authorization': 'Token ' + localStorage.getItem("token")
+          },
+        });
+      const userJson = await userResponse.data;
+      this.props.dispatch({ type: "UPDATEUSER", user: userJson });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   async bookmarkThis() {
     try {
       const resp = await axios({
@@ -45,8 +90,8 @@ class Listing extends Component {
             'Authorization': 'Token ' + localStorage.getItem("token")
           },
         });
-      const json = await resp.response;
-      this.setState(json.isBookmarked, this.componentDidMount);
+      const json = await resp.data;
+      this.setState({bookmarked: json.isBookmarked}, this.componentDidMount);
     } catch (error) {
       console.error(error);
     }
