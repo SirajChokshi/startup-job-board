@@ -8,11 +8,12 @@ import { faBookmark as bookmark, faBell as bell, faUser as user, faFolderOpen as
 // redux
 import { connect } from 'react-redux';
 
-function LoginNav(props) {
-  const isLoggedIn = props.isLoggedIn;
+class Nav extends Component {
+  state = {
+    active: false
+  }
 
-  async function logout(e) {
-    e.preventDefault();
+  async logout(e) {
     try {
       const response = await axios({
           url: '/api/auth/logout',
@@ -27,73 +28,11 @@ function LoginNav(props) {
       this.props.dispatch({ type: "LOGOUT" });
       console.log('Successful Logoff');
     } catch (error) {
-      console.error(error);
+      if (error.response.status == 400 || error.response.status == 401) {
+        localStorage.removeItem("token");
+        this.props.dispatch({ type: "LOGOUT" });
+      } else console.error(error);
     }
-  }
-
-  if (props.isLoggedIn) {
-    return (
-      <>
-      <li className="dropdown">
-        <span id="nav-drop-link">
-          <FontAwesomeIcon className="def-icon" icon={user} />
-          <FontAwesomeIcon className="act-icon" icon={userActive} />
-          &nbsp; Me &nbsp;
-          <span className="dropdown-arr"><FontAwesomeIcon icon={darr} /></span>
-        </span>
-        <div className="dropdown-content">
-          <NavLink to={"/user-profile/" + props.currentUserId}>Profile</NavLink>
-          <NavLink to="/applications/">Applied</NavLink>
-          <hr></hr>
-          <NavLink to="/user-settings">Settings</NavLink>
-          <a onClick={logout} >Logout</a>
-        </div>
-      </li>
-      <li className="show-on-mobile">
-        <NavLink to="/user-profile" exact activeClassName="active-nav">
-          <FontAwesomeIcon className="def-icon" icon={user} />
-          <FontAwesomeIcon className="act-icon" icon={userActive} />
-          &nbsp; Profile
-        </NavLink>
-      </li>
-      <li className="show-on-mobile">
-        <NavLink to="/applications" exact activeClassName="active-nav">
-          <FontAwesomeIcon className="def-icon" icon={applications} />
-          <FontAwesomeIcon className="act-icon" icon={applicationsActive} />
-          &nbsp; Applications
-        </NavLink>
-      </li>
-      <li className="show-on-mobile">
-        <NavLink to="/user-settings" exact activeClassName="active-nav">
-          <FontAwesomeIcon className="def-icon" icon={settings} />
-          <FontAwesomeIcon className="act-icon" icon={settingsActive} />
-          &nbsp; Settings
-        </NavLink>
-      </li>
-      <li className="show-on-mobile">
-        <a onClick={logout}>
-          <FontAwesomeIcon icon={signoutIcon} />
-          &nbsp; Logout
-        </a>
-      </li>
-      </>
-    );
-  }
-  else return (
-    <>
-    <li>
-      <NavLink to="/login" exact activeClassName="active-nav">
-        <FontAwesomeIcon icon={login} />
-        &nbsp; Login
-      </NavLink>
-    </li>
-    </>
-  );
-}
-
-class Nav extends Component {
-  state = {
-    active: false
   }
 
   render () {
@@ -148,18 +87,59 @@ class Nav extends Component {
                &nbsp; Bookmarks
              </NavLink>
            </li>
-           <LoginNav isLoggedIn={this.props.isAuthenticated} currentUserId={this.props.isAuthenticated ? this.props.user.id : ""} />
-           {/*}
-           <li>
-             <NavLink to="/notifications" id="noti-anchor" exact activeClassName="active-nav">
-               <span id="noti-bell">
-                 <FontAwesomeIcon className="def-icon" icon={bell} />
-                 <FontAwesomeIcon className="act-icon" icon={bellActive} />
-                 <div id="alert"></div>
-               </span>
-             </NavLink>
-           </li>
-           { */}
+           {this.props.isAuthenticated ?
+             (<>
+              <li className="dropdown">
+                <span id="nav-drop-link">
+                  <FontAwesomeIcon className="def-icon" icon={user} />
+                  <FontAwesomeIcon className="act-icon" icon={userActive} />
+                  &nbsp; Me &nbsp;
+                  <span className="dropdown-arr"><FontAwesomeIcon icon={darr} /></span>
+                </span>
+                <div className="dropdown-content">
+                  <NavLink to={"/user-profile/" + this.props.user.id}>Profile</NavLink>
+                  <NavLink to="/applications/">Applied</NavLink>
+                  <hr></hr>
+                  <NavLink to="/user-settings">Settings</NavLink>
+                  <a onClick={(e) => {e.preventDefault(); this.logout()}} >Logout</a>
+                </div>
+              </li>
+              <li className="show-on-mobile">
+                <NavLink to="/user-profile" exact activeClassName="active-nav">
+                  <FontAwesomeIcon className="def-icon" icon={user} />
+                  <FontAwesomeIcon className="act-icon" icon={userActive} />
+                  &nbsp; Profile
+                </NavLink>
+              </li>
+              <li className="show-on-mobile">
+                <NavLink to="/applications" exact activeClassName="active-nav">
+                  <FontAwesomeIcon className="def-icon" icon={applications} />
+                  <FontAwesomeIcon className="act-icon" icon={applicationsActive} />
+                  &nbsp; Applications
+                </NavLink>
+              </li>
+              <li className="show-on-mobile">
+                <NavLink to="/user-settings" exact activeClassName="active-nav">
+                  <FontAwesomeIcon className="def-icon" icon={settings} />
+                  <FontAwesomeIcon className="act-icon" icon={settingsActive} />
+                  &nbsp; Settings
+                </NavLink>
+              </li>
+              <li className="show-on-mobile">
+                <a onClick={(e) => {e.preventDefault(); this.logout()}} >
+                  <FontAwesomeIcon icon={signoutIcon} />
+                  &nbsp; Logout
+                </a>
+              </li>
+            </>) : (<>
+            <li>
+              <NavLink to="/login" exact activeClassName="active-nav">
+                <FontAwesomeIcon icon={login} />
+                &nbsp; Login
+              </NavLink>
+            </li>
+            </>)
+        }
           </ul>
         </nav>
       )

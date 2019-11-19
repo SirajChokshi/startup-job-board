@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 
 // Components
 import { Container } from 'react-grid-system';
-import { Link } from 'react-router-dom';
+import { Link, Redirect, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+
 import Feed from '../components/Feed';
 import Order from '../components/Order';
 
@@ -24,48 +26,66 @@ const addListingStyles = {
     marginBottom: "20px"
 };
 
-export default class MyListings extends Component {
+class MyListings extends Component {
   state = {
     listings: []
   }
 
   componentDidMount() {
-      fetch('/api/listings/?format=json&listOrgID=1')
-      .then(res => res.json())
-      .then((data) => {
-        this.setState({ listings: data })
-      })
-      .catch(console.log)
-    }
+    fetch('/api/listings/?format=json&listOrgID=' + this.props.user.id)
+    .then(res => res.json())
+    .then((data) => {
+      this.setState({ listings: data })
+    })
+    .catch(console.log)
+  }
 
   render () {
-    return (
-      <>
-        <div className="hero" style={{paddingBottom: 12 + "vh"}}>
-          <div className="hero-inner">
-            <h1>My Listings</h1>
-            <span className="sub-title">
-                <Link to="/dashboard">Dashboard</Link>&nbsp;
-                | &nbsp;<Link to="/students">Recruit a student</Link>
-            </span>
+    if (!this.props.isAuthenticated) {
+      return (
+        <Redirect to="/login" />
+      )
+    } else if (!this.props.isStartup) {
+      return (
+        <Redirect to="/" />
+      )
+    } else {
+      return (
+        <>
+          <div className="hero" style={{paddingBottom: 12 + "vh"}}>
+            <div className="hero-inner">
+              <h1>My Listings</h1>
+              <span className="sub-title">
+                  <Link to="/dashboard">Dashboard</Link>&nbsp;
+                  | &nbsp;<Link to="/students">Recruit a student</Link>
+              </span>
+            </div>
           </div>
-        </div>
-        <br></br>
-        <Container>
-              <div className="result-header-wrapper">
-                <h2>Results</h2>
-                <div className="order-wrapper">
-                  <Order className="results-sort" />
+          <br></br>
+          <Container>
+                <div className="result-header-wrapper">
+                  <h2>Results</h2>
+                  <div className="order-wrapper">
+                    <Order className="results-sort" />
+                  </div>
                 </div>
-              </div>
-              <Link id="new-listing-button" style={addListingStyles} to="/my-listings/new">
-                <FontAwesomeIcon icon={addIcon}></FontAwesomeIcon>
-                 &nbsp; Create a new listing
-                 <div className="shadow"></div>
-              </Link>
-              <Feed listings={this.state.listings} />
-        </Container>
-      </>
-    )
- }
+                <Link id="new-listing-button" style={addListingStyles} to="/my-listings/new">
+                  <FontAwesomeIcon icon={addIcon}></FontAwesomeIcon>
+                   &nbsp; Create a new listing
+                   <div className="shadow"></div>
+                </Link>
+                <Feed listings={this.state.listings} />
+          </Container>
+        </>
+      )
+     }
+   }
 }
+
+const mapStateToProps = (state) => ({
+  user: state.user,
+  isAuthenticated: state.isAuthenticated,
+  isStartup: state.isStartup
+});
+
+export default connect(mapStateToProps)(MyListings);

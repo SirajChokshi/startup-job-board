@@ -1,16 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore } from 'redux';
 import './index.css';
-// import auth from './reducers/auth'
-// import { login, logout } from './actions/authActions'
+import { persistStore, persistReducer } from 'redux-persist'
+import { PersistGate } from 'redux-persist/integration/react'
+import storage from 'redux-persist/lib/storage'
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 const initialState = {
   user: null,
-  isAuthenticated: false
+  isAuthenticated: false,
+  isStartup: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -20,30 +22,47 @@ const reducer = (state = initialState, action) => {
         state = {
           ...state,
           user: action.user,
-          isAuthenticated: true
+          isAuthenticated: true,
+          isStartup: action.isStartup
         };
         break;
       case "LOGOUT":
         state = {
           ...state,
           user: null,
-          isAuthenticated: false
+          isAuthenticated: false,
+          isStartup: false
         };
         break;
       case "UPDATEUSER":
         state = {
           ...state,
-          user: action.user,
+          user: action.user
         };
+        break;
+      default:
         break;
   }
   return state;
 };
 
-const store = createStore(reducer);
+const persistConfig = {
+  key: 'root',
+  storage,
+}
+
+const persistedReducer = persistReducer(persistConfig, reducer)
+
+let store = createStore(persistedReducer);
+let persistor = persistStore(store);
+
 
 ReactDOM.render(
-    <Provider store={store}><App /></Provider>,
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <App />
+      </PersistGate>
+    </Provider>,
     document.getElementById('root')
 );
 

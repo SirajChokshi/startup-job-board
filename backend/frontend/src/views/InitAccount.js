@@ -242,12 +242,12 @@ class InitAccount extends Component {
                  </Col>
                 </Row>
                 <Row className="setting-row">
-                  <Col md={2} sm={12}><label htmlFor="gpa" >GPA (Ex 2.00)<Req />:</label></Col>
+                  <Col md={2} sm={12}><label htmlFor="gpa" >GPA (Out of 4.00)<Req />:</label></Col>
                   <Col md={10} sm={12}><input id="gpa" type="number" step="0.01" min="0" max="4" required></input></Col>
                 </Row>
                 <Row className="setting-row">
                   <Col md={2} sm={12}><label htmlFor="skills" >Skills (seperate each with a comma)<Req />:</label></Col>
-                  <Col md={10} sm={12}><textarea id="skills" maxLength="220" required></textarea></Col>
+                  <Col md={10} sm={12}><textarea id="skills" maxLength="60" required></textarea></Col>
                 </Row>
                 <Row className="setting-row">
                   <Col md={2} sm={12}><label htmlFor="submit-profile">Create Account</label></Col>

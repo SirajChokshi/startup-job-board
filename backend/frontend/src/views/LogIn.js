@@ -39,7 +39,7 @@ function showSignupPass() {
 class LogIn extends Component {
 
   state = {
-    newSignup: false
+
   }
 
   resetErrors() {
@@ -96,7 +96,7 @@ class LogIn extends Component {
         // console.log(userResponse.data);
         const userJson = await userResponse.data;
         // console.log('Success:', JSON.stringify(userJson));
-        this.props.dispatch({ type: "LOGIN", user: userJson })
+        this.props.dispatch({ type: "LOGIN", user: userJson, isStartup: json.is_startup })
         this.props.history.push('/');
       } catch (error) {
         console.error(error);
@@ -132,8 +132,12 @@ class LogIn extends Component {
     }
 
   componentDidMount() {
-    if(this.state.newSignup) {
-      document.getElementById('new-signup-error').style.display = 'block';
+    try {
+      if (this.props.location.state.newSignup) {
+        document.getElementById('new-signup-error').style.display = 'block';
+      }
+    } catch (error) {
+      
     }
   }
 

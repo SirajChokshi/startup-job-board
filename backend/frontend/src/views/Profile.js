@@ -6,24 +6,29 @@ import * as axios from 'axios'
 
 // Icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar as favoriteIcon, faEnvelope as emailIcon, faGraduationCap as educationIcon, faFile as resumeIcon, faBook as majorIcon, faTools as skillsIcon } from '@fortawesome/free-solid-svg-icons'
+import { faStar as favoriteIcon, faEnvelope as emailIcon, faGraduationCap as educationIcon, faFile as resumeIcon, faBook as majorIcon, faTools as skillsIcon, faAward as gradeIcon, faPlusCircle as addIcon } from '@fortawesome/free-solid-svg-icons'
 import { faClock as deadlineIcon } from '@fortawesome/free-regular-svg-icons'
 
 /* ------------------------- */
 
-var profileImage, studentName, studentEmail, studentPitch, gpa, gradDate, major, skills, greeting = "";
+var profileImage, studentName, studentEmail, studentPitch, gpa, gradDate, major, skills, greeting, degree = "";
 var loggedInID;
+var sameUser = false;
 
-// function printSkills(x) {
-//   if (x.length < 1) return "";
-//   var out = x[0] + "";
-//   var i = 1;
-//   while (i < x.length) {
-//     out += ", " + x[i];
-//     i = i + 1;
-//   }
-//   return out;
-// }
+const addListingStyles = {
+    width: "100%",
+    backgroundColor: "#FFFFFF",
+    position: "relative",
+    padding: "20px",
+    display: "block",
+    borderRadius: "12px",
+    height: "auto",
+    boxSizing: "border-box",
+    color: "#3d5afe",
+    textDecoration: 'none',
+    fontSize: "20px",
+    marginBottom: "20px"
+};
 
 class Profile extends Component {
   state = {
@@ -51,7 +56,8 @@ class Profile extends Component {
       studentName = user.firstName + " " + user.lastName;
       studentEmail = user.email;
       gpa = user.userGPA;
-      gradDate = user.userDegree;
+      degree = user.userDegree;
+      gradDate = user.userGradYear;
       major = user.userMajor;
       studentPitch = user.userPitch;
       skills= user.extraCurriculars;
@@ -60,24 +66,27 @@ class Profile extends Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     try {
       loggedInID = this.props.user.id;
     } catch (error) {
       loggedInID = -1;
     }
     if (this.props.userID == loggedInID) {
+      sameUser = true;
       greeting = "Your";
       profileImage = "/img/" + loggedInID + ".png";
       studentName = this.props.user.firstName + " " + this.props.user.lastName;
       studentEmail = this.props.user.email;
       gpa = this.props.user.userGPA;
-      gradDate = this.props.user.userDegree;
+      gradDate = this.props.user.userGradYear;
+      degree = this.props.user.userDegree;
       major = this.props.user.userMajor;
       studentPitch = this.props.user.userPitch;
       skills = this.props.user.extraCurriculars;
     }
     else {
+      sameUser = false;
       this.tryForUser(this.props.userID);
     }
   }
@@ -88,7 +97,6 @@ class Profile extends Component {
           <Redirect to="/login" />
         )
       }
-
       return (
         <>
           <div className="hero">
@@ -98,6 +106,13 @@ class Profile extends Component {
           </div>
           <br></br>
           <Container id="user-profile">
+            { sameUser &&
+              (<Link id="new-listing-button" style={addListingStyles} to="/user-settings/">
+                <FontAwesomeIcon icon={addIcon}></FontAwesomeIcon>
+                 &nbsp; Edit your profile
+                 <div className="shadow"></div>
+              </Link>)
+            }
             <Row>
               <Col md={3} xs={4}>
                 <img id="user-profile-image" src={profileImage} onError={this.addDefaultSrc} ></img>
@@ -107,9 +122,11 @@ class Profile extends Component {
                 <p>{studentPitch}</p>
                 <Row id="stats">
                   <Col md={4} sm={12}>
-                    <FontAwesomeIcon icon={educationIcon}></FontAwesomeIcon> <strong>Class:</strong>&nbsp; {gradDate}
+                    <FontAwesomeIcon icon={educationIcon}></FontAwesomeIcon> &nbsp;<strong>Class:</strong>&nbsp; {degree}, {gradDate}
                     <br></br>
-                    <FontAwesomeIcon icon={majorIcon}></FontAwesomeIcon> &nbsp; <strong>Major/GPA:</strong>&nbsp; {major + " / " + parseFloat(gpa).toFixed(2)}
+                    &nbsp;<FontAwesomeIcon icon={majorIcon}></FontAwesomeIcon> &nbsp; <strong>Major:</strong>&nbsp; {major}
+                    <br></br>
+                    &nbsp;<FontAwesomeIcon icon={gradeIcon}></FontAwesomeIcon> &nbsp; <strong>GPA:</strong>&nbsp; {parseFloat(gpa).toFixed(2)}
                   </Col>
                   <Col md={4} sm={12}>
                     <FontAwesomeIcon icon={emailIcon}></FontAwesomeIcon> &nbsp; <a href={"mailto:" + studentEmail}>{studentEmail}</a>
@@ -130,7 +147,8 @@ class Profile extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.user,
-  isAuthenticated: state.isAuthenticated
+  isAuthenticated: state.isAuthenticated,
+  isStartup: state.isStartup
 });
 
 export default withRouter(connect(mapStateToProps)(Profile));

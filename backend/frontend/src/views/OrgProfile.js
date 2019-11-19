@@ -3,8 +3,7 @@ import { Container, Row, Col } from 'react-grid-system';
 import { Link } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faExternalLinkAlt as appIcon, faMapMarkerAlt as locationIcon, faBriefcase as jobCategoryIcon, faCode as Software } from '@fortawesome/free-solid-svg-icons'
-import { faClock as deadlineIcon } from '@fortawesome/free-regular-svg-icons'
+import { faCode as Software } from '@fortawesome/free-solid-svg-icons'
 
 // Components
 import Sort from '../components/Sort';
@@ -16,7 +15,7 @@ export default class OrgProfile extends Component {
     company: []
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
       fetch('/api/startups/' + this.props.listingID + '/?format=json', {
         method: 'GET',
         headers: {
@@ -34,7 +33,6 @@ export default class OrgProfile extends Component {
       .then(res => res.json())
       .then((data) => {
         this.setState({ listing: data })
-        console.log(this.state.listing.listLongDesc)
       })
       .catch(console.log)
       /* Get Listings of this startup */
@@ -67,7 +65,7 @@ export default class OrgProfile extends Component {
           <Container>
             <article className="job">
               <Row className="company-profile">
-                <Col md={2} xs={3}><span className="image-wrapper" ><img onError={this.addDefaultSrc} src="/" alt={this.props.company}></img></span></Col>
+                <Col md={2} xs={3}><span className="image-wrapper" ><img onError={this.addDefaultSrc} src={"/img/org/" + this.state.company.id + ".png"} alt={this.props.company}></img></span></Col>
                 <Col md={10} xs={9}>
                   <Link to={this.props.jobPage}><h2 style={{display: "inline"}}>{this.state.company.orgName}</h2></Link><br></br>
                   <p id="company-industry"><FontAwesomeIcon style={{fontSize: "14px"}} icon={Software}></FontAwesomeIcon> &nbsp;{this.state.company.orgIndustry}</p>

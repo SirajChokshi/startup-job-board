@@ -27,10 +27,8 @@ const Req = () => {
 // var date = new Date();
 
 var d = new Date();
-var minDate  = d.getFullYear() + "-" + d.getMonth() + "-" + ('0' + (d.getDay() + 1)).slice(-2);
-console.log(minDate);
-var maxDate  = (d.getFullYear() + 1) + "-" + d.getMonth() + "-" + ('0' + (d.getDay() + 1)).slice(-2);
-console.log(maxDate);
+var minDate  = d.getFullYear() + "-" + d.getMonth() + "-" + ('0' + (d.getDay())).slice(-2);
+var maxDate  = (d.getFullYear() + 1) + "-" + d.getMonth() + "-" + ('0' + (d.getDay())).slice(-2);
 
 const categoryList = [
   { label: "Accounting/Finance", value: "FIN" },
@@ -62,7 +60,6 @@ export default class NewListing extends Component {
         "listLongDesc" : document.getElementById("long-desc").value,
         "listLocation" : document.getElementById("location").value,
         "listOrgID" : 1,
-        "listDesc" : document.getElementById("short-desc").value,
         "listCategory": this.state.listCategory,
         "isOpen": true,
         "isPaid": true

@@ -7,7 +7,7 @@ import { faSearch as search } from '@fortawesome/free-solid-svg-icons'
 
 // Components
 import Filter from '../components/Filter';
-import Feed from '../components/Feed';
+import Feed from '../components/StudentFeed';
 import Search from '../components/Search';
 
 const categoryList = [
@@ -29,11 +29,10 @@ const categoryList = [
 ];
 
 const sortOptions = [
-  { label: "Deadline (Earliest)", value: "listDeadline" },
-  { label: "Deadline (Lastest)", value: "-listDeadline" },
-  { label: "Name (A - Z)", value: "listName" },
-  { label: "Name (Z - A)", value: "-listName" },
-  { label: "Company", value: "listOrgID" }
+  { label: "Graduating (Earliest)", value: "userGradYear" },
+  { label: "Graduating (Lastest)", value: "-userGradYear" },
+  { label: "Name (A - Z)", value: "firstname" },
+  { label: "Name (Z - A)", value: "-firstName" }
 ];
 
 const isPaidList = [
@@ -44,7 +43,7 @@ const isPaidList = [
 
 export default class Jobs extends Component {
   state = {
-    listings: [],
+    users: [],
     isPaid: "",
     listCategory: "",
     search: "",
@@ -53,10 +52,10 @@ export default class Jobs extends Component {
 
   componentDidMount() {
       this.setState({ listings: [] });
-      fetch('/api/listings/?format=json&search=' + this.state.search + '&isPaid=' + this.state.isPaid + '&listCategory=' + this.state.listCategory + '&isOpen=true' )
+      fetch('/api/users/?format=json&search=' + this.state.search + '&isPaid=' + this.state.isPaid + '&listCategory=' + this.state.listCategory + '&isOpen=true' )
       .then(res => res.json())
       .then((data) => {
-        this.setState({ listings: data })
+        this.setState({ users: data })
       })
       .catch(console.log)
     }
@@ -102,17 +101,17 @@ export default class Jobs extends Component {
         <>
           <div className="hero" id="search-hero">
             <div className="hero-inner">
-              <h1>Look for a job,</h1>
+              <h1>Find the perfect candidate,</h1>
                 <div id="search-bar-wrapper">
-                   <input type="search" id="jobs-search-bar" placeholder="Search for a job or internship..." className="search" onKeyPress={this.keyPressed} ></input>
+                   <input type="search" id="jobs-search-bar" placeholder="Search for a skill, major or qualification..." className="search" onKeyPress={this.keyPressed} ></input>
                      <button id="search-icon-wrapper" onClick={this.search} >
                        <FontAwesomeIcon icon={search} style={{verticalAlign: 'middle', color: '#8e8e8e', fontSize: 18 + 'px', marginBottom: 4 + 'px'}} />
                      </button>
                 </div>
               <br></br>
               <span className="sub-title">
-                  <Link to="/applications">My Applications</Link>&nbsp;
-                  | &nbsp;<Link to="/bookmarks">Bookmarks</Link>
+                  <Link to="/my-listings">My Listings</Link>&nbsp;
+                  | &nbsp;<Link to="/favorites">Favorited</Link>
               </span>
             </div>
           </div>
@@ -183,7 +182,7 @@ export default class Jobs extends Component {
 
                   </div>
                 </div>
-                <Feed listings={this.state.listings} />
+                <Feed listings={this.state.users} />
               </Col>
             </Row>
           </Container>

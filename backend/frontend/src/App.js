@@ -17,10 +17,10 @@ import Error from './views/Error';
 import NewListing from './views/NewListing';
 import JobPage from './views/JobPage';
 import InitAccount from './views/InitAccount';
+import Students from './views/Students';
 
 // Components
-import Nav from './components/Nav';
-import NavAdmin from './components/NavAdmin';
+import MasterNav from './components/MasterNav';
 import Footer from './components/Footer';
 
 /*
@@ -33,7 +33,7 @@ function App() {
   return (
     <div className="App" >
     <BrowserRouter>
-        <Nav />
+        <MasterNav />
         <span style={{ height: "40vh" }} >
           <Switch>
             <Route exact={true} path='/' render={() => (
@@ -42,7 +42,7 @@ function App() {
             <Route exact={true} path='/user-profile/:uid' render={({ match }) => (
                 <Profile userID={match.params.uid} />
             )}/>
-            <Route exact={true} path='/jobs' render={() => (
+          <Route exact={true} path='/jobs' render={() => (
                 <Jobs />
             )}/>
             <Route exact={true} path='/user-settings' render={() => (
@@ -56,9 +56,6 @@ function App() {
             )}/>
             <Route exact={true} path='/my-listings' render={() => (
                 <MyListings />
-            )}/>
-            <Route exact={true} path='/company-profile' render={() => (
-                <OrgProfile />
             )}/>
             <Route exact={true} path='/dashboard' render={() => (
                 <Dashboard />
@@ -77,6 +74,9 @@ function App() {
             )}/>
             <Route exact={true} path='/signup' render={() => (
                 <InitAccount />
+            )}/>
+            <Route exact={true} path='/recruit' render={() => (
+                <Students />
             )}/>
             <Route component={Error} />
           </Switch>

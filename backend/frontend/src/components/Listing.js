@@ -5,7 +5,7 @@ import * as axios from 'axios';
 
 // Icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBookmark as bookmarkIcon, faExternalLinkAlt as appIcon, faMapMarkerAlt as locationIcon } from '@fortawesome/free-solid-svg-icons'
+import { faBookmark as bookmarkIcon, faExternalLinkAlt as appIcon, faMapMarkerAlt as locationIcon, faEdit as editIcon } from '@fortawesome/free-solid-svg-icons'
 import { faClock as deadlineIcon } from '@fortawesome/free-regular-svg-icons'
 
 class Listing extends Component {
@@ -14,8 +14,8 @@ class Listing extends Component {
     bookmarked: false
   }
 
-  async componentWillMount() {
-    if (this.props.isAuthenticated) {
+  async UNSAFE_componentWillMount() {
+    if (this.props.isAuthenticated && !this.props.isStartup) {
       try {
         const userResponse = await axios({
             url:'/api/users/' + this.props.user.id + "/",
@@ -39,26 +39,26 @@ class Listing extends Component {
         console.error(error);
       }
     }
+    this.setState(this.state);
   }
 
   componentDidMount() {
-    if (!this.props.isAuthenticated) document.getElementById("bookmark-button-" + this.props.id).style.display = 'none';
-    try {
-      fetch('/api/startups/' + this.props.company + '/?format=json', {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'content-type': 'application/json',
-          'Authorization': 'Token ' + localStorage.getItem("token")
-        }
-      })
-      .then(res => res.json())
-      .then((data) => {
-        this.setState({ company: data })
-      })
-    } catch (error) {
-      console.log("Image Retrieval Error");
-    }
+    if (!this.props.isAuthenticated || this.props.isStartup) document.getElementById("bookmark-button-" + this.props.id).style.display = 'none';
+    if (this.props.isStartup && this.props.company == this.props.user.id) document.getElementById("edit-button-" + this.props.id).style.display = 'inline-block';
+    fetch('/api/startups/' + this.props.company + '/?format=json', {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'content-type': 'application/json',
+        'Authorization': 'Token ' + localStorage.getItem("token")
+      }
+    })
+    .then(res => res.json())
+    .then((data) => {
+      this.setState({ company: data });
+      // console.log("LINE 58 --> Fetched Company Name");
+    })
+    .catch(console.error)
   }
 
   async updateUser() {
@@ -119,13 +119,17 @@ class Listing extends Component {
             </p>
             <div className="button-wrapper">
               <Link to={this.props.jobPage} className="button">
-                Apply &nbsp;
+                { this.props.isStartup ? "View" : "Apply" } &nbsp;
                 <FontAwesomeIcon icon={appIcon}></FontAwesomeIcon>
               </Link>
               <button className={"button-secondary " + (this.state.bookmarked ? "bookmarked" : "bookmark") } id={"bookmark-button-" + this.props.id} onClick={(e) => {e.preventDefault(); this.bookmarkThis()}} >
                 <FontAwesomeIcon icon={bookmarkIcon}></FontAwesomeIcon>
                 &nbsp; Bookmark
               </button>
+              <Link style={{display: "none"}} className="button" id={"edit-button-" + this.props.id} to={"/my-listings/edit/" + this.props.id} >
+                Edit
+                &nbsp; <FontAwesomeIcon icon={editIcon}></FontAwesomeIcon>
+              </Link>
             </div>
           </div>
           <div style={{clear: "both"}}></div>
@@ -137,7 +141,8 @@ class Listing extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.user,
-  isAuthenticated: state.isAuthenticated
+  isAuthenticated: state.isAuthenticated,
+  isStartup: state.isStartup
 });
 
 export default connect(mapStateToProps)(Listing);

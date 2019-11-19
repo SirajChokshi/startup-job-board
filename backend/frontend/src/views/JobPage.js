@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-grid-system';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faExternalLinkAlt as appIcon, faMapMarkerAlt as locationIcon, faBriefcase as jobCategoryIcon, faCode as Software } from '@fortawesome/free-solid-svg-icons'
+import { faExternalLinkAlt as appIcon, faMapMarkerAlt as locationIcon, faBriefcase as jobCategoryIcon, faCode as Software, faEdit as editIcon } from '@fortawesome/free-solid-svg-icons'
 import { faClock as deadlineIcon } from '@fortawesome/free-regular-svg-icons'
 
 // Components
-import Sort from '../components/Sort';
-import Feed from '../components/Feed';
 
 const categoryList = [
     { label: "Any", value: "" },
@@ -36,7 +35,7 @@ function getLabelFromValue(value) {
   }
 }
 
-export default class JobPage extends Component {
+class JobPage extends Component {
   state = {
     listing: [],
     company: []
@@ -70,6 +69,11 @@ export default class JobPage extends Component {
   }
 
   render () {
+      if (!this.props.isAuthenticated) {
+        return (
+          <Redirect to="/login" />
+        )
+      }
       return (
         <span>
           <div className="hero">
@@ -93,14 +97,32 @@ export default class JobPage extends Component {
                 </Col>
                 <Col md={4} id="top-apply-button" >
                   <div className="button-wrapper" style={{marginTop: "15px", textAlign: "right"}}>
-                    <Link className="button">Apply <span className="hide-ext">Externally </span>&nbsp; <FontAwesomeIcon icon={appIcon}></FontAwesomeIcon></Link>
+                    { this.props.isStartup ?
+                      (
+                        <Link className="button" to={"/my-listings/edit/" + this.props.listingID} >
+                          Edit
+                          &nbsp; <FontAwesomeIcon icon={editIcon}></FontAwesomeIcon>
+                        </Link>
+                      ) : (
+                        <Link className="button" >
+                          Apply <span className="hide-ext">Externally </span>&nbsp; <FontAwesomeIcon icon={appIcon}></FontAwesomeIcon>
+                        </Link>
+                      )}
                   </div>
                 </Col>
               </Row>
               <h2>About This Position</h2>
               <p id="job-desc" style={{whiteSpace: "pre-line"}}>{this.state.listing.listLongDesc}</p>
               <div className="button-wrapper">
-                <Link className="button">Apply <span className="hide-ext">Externally </span>&nbsp; <FontAwesomeIcon icon={appIcon}></FontAwesomeIcon></Link>
+                { this.props.isStartup ?
+                (
+                  <Link className="button" to={"/my-listings/edit/" + this.props.listingID} >
+                    Edit
+                    &nbsp; <FontAwesomeIcon icon={editIcon}></FontAwesomeIcon>
+                  </Link>
+                ) : (
+                  <Link className="button">Apply <span className="hide-ext">Externally </span>&nbsp; <FontAwesomeIcon icon={appIcon}></FontAwesomeIcon></Link>
+                )}
               </div>
               <br></br>
               <hr></hr>
@@ -116,7 +138,9 @@ export default class JobPage extends Component {
                     {this.state.company.orgDesc}
                   </p>
                   <div className="button-wrapper">
-                    <Link className="button"><span id="hide-full-company-button">Other positions from </span>{this.state.company.orgName} &nbsp; <FontAwesomeIcon icon={appIcon}></FontAwesomeIcon></Link>
+                    <Link to={"/org/" + (this.state.listing.listOrgID)} className="button">
+                      {this.props.isStartup ? (<>My Profile</>) : (<><span id="hide-full-company-button">Other positions from </span>{this.state.company.orgName}</>)}
+                       &nbsp; <FontAwesomeIcon icon={appIcon}></FontAwesomeIcon></Link>
                   </div>
                 </Col>
               </Row>
@@ -127,3 +151,12 @@ export default class JobPage extends Component {
       )
    }
 }
+
+
+const mapStateToProps = (state) => ({
+  user: state.user,
+  isAuthenticated: state.isAuthenticated,
+  isStartup: state.isStartup
+});
+
+export default connect(mapStateToProps)(JobPage);

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 // Components
 import LandingHero from '../components/LandingHero';
+import StartupHero from '../components/StartupHero';
 import GuestLanding from '../components/GuestLanding';
 import StudentLanding from '../components/StudentLanding';
 // redux
@@ -13,7 +14,7 @@ class Home extends Component {
 
   render () {
     if (this.props.isAuthenticated) {
-        // LOGGED IN STUDENT LANDING
+      if (!this.props.isStartup) {
         return (
           <>
             <LandingHero />
@@ -21,6 +22,13 @@ class Home extends Component {
           </>
         )
       } else {
+        return (
+          <>
+            <StartupHero />
+          </>
+        )
+      }
+    } else {
       // GUEST LANDING
       return (
         <>
@@ -34,7 +42,8 @@ class Home extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.user,
-  isAuthenticated: state.isAuthenticated
+  isAuthenticated: state.isAuthenticated,
+  isStartup: state.isStartup
 });
 
 export default connect(mapStateToProps)(Home);

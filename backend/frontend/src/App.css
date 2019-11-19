@@ -9,6 +9,7 @@
   --secondary-background-color: #eeeeee;
   --alert-color: #ff4444;
   --warning-color: #ffbb33;
+  --fav-color: #fdd835;
   --success-color: #00C851;
 }
 
@@ -237,7 +238,9 @@ button#search-icon-wrapper {
 #hero {
   padding: 10vh 0;
   min-height: 40vh;
-  background-color: var(--dark-color);
+  background-color: #0031ca;
+  background-image: url('/img/pattern.svg');
+  background-size: 135%;
 }
 
 #hero h1 {
@@ -399,6 +402,150 @@ a.read-more {
   color: var(--light-color);
   text-decoration: underline;
 }
+
+/* STUDENT CARD */
+
+.student-card {
+  position: relative;
+  display: inline-block;
+  height: auto;
+  background-color: var(--background-color);
+  border-radius: 12px;
+  width: 49%;
+  margin-bottom: 20px;
+}
+
+.student-card:nth-child(odd) {
+  margin-left: 2%;
+}
+
+.student-card .image-wrapper {
+  float: left;
+  width: 25%;
+}
+
+.student-card .image-wrapper img {
+  position: absolute;
+  top: 25px;
+  left: 5%;
+  height: 120px;
+  width: 120px;
+  border-radius: 50%;
+  border: 5px solid var(--background-color);
+}
+
+button.button-secondary.fav {
+  position: absolute;
+  left: 4%;
+  top: 22px;
+  z-index: 2;
+}
+
+.student-card .top-background {
+  border-radius: 12px 12px 0 0;
+  position: relative;
+  height: 85px;
+  background-color: var(--main-color);
+  margin-bottom: 0px;
+}
+.student-card .top-background a.name {
+  position: absolute;
+  left: calc(8% + 120px);
+  bottom: 8px;
+  text-decoration: none;
+  color: var(--background-color);
+}
+
+.student-card .top-background a.name h2 {
+  margin: 0;
+  color: var(--background-color);
+}
+
+.student-card .underlay-block {
+  position: relative;
+  height: 60px;
+  left: calc(8% + 120px);
+}
+
+.student-card .underlay-block p.info-head {
+  margin-top: 8px;
+  position: relative;
+  color: var(--tertiary-text-color);
+  font-size: 16px;
+}
+
+.student-card .inf p {
+  font-size: 18px;
+  margin: 10px;
+  min-height: 6em;
+}
+
+.student-card .inf h2 {
+  margin: 0;
+}
+
+.title-ext-wrapper {
+  color: var(--tertiary-text-color);
+}
+
+.student-card p.sub-title {
+  color: var(--tertiary-text-color);
+  font-size: 16px;
+}
+
+.student-card a.button {
+  text-align: center;
+  display: block;
+  margin: 10px 10px;
+  width: calc(100% - 20px);
+}
+
+a.similar-pos {
+  text-decoration: none;
+  opacity: 0.5;
+  font-size: 18px;
+  color: var(--tertiary-text-color);
+  -webkit-transition: opacity .2s;
+  -o-transition: opacity .2s;
+  transition: opacity .2s;
+}
+
+a.similar-pos:hover {
+  opacity: 1;
+  -webkit-transition: opacity .2s;
+  -o-transition: opacity .2s;
+  transition: opacity .2s;
+}
+
+button.button-secondary.favorited {
+  font-size: 18px;
+  padding: 8px;
+  border-radius: 50%;
+  color: var(--secondary-text-color);
+  background-color: var(--fav-color);
+  text-decoration: none;
+  position: absolute;
+  font-weight: 700;
+  border: solid 3px var(--fav-color);
+  margin-right: 12px;
+  cursor: pointer;
+}
+
+button.button-secondary.favorite {
+  font-size: 18px;
+  padding: 8px;
+  border-radius: 50%;
+  background-color: var(--background-color);
+  color: var(--tertiary-text-color);
+  border: solid 3px var(--tertiary-text-color);
+  cursor: pointer;
+}
+
+button.button-secondary.favorite:hover {
+  color: var(--fav-color);
+  border: solid 3px var(--fav-color);
+}
+
 
 /* Job Page */
 
@@ -673,9 +820,9 @@ a.button, button.button {
   font-weight: 700;
   margin-right: 12px;
   outline: none;
-  -webkit-transition: all .2s;
+  /* -webkit-transition: all .2s;
   -o-transition: all .2s;
-  transition: all .2s;
+  transition: all .2s; */
 }
 
 a.button-secondary, button.button-secondary {
@@ -688,9 +835,9 @@ a.button-secondary, button.button-secondary {
   border: solid 3px var(--main-color);
   margin-right: 12px;
   outline: none;
-  -webkit-transition: all .2s;
+  /* -webkit-transition: all .2s;
   -o-transition: all .2s;
-  transition: all .2s;
+  transition: all .2s; */
 }
 
 /* Profile */
@@ -749,6 +896,16 @@ button#mobile-menu-toggle {
   }
   #hide-full-company-button {
     display: none;
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .student-card {
+    width: 100%;
+  }
+
+  .student-card:nth-child(odd) {
+    margin-left: 0%;
   }
 }
 

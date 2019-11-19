@@ -1,12 +1,33 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
+import * as axios from 'axios';
+import { connect } from 'react-redux';
 // Icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit as listingsActive, faBell as bellActive, faBuilding as userActive, faSearch as search, faCaretDown as darr, faAddressCard as studentsActive, faCommentAlt as logoActive, faCompass as dashboardActive } from '@fortawesome/free-solid-svg-icons'
 import { faEdit as listings, faBell as bell, faBuilding as user, faAddressCard as students, faCommentAlt as logo, faCompass as dashboard } from '@fortawesome/free-regular-svg-icons'
 
-export default class NavAdmin extends Component {
+class NavStartup extends Component {
   state = {
+  }
+
+  async logout(e) {
+    try {
+      const response = await axios({
+          url: '/api/auth/logout',
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json;charset=UTF-8',
+            'Authorization': 'Token ' + localStorage.getItem("token")
+          }
+      });
+      localStorage.removeItem("token");
+      this.props.dispatch({ type: "LOGOUT" });
+      this.props.history.push('/');
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   render () {
@@ -31,7 +52,7 @@ export default class NavAdmin extends Component {
            </li>
            {/*Search for students/recruit*/}
            <li>
-             <NavLink to="/students" exact activeClassName="active-nav">
+             <NavLink to="/recruit" exact activeClassName="active-nav">
                <FontAwesomeIcon className="def-icon" icon={students} />
                <FontAwesomeIcon className="act-icon" icon={studentsActive} />
                &nbsp; Students
@@ -54,11 +75,11 @@ export default class NavAdmin extends Component {
                <span className="dropdown-arr"><FontAwesomeIcon icon={darr} /></span>
              </span>
              <div className="dropdown-content">
-               <NavLink to="/company-profile">Profile</NavLink>
-               <NavLink to="/recruited">Recruited</NavLink>
+               <NavLink to={"/org/" + this.props.user.id} >Profile</NavLink>
                <NavLink to="/favorites">Favorites</NavLink>
                <hr></hr>
                <NavLink to="/company-settings">Settings</NavLink>
+               <a onClick={(e) => {e.preventDefault(); this.logout()}} >Logout</a>
              </div>
            </li>
            {/*}
@@ -77,3 +98,12 @@ export default class NavAdmin extends Component {
       )
    }
 }
+
+
+const mapStateToProps = (state) => ({
+  user: state.user,
+  isAuthenticated: state.isAuthenticated,
+  isStartup: state.isStartup
+});
+
+export default withRouter(connect(mapStateToProps)(NavStartup));

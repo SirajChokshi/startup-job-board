@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container } from 'react-grid-system';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux'
 import * as axios from 'axios';
 
@@ -37,6 +37,15 @@ class Bookmarks extends Component {
   }
 
   render () {
+    if (!this.props.isAuthenticated) {
+      return (
+        <Redirect to="/login" />
+      )
+    } else if (this.props.isStartup) {
+      return (
+        <Redirect to="/" />
+      )
+    }
       return (
         <span>
           <div className="hero">

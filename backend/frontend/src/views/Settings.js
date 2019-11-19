@@ -12,29 +12,9 @@ import * as axios from 'axios';
 
 /* ------------------------- */
 
-var profileImage = "";
-var firstName = "Siraj";
-var lastName = "Chokshi"
-var studentPitch = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
-var studentEmail = "sirajchokshi@gmail.com";
-var gpa = 3;
-var gradDate = 2023;
-var major = "Psychology";
-var skills = "Web Development, Illustrator, Photoshop, CSS, JavaScript, C#, User Interface, User Experience, Graphic Design";
 var date = new Date();
 var minDate = date.getFullYear() - 1;
 var maxDate = date.getFullYear() + 9;
-
-function printSkills(x) {
-  if (x.length < 1) return "";
-  var out = x[0] + "";
-  var i = 1;
-  while (i < x.length) {
-    out += ", " + x[i];
-    i = i + 1;
-  }
-  return out;
-}
 
 class Settings extends Component {
   state = {
@@ -49,6 +29,32 @@ class Settings extends Component {
     this.props.history.push('/login');
   }
 
+  async updateSettings() {
+    try {
+      const data = {
+        "firstName" : document.getElementById("first-name").value,
+        "lastName" : document.getElementById("last-name").value
+      }
+      const profileResponse = await axios({
+          url:' /api/users/' + this.props.user.id + '/update/',
+          method: 'PATCH',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json;charset=UTF-8',
+            'Authorization': 'Token ' + localStorage.getItem("token")
+          },
+          data: data
+        });
+      const userJson = await profileResponse.data;
+      this.props.dispatch({ type: "UPDATEUSER", user: userJson });
+    } catch (error) {
+      if (error.response.status === 400) {
+        this.handleUserError();
+      } else if (error.response.status === 401) {
+        this.bounce();
+      } else console.error(error);
+    }
+  }
 
   async updateProfile() {
     try {
@@ -56,9 +62,10 @@ class Settings extends Component {
         "userPitch" : document.getElementById("bio").value,
         "userMajor" : document.getElementById("major").value,
         "userGPA" : document.getElementById("gpa").value,
+        "userGradYear" : document.getElementById("grad-date").value
       }
       const profileResponse = await axios({
-          url:' /api/users/8/update',
+          url:' /api/users/' + this.props.user.id + '/update/',
           method: 'PATCH',
           headers: {
             'Accept': 'application/json',
@@ -72,9 +79,9 @@ class Settings extends Component {
       // console.log('Success:', JSON.stringify(userJson));
       this.props.dispatch({ type: "UPDATEUSER", user: userJson });
     } catch (error) {
-      if (error.response.status == 400) {
+      if (error.response.status === 400) {
         this.handleUserError();
-      } else if (error.response.status == 401) {
+      } else if (error.response.status === 401) {
         this.bounce();
       }
       else console.error(error);
@@ -90,6 +97,10 @@ class Settings extends Component {
         return (
           <Redirect to="/login" />
         )
+      } else if (this.props.isStartup) {
+        return (
+          <Redirect to="/" />
+        )
       }
 
       return (
@@ -102,7 +113,7 @@ class Settings extends Component {
           <br></br>
           <Container id="user-settings">
             <h1>Account Settings</h1>
-              <form>
+              <form onSubmit={(e) => {e.preventDefault(); this.updateSettings()}}>
                 <Row className="setting-row">
                   <Col md={2} sm={12}><label htmlFor="first-name" >First Name:</label></Col>
                   <Col md={10} sm={12}><input id="first-name" defaultValue={this.props.user.firstName} autoComplete="given-name" minLength="1" pattern="[A-Za-z0-9-]+" maxLength="30" title="Enter alphanumeric charcters and hyphens only." ></input></Col>
@@ -139,7 +150,7 @@ class Settings extends Component {
                 </Row>
                 <Row className="setting-row">
                   <Col md={2} sm={12}><label htmlFor="grad-date" >Graduation Year:</label></Col>
-                  <Col md={10} sm={12}><input id="grad-date" type="number" defaultValue={gradDate} step="1" min={minDate} max={maxDate} ></input></Col>
+                  <Col md={10} sm={12}><input id="grad-date" type="number" defaultValue={this.props.userGradYear} step="1" min={minDate} max={maxDate} ></input></Col>
                 </Row>
                 <Row className="setting-row">
                   <Col md={2} sm={12}><label htmlFor="major">Major:</label></Col>
@@ -149,12 +160,12 @@ class Settings extends Component {
                  </Col>
                 </Row>
                 <Row className="setting-row">
-                  <Col md={2} sm={12}><label htmlFor="gpa" >GPA (in #.## format):</label></Col>
+                  <Col md={2} sm={12}><label htmlFor="gpa" >GPA (Out of 4.00):</label></Col>
                   <Col md={10} sm={12}><input id="gpa" defaultValue={parseFloat(this.props.user.userGPA).toFixed(2)} type="number" step="0.01" min="0" max="4" ></input></Col>
                 </Row>
                 <Row className="setting-row">
                   <Col md={2} sm={12}><label htmlFor="skills" >Skills (seperate each with a comma):</label></Col>
-                  <Col md={10} sm={12}><textarea id="skills" maxLength="220" defaultValue={skills} ></textarea></Col>
+                  <Col md={10} sm={12}><textarea id="skills" maxLength="220" defaultValue={this.props.user.extraCurriculars} ></textarea></Col>
                 </Row>
                 <Row className="setting-row">
                   <Col md={2} sm={12}><label htmlFor="confirm-password-2">Confirm Password:</label></Col>
@@ -172,7 +183,9 @@ class Settings extends Component {
                     <Col md={2} sm={12}><label htmlFor="avatar" >
                       Upload A Square PNG:</label>
                     </Col>
-                    <Col md={10} sm={12}><input id="avatar" type="file" name="pic" accept=".png" ></input></Col>
+                    <Col md={10} sm={12}>
+                      <input id="avatar" type="file" name="pic" accept=".png" ></input>
+                    </Col>
                   </Row>
                   <Row className="setting-row">
                     <Col md={2} sm={12}><label htmlFor="submit-avatar">Update Avatar</label></Col>
@@ -187,7 +200,8 @@ class Settings extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.user,
-  isAuthenticated: state.isAuthenticated
+  isAuthenticated: state.isAuthenticated,
+  isStartup: state.isStartup
 });
 
 export default withRouter(connect(mapStateToProps)(Settings));
