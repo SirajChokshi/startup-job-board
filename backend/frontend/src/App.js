@@ -25,7 +25,7 @@ import Footer from './components/Footer';
 
 /*
  * TEMP: To switch between startup/student navigation bars just
- * change the <NavAdmin /> OR <Nav /> reques while we wait for
+ * change the <NavAdmin /> OR <Nav /> request while we wait for
  * user auth to be prepared
  */
 
@@ -42,7 +42,7 @@ function App() {
             <Route exact={true} path='/user-profile/:uid' render={({ match }) => (
                 <Profile userID={match.params.uid} />
             )}/>
-          <Route exact={true} path='/jobs' render={() => (
+            <Route exact={true} path='/jobs' render={() => (
                 <Jobs />
             )}/>
             <Route exact={true} path='/user-settings' render={() => (

@@ -238,7 +238,7 @@ button#search-icon-wrapper {
 #hero {
   padding: 10vh 0;
   min-height: 40vh;
-  background-color: #0031ca;
+  background-color: var(--dark-color);
   background-image: url('/img/pattern.svg');
   background-size: 135%;
 }

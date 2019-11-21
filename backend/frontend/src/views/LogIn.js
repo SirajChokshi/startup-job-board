@@ -51,7 +51,7 @@ class LogIn extends Component {
 
   checkPassMatch() {
     try {
-      if (document.getElementById("new-user-pass").value == document.getElementById("confirm-user-pass").value || document.getElementById("confirm-user-pass").value == "") {
+      if (document.getElementById("new-user-pass").value === document.getElementById("confirm-user-pass").value || document.getElementById("confirm-user-pass").value === "") {
         passMatch = true;
         document.getElementById('match-confirm-pass').style.display = 'none';
       } else {
@@ -102,14 +102,14 @@ class LogIn extends Component {
         console.error(error);
       }
     } catch (error) {
-      if (error.response.status == 400) {
+      if (error.response.status === 400) {
         document.getElementById('user-pass').style.borderColor = '#ff4444';
         document.getElementById('user-email').style.borderColor = '#ff4444';
         document.getElementById('user-pass').style.backgroundColor = '#ffe6e6';
         document.getElementById('user-email').style.backgroundColor = '#ffe6e6';
         document.getElementById('login-error').style.display = 'block';
       }
-      else if (error.response.status == 401) {
+      else if (error.response.status === 401) {
         localStorage.removeItem("token");
         this.props.dispatch({ type: "LOGOUT" });
         this.props.history.push('/login');
@@ -156,20 +156,20 @@ class LogIn extends Component {
             <Row>
               <Col lg={5.75}>
                 <h1>Login</h1>
-                <span id="login-error" className="error" style={{ backgroundColor: '#ff4444' }}><FontAwesomeIcon icon={errorIcon} ></FontAwesomeIcon> &nbsp; Invalid Login Credentials</span>
-                <span id="server-error" className="error" style={{ backgroundColor: '#ffbb33' }}><FontAwesomeIcon icon={errorIcon} ></FontAwesomeIcon> &nbsp; Server Error. Please Try again </span>
-                <span id="new-signup-error" className="error" style={{ backgroundColor: '#00C851' }}><FontAwesomeIcon icon={successIcon} ></FontAwesomeIcon> &nbsp; Account created! Login below </span>
+                <span id="login-error" className="error" style={{ backgroundColor: '#ff4444' }}><FontAwesomeIcon icon={errorIcon} /> &nbsp; Invalid Login Credentials</span>
+                <span id="server-error" className="error" style={{ backgroundColor: '#ffbb33' }}><FontAwesomeIcon icon={errorIcon} /> &nbsp; Server Error. Please Try again </span>
+                <span id="new-signup-error" className="error" style={{ backgroundColor: '#00C851' }}><FontAwesomeIcon icon={successIcon} /> &nbsp; Account created! Login below </span>
                 <form onSubmit={(e) => {e.preventDefault(); this.postLogin()}}>
                   <label className={"text-input-label"} htmlFor="user-email" >Email:</label>
-                  <input id="user-email" className={"input-text"}  type="email" autoComplete="username" defaultValue="" required></input>
+                  <input id="user-email" className={"input-text"}  type="email" autoComplete="username" defaultValue="" required />
                   <label className="text-input-label" htmlFor="user-pass" >Password:</label>
-                  <input id="user-pass" className={"input-text"} type="password" autoComplete="current-password" defaultValue="" required></input>
+                  <input id="user-pass" className={"input-text"} type="password" autoComplete="current-password" defaultValue="" required />
                   <div id="remember-me-wrapper">
                     {/*}<input type="checkbox" id="remember-me"></input><label htmlFor="remember-me">&nbsp;Keep me logged in</label>{*/}
-                    <input type="checkbox" id="show-pass" onClick={showPass}></input>
+                    <input type="checkbox" id="show-pass" onClick={showPass} />
                     <label htmlFor="show-pass" id="show-label">
-                      <FontAwesomeIcon icon={showIcon} id="show-icon"></FontAwesomeIcon>
-                      <FontAwesomeIcon icon={hideIcon} id="hide-icon"></FontAwesomeIcon>
+                      <FontAwesomeIcon icon={showIcon} id="show-icon" />
+                      <FontAwesomeIcon icon={hideIcon} id="hide-icon" />
                       &nbsp;Show Password
                     </label>
                   </div>
@@ -177,22 +177,22 @@ class LogIn extends Component {
                 </form>
               </Col>
               <Col lg={0.5}>
-                <div className="divider"></div>
+                <div className="divider"/>
               </Col>
               <Col lg={5.75} id="signup-col">
                 <h1>Signup</h1>
                 <form onSubmit={(e) => {e.preventDefault(); this.registerUser()}}>
                   <label className="text-input-label" htmlFor="new-user-email" >Account Email:</label>
-                  <input id="new-user-email" className="input-text" type="email" required></input>
+                  <input id="new-user-email" className="input-text" type="email" required/>
                   <label className="text-input-label" htmlFor="new-user-pass" >Create a Password:<br></br><span style={{fontSize: "14px"}}>(8 or more characters in length containing a number, uppercase and lowercase letter)</span></label>
-                  <input id="new-user-pass" className="input-text" type="password" required autoComplete="new-password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Passwords must contain a number, an uppercase letter and a lowercase letter and must be 8 characters long" ></input>
+                  <input id="new-user-pass" className="input-text" type="password" required autoComplete="new-password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Passwords must contain a number, an uppercase letter and a lowercase letter and must be 8 characters long" />
                   <label className="text-input-label" htmlFor="confirm-user-pass" >Confirm Password: <span id="match-confirm-pass" className="error" style={{display: 'none', backgroundColor: '#ff4444', marginTop: '8px'}}><FontAwesomeIcon icon={errorIcon} ></FontAwesomeIcon> &nbsp; Passwords do not match!</span></label>
-                  <input id="confirm-user-pass" className="input-text" type="password" required autoComplete="new-password" onChange={this.checkPassMatch} pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Passwords must contain a number, an uppercase letter and a lowercase letter and must be 8 characters long" ></input>
+                  <input id="confirm-user-pass" className="input-text" type="password" required autoComplete="new-password" onChange={this.checkPassMatch} pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Passwords must contain a number, an uppercase letter and a lowercase letter and must be 8 characters long" />
                   <div id="remember-me-wrapper">
-                    <input type="checkbox" id="show-signup-pass" onClick={showSignupPass}></input>
+                    <input type="checkbox" id="show-signup-pass" onClick={showSignupPass}/>
                     <label htmlFor="show-signup-pass" id="show-signup-label">
-                      <FontAwesomeIcon icon={showIcon} id="show-signup-icon"></FontAwesomeIcon>
-                      <FontAwesomeIcon icon={hideIcon} id="hide-signup-icon"></FontAwesomeIcon>
+                      <FontAwesomeIcon icon={showIcon} id="show-signup-icon"/>
+                      <FontAwesomeIcon icon={hideIcon} id="hide-signup-icon"/>
                       &nbsp;Show Password
                     </label>
                   </div>

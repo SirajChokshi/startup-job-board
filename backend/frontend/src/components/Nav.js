@@ -68,7 +68,7 @@ class Nav extends Component {
              </NavLink>
            </li>
            <li id="search-nav">
-             <input type="text" placeholder={"Search for a job..."} className="search" style={{color: '#8e8e8e'}}></input>
+             <input type="text" placeholder={"Search for a job..."} className="search" style={{color: '#8e8e8e'}} />
              <span id="nav-search-icon-wrapper">
                <FontAwesomeIcon icon={search} style={{verticalAlign: 'middle', color: '#8e8e8e', fontSize: 14 + 'px', marginBottom: 2.6 + 'px'}} />
              </span>
@@ -98,7 +98,7 @@ class Nav extends Component {
                 </span>
                 <div className="dropdown-content">
                   <NavLink to={"/user-profile/" + this.props.user.id}>Profile</NavLink>
-                  <NavLink to="/applications/">Applied</NavLink>
+                  {/*<NavLink to="/applications/">Applied</NavLink>*/}
                   <hr></hr>
                   <NavLink to="/user-settings">Settings</NavLink>
                   <a onClick={(e) => {e.preventDefault(); this.logout()}} >Logout</a>
@@ -111,13 +111,13 @@ class Nav extends Component {
                   &nbsp; Profile
                 </NavLink>
               </li>
-              <li className="show-on-mobile">
-                <NavLink to="/applications" exact activeClassName="active-nav">
-                  <FontAwesomeIcon className="def-icon" icon={applications} />
-                  <FontAwesomeIcon className="act-icon" icon={applicationsActive} />
-                  &nbsp; Applications
-                </NavLink>
-              </li>
+              {/*<li className="show-on-mobile">*/}
+              {/*  <NavLink to="/applications" exact activeClassName="active-nav">*/}
+              {/*    <FontAwesomeIcon className="def-icon" icon={applications} />*/}
+              {/*    <FontAwesomeIcon className="act-icon" icon={applicationsActive} />*/}
+              {/*    &nbsp; Applications*/}
+              {/*  </NavLink>*/}
+              {/*</li>*/}
               <li className="show-on-mobile">
                 <NavLink to="/user-settings" exact activeClassName="active-nav">
                   <FontAwesomeIcon className="def-icon" icon={settings} />

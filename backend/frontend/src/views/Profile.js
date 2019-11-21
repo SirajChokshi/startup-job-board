@@ -32,6 +32,7 @@ const addListingStyles = {
 
 class Profile extends Component {
   state = {
+
   }
 
   addDefaultSrc(ev) {
@@ -51,7 +52,7 @@ class Profile extends Component {
       });
       // console.log(userResponse.data);
       const user = await userResponse.data;
-      greeting = user.firstName + "\'s";
+      greeting = user.firstName + "'s";
       profileImage = "/dff.g";
       studentName = user.firstName + " " + user.lastName;
       studentEmail = user.email;
@@ -66,29 +67,9 @@ class Profile extends Component {
     }
   }
 
-  componentDidMount() {
-    try {
-      loggedInID = this.props.user.id;
-    } catch (error) {
-      loggedInID = -1;
-    }
-    if (this.props.userID == loggedInID) {
-      sameUser = true;
-      greeting = "Your";
-      profileImage = "/img/" + loggedInID + ".png";
-      studentName = this.props.user.firstName + " " + this.props.user.lastName;
-      studentEmail = this.props.user.email;
-      gpa = this.props.user.userGPA;
-      gradDate = this.props.user.userGradYear;
-      degree = this.props.user.userDegree;
-      major = this.props.user.userMajor;
-      studentPitch = this.props.user.userPitch;
-      skills = this.props.user.extraCurriculars;
-    }
-    else {
-      sameUser = false;
-      this.tryForUser(this.props.userID);
-    }
+  async componentDidMount() {
+    profileImage = studentName = studentEmail = studentPitch = gpa = gradDate = major = skills = greeting = degree = "";
+    this.tryForUser(this.props.userID);
   }
 
   render () {
@@ -108,33 +89,33 @@ class Profile extends Component {
           <Container id="user-profile">
             { sameUser &&
               (<Link id="new-listing-button" style={addListingStyles} to="/user-settings/">
-                <FontAwesomeIcon icon={addIcon}></FontAwesomeIcon>
+                <FontAwesomeIcon icon={addIcon}/>
                  &nbsp; Edit your profile
-                 <div className="shadow"></div>
+                 <div className="shadow" />
               </Link>)
             }
             <Row>
               <Col md={3} xs={4}>
-                <img id="user-profile-image" src={profileImage} onError={this.addDefaultSrc} ></img>
+                <img id="user-profile-image" src={profileImage} onError={this.addDefaultSrc} />
               </Col>
               <Col md={9} xs={8} className="user-profile-header">
                 <h1>{studentName}</h1>
                 <p>{studentPitch}</p>
                 <Row id="stats">
                   <Col md={4} sm={12}>
-                    <FontAwesomeIcon icon={educationIcon}></FontAwesomeIcon> &nbsp;<strong>Class:</strong>&nbsp; {degree}, {gradDate}
+                    <FontAwesomeIcon icon={educationIcon} /> &nbsp;<strong>Class:</strong>&nbsp; {degree}, {gradDate}
                     <br></br>
-                    &nbsp;<FontAwesomeIcon icon={majorIcon}></FontAwesomeIcon> &nbsp; <strong>Major:</strong>&nbsp; {major}
+                    &nbsp;<FontAwesomeIcon icon={majorIcon} /> &nbsp; <strong>Major:</strong>&nbsp; {major}
                     <br></br>
-                    &nbsp;<FontAwesomeIcon icon={gradeIcon}></FontAwesomeIcon> &nbsp; <strong>GPA:</strong>&nbsp; {parseFloat(gpa).toFixed(2)}
+                    &nbsp;<FontAwesomeIcon icon={gradeIcon} /> &nbsp; <strong>GPA:</strong>&nbsp; {parseFloat(gpa).toFixed(2)}
                   </Col>
                   <Col md={4} sm={12}>
-                    <FontAwesomeIcon icon={emailIcon}></FontAwesomeIcon> &nbsp; <a href={"mailto:" + studentEmail}>{studentEmail}</a>
+                    <FontAwesomeIcon icon={emailIcon} /> &nbsp; <a href={"mailto:" + studentEmail}>{studentEmail}</a>
                     <br></br>
-                    <FontAwesomeIcon icon={resumeIcon}></FontAwesomeIcon> &nbsp;&nbsp; <Link to="/usr/files/resume.pdf">Resume</Link>
+                    <FontAwesomeIcon icon={resumeIcon} /> &nbsp;&nbsp; <Link to="/usr/files/resume.pdf">Resume</Link>
                   </Col>
                   <Col md={4} sm={12}>
-                    <FontAwesomeIcon icon={skillsIcon}></FontAwesomeIcon> &nbsp; <strong>Skills:</strong>&nbsp; {skills}
+                    <FontAwesomeIcon icon={skillsIcon} /> &nbsp; <strong>Skills:</strong>&nbsp; {skills}
                   </Col>
                 </Row>
               </Col>
