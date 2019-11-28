@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="38a416c5-8e3b-4fd2-862d-335aa23fc6d9" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/views/EditListing.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/OrgSettings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Listing.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Listing.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/NavStartup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NavStartup.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/StudentCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/StudentCard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/NewListing.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/NewListing.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/OrgProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/OrgProfile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/Settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Settings.js" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectId" id="1UB3Osjpm2C4xX0gs3NYAXDky8o" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/views" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/views" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="38a416c5-8e3b-4fd2-862d-335aa23fc6d9" name="Default Changelist" comment="" />
+      <created>1574816131617</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1574816131617</updated>
+      <workItem from="1574816132944" duration="5900000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/App.js</url>
+          <line>23</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
