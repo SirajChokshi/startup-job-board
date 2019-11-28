@@ -49,8 +49,7 @@ class Listing extends Component {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
-        'content-type': 'application/json',
-        'Authorization': 'Token ' + localStorage.getItem("token")
+        'content-type': 'application/json'
       }
     })
     .then(res => res.json())

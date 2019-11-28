@@ -33,7 +33,6 @@ class Settings extends Component {
     try {
       const data = {
         "firstName" : document.getElementById("first-name").value,
-        "lastName" : document.getElementById("last-name").value
       }
       const profileResponse = await axios({
           url:' /api/users/' + this.props.user.id + '/update/',

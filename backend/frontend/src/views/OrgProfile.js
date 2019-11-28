@@ -3,7 +3,7 @@ import { Container, Row, Col } from 'react-grid-system';
 import { Link } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCode as Software } from '@fortawesome/free-solid-svg-icons'
+import { faList as Software } from '@fortawesome/free-solid-svg-icons'
 
 // Components
 import Sort from '../components/Sort';
@@ -20,8 +20,7 @@ export default class OrgProfile extends Component {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
-          'content-type': 'application/json',
-          'Authorization': 'Token ' + localStorage.getItem("token")
+          'content-type': 'application/json'
         }
       })
       .then(res => res.json())
@@ -65,10 +64,10 @@ export default class OrgProfile extends Component {
           <Container>
             <article className="job">
               <Row className="company-profile">
-                <Col md={2} xs={3}><span className="image-wrapper" ><img onError={this.addDefaultSrc} src={"/img/org/" + this.state.company.id + ".png"} alt={this.props.company}></img></span></Col>
+                <Col md={2} xs={3}><span className="image-wrapper" ><img onError={this.addDefaultSrc} src={"/img/org/" + this.state.company.id + ".png"} alt={this.props.company} /></span></Col>
                 <Col md={10} xs={9}>
-                  <Link to={this.props.jobPage}><h2 style={{display: "inline"}}>{this.state.company.orgName}</h2></Link><br></br>
-                  <p id="company-industry"><FontAwesomeIcon style={{fontSize: "14px"}} icon={Software}></FontAwesomeIcon> &nbsp;{this.state.company.orgIndustry}</p>
+                  <Link to={this.props.jobPage}><h2 style={{display: "inline"}}>{this.state.company.orgName}</h2></Link><br />
+                  <p id="company-industry"><FontAwesomeIcon style={{fontSize: "14px"}} icon={Software} /> &nbsp;{this.state.company.orgIndustry}</p>
                   <p className="sub-title">
 
                   </p>
@@ -77,7 +76,7 @@ export default class OrgProfile extends Component {
                   </p>
                 </Col>
               </Row>
-              <div className="shadow"></div>
+              <div className="shadow" />
             </article>
             <h2>Positions posted by {this.state.company.orgName}:</h2>
             <Feed listings={this.state.listings} />

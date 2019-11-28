@@ -18,6 +18,7 @@ import NewListing from './views/NewListing';
 import JobPage from './views/JobPage';
 import InitAccount from './views/InitAccount';
 import Students from './views/Students';
+import EditListing from "./views/EditListing";
 
 // Components
 import MasterNav from './components/MasterNav';
@@ -65,6 +66,9 @@ function App() {
             )}/>
             <Route exact={true} path='/my-listings/new' render={() => (
                 <NewListing />
+            )}/>
+            <Route exact={true} path='/my-listings/edit/:lid' render={({ match }) => (
+                <EditListing listingID={match.params.lid} />
             )}/>
             <Route exact={true} path='/listing/:lid' render={({ match }) => (
                 <JobPage listingID={match.params.lid} />

@@ -26,7 +26,11 @@ class NavStartup extends Component {
       this.props.dispatch({ type: "LOGOUT" });
       this.props.history.push('/');
     } catch (error) {
-      console.error(error);
+      if (error.response.status === 401) {
+          this.props.dispatch({ type: "LOGOUT" });
+          this.props.history.push('/');
+      }
+      else console.error(error);
     }
   }
 

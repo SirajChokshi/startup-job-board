@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-grid-system';
 import * as axios from 'axios';
 import Select from 'react-select';
-// import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
+import {connect} from "react-redux";
 
 // Icons
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -10,21 +11,6 @@ import Select from 'react-select';
 // import { faClock as deadlineIcon } from '@fortawesome/free-regular-svg-icons'
 
 /* ------------------------- */
-
-const Req = () => {
-  return <span className="req"></span>
-};
-
-// var profileImage = "";
-// var firstName = "Siraj";
-// var lastName = "Chokshi"
-// var studentPitch = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
-// var studentEmail = "sirajchokshi@gmail.com";
-// var gpa = 3;
-// var gradDate = 2023;
-// var major = "Psychology";
-// var skills = "Web Development, Illustrator, Photoshop, CSS, JavaScript, C#, User Interface, User Experience, Graphic Design";
-// var date = new Date();
 
 var d = new Date();
 var minDate  = d.getFullYear() + "-" + d.getMonth() + "-" + ('0' + (d.getDay())).slice(-2);
@@ -47,27 +33,41 @@ const categoryList = [
   { label: "Other", value: "MISC" }
 ];
 
-export default class NewListing extends Component {
+class EditListing extends Component {
   state = {
-    listCategory: ""
+    listCategory: "",
+    listing: []
   }
 
-  async postListing() {
+  UNSAFE_componentWillMount() {
+    fetch('/api/listings/' + this.props.listingID + '/?format=json', {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'content-type': 'application/json'
+      }
+    })
+        .then(res => res.json())
+        .then((data) => {
+          this.setState({ listing: data })
+        })
+        .catch(console.log)
+    /* Get this listing */
+  }
+
+  async updateListing() {
     try {
       const data = {
         "listName" : document.getElementById("listing-title").value,
         "listDesc" : document.getElementById("short-desc").value,
         "listLongDesc" : document.getElementById("long-desc").value,
-        "listLocation" : document.getElementById("location").value,
         "listDeadline" : document.getElementById("deadline").value,
-        "listOrgID" : 1,
-        "listCategory": this.state.listCategory,
-        "isOpen": true,
-        "isPaid": true
+        "listLocation" : document.getElementById("location").value,
+        "listCategory": this.state.listCategory
       };
       const response = await axios({
           url: '/api/listings/',
-          method: 'POST',
+          method: 'PATCH',
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json;charset=UTF-8',
@@ -96,33 +96,41 @@ export default class NewListing extends Component {
   }
 
   render () {
+    if (!this.props.isAuthenticated) {
+      return (
+          <Redirect to="/login" />
+      )
+    } else if (!this.props.isStartup) {
+      return (
+          <Redirect to="/" />
+      )
+    }
       return (
         <>
           <div className="hero">
             <div className="hero-inner">
-              <h1>Create a new listing</h1>
+              <h1>Edit your listing</h1>
             </div>
           </div>
-          <br></br>
+          <br/>
 
           <Container id="user-settings">
             <h1>Listing Information</h1>
-            <p><i><Req /> = Required Field</i></p>
-              <form  onSubmit={(e) => {e.preventDefault(); this.postListing()}}>
+              <form  onSubmit={(e) => {e.preventDefault(); this.updateListing()}}>
                 <Row className="setting-row">
-                  <Col md={2} sm={12}><label htmlFor="listing-title" >Position Title<Req />:</label></Col>
-                  <Col md={10} sm={12}><input id="listing-title" placeholder="Ex. Public Relations Intern" autoComplete="organization-title" minLength="3" maxLength="50" title="Enter alphanumeric charcters and hyphens only." ></input></Col>
+                  <Col md={2} sm={12}><label htmlFor="listing-title" >Position Title:</label></Col>
+                  <Col md={10} sm={12}><input id="listing-title" defaultValue={this.state.listing.listName} placeholder="Ex. Public Relations Intern" autoComplete="organization-title" minLength="3" maxLength="50" title="Enter alphanumeric charcters and hyphens only." /></Col>
                 </Row>
                 <Row className="setting-row">
-                  <Col md={2} sm={12}><label htmlFor="short-desc" >Short Description (160 characters)<Req />:</label></Col>
-                  <Col md={10} sm={12}><textarea id="short-desc" maxLength="160" placeholder="" required></textarea></Col>
+                  <Col md={2} sm={12}><label htmlFor="short-desc" >Short Description (160 characters):</label></Col>
+                  <Col md={10} sm={12}><textarea id="short-desc" defaultValue={this.state.listing.listDesc} maxLength="160" placeholder="" required /></Col>
                 </Row>
                 <Row className="setting-row">
-                  <Col md={2} sm={12}><label htmlFor="app-url" >Application URL<Req />:</label></Col>
-                  <Col md={10} sm={12}><input id="app-url" placeholder="Ex. https://mycompany.com/jobs?id=0" type="url" required></input></Col>
+                  <Col md={2} sm={12}><label htmlFor="app-url" >Application URL:</label></Col>
+                  <Col md={10} sm={12}><input id="app-url" placeholder="Ex. https://mycompany.com/jobs?id=0" type="url" required /></Col>
                 </Row>
                 <Row className="setting-row">
-                  <Col md={2} sm={12}><label htmlFor="category">Job Category<Req />:</label></Col>
+                  <Col md={2} sm={12}><label htmlFor="category">Job Category:</label></Col>
                   <Col md={10} sm={12}>
                     <Select
                       options={categoryList}
@@ -143,20 +151,20 @@ export default class NewListing extends Component {
                   </Col>
                 </Row>
                 <Row className="setting-row">
-                  <Col md={2} sm={12}><label htmlFor="location">Location<Req />:</label></Col>
-                  <Col md={10} sm={12}><input id="location" placeholder="Ex. Champaign, IL" autoComplete="" minLength="1" maxLength="50" title="Enter alphanumeric charcters, hyphens and spaces only." required></input></Col>
+                  <Col md={2} sm={12}><label htmlFor="location">Location:</label></Col>
+                  <Col md={10} sm={12}><input id="location" defaultValue={this.state.listing.listLocation} placeholder="Ex. Champaign, IL" autoComplete="" minLength="1" maxLength="50" title="Enter alphanumeric charcters, hyphens and spaces only." required /></Col>
                 </Row>
                 <Row className="setting-row">
-                  <Col md={2} sm={12}><label htmlFor="deadline">Deadline<Req />:</label></Col>
-                  <Col md={10} sm={12}><input id="deadline" min={minDate} max={maxDate} type="date" required></input></Col>
+                  <Col md={2} sm={12}><label htmlFor="deadline">Deadline:</label></Col>
+                  <Col md={10} sm={12}><input id="deadline" defaultValue={this.state.listing.listDeadline} min={minDate} max={maxDate} type="date" required /></Col>
                 </Row>
                 <Row className="setting-row">
-                  <Col md={2} sm={12}><label htmlFor="long-desc" >Full Description<Req />:</label></Col>
-                  <Col md={10} sm={12}><textarea id="long-desc" minLength="100" maxLength="7500" required></textarea></Col>
+                  <Col md={2} sm={12}><label htmlFor="long-desc" >Full Description:</label></Col>
+                  <Col md={10} sm={12}><textarea id="long-desc" defaultValue={this.state.listing.listLongDesc} minLength="100" maxLength="7500" required /></Col>
                 </Row>
                 <Row className="setting-row">
-                  <Col md={2} sm={12}><label htmlFor="create-listing">Create Listing:</label></Col>
-                  <Col md={10} sm={12}><button id="create-listing" type="submit">Create Listing</button></Col>
+                  <Col md={2} sm={12}><label htmlFor="create-listing">Update Listing:</label></Col>
+                  <Col md={10} sm={12}><button id="create-listing" type="submit">Update Listing</button></Col>
                 </Row>
               </form>
           </Container>
@@ -164,3 +172,11 @@ export default class NewListing extends Component {
       )
    }
 }
+
+const mapStateToProps = (state) => ({
+  user: state.user,
+  isAuthenticated: state.isAuthenticated,
+  isStartup: state.isStartup
+});
+
+export default connect(mapStateToProps)(EditListing);

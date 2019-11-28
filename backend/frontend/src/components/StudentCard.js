@@ -11,7 +11,6 @@ import { faClock as deadlineIcon } from '@fortawesome/free-regular-svg-icons'
 class Listing extends Component {
   state = {
     company: [],
-    favorited: false
   }
 
   async componentWillMount() {
@@ -96,24 +95,6 @@ class Listing extends Component {
     }
   }
 
-  async favoriteThis() {
-    try {
-      const resp = await axios({
-          url:' /api/users/' + this.props.id + '/toggle/',
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json;charset=UTF-8',
-            'Authorization': 'Token ' + localStorage.getItem("token")
-          },
-        });
-      const json = await resp.data;
-      this.setState({favorited: json.isfavorited}, this.componentDidMount);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   addDefaultSrc(ev) {
     ev.target.src = '/img/usr/missing.png';
   }
@@ -123,9 +104,6 @@ class Listing extends Component {
         <div className="student-card">
           <div className="top-background" >
             <Link className="image-wrapper" to={"/user-profile/" + this.props.id}>
-              <button className={"button-secondary fav " + (this.state.favorited ? "favorited" : "favorite") } id={"favorite-button-" + this.props.id} onClick={(e) => {e.preventDefault(); this.favoriteThis()}} >
-                <FontAwesomeIcon icon={favoriteIcon}></FontAwesomeIcon>
-              </button>
               <img onError={this.addDefaultSrc} src={this.props.logo} alt={this.props.userName}></img>
             </Link>
             <Link to={this.props.jobPage} className="name"><h2>{this.props.userName}</h2></Link>
