@@ -96,7 +96,7 @@ function formatDateString(str) {
       month = "October";
       break;
     case "11":
-      month = "Novebmer";
+      month = "November";
       break;
     case "12":
       month = "December";

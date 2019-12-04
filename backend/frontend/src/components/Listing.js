@@ -103,13 +103,13 @@ class Listing extends Component {
   render () {
       return (
         <div className="listing">
-          <Link className="image-wrapper" to={"/org/" + this.props.company}><img onError={this.addDefaultSrc} src={this.props.logo} alt={this.props.company}></img></Link>
+          <Link className="image-wrapper" to={"/org/" + this.props.company}><img onError={this.addDefaultSrc} src={this.props.logo} alt={this.props.company} /></Link>
           <div className="inf">
             <Link to={this.props.jobPage}><h2>{this.props.listName} | {this.state.company.orgName}</h2></Link>
             <p className="sub-title">
-              <FontAwesomeIcon icon={locationIcon}></FontAwesomeIcon>
+              <FontAwesomeIcon icon={locationIcon} />
               &nbsp; {this.props.listLocation} &nbsp; &mdash; &nbsp;&nbsp;
-              <FontAwesomeIcon icon={deadlineIcon}></FontAwesomeIcon>
+              <FontAwesomeIcon icon={deadlineIcon} />
               &nbsp; {this.props.listDeadline}
             </p>
             <p>
@@ -119,20 +119,20 @@ class Listing extends Component {
             <div className="button-wrapper">
               <Link to={this.props.jobPage} className="button">
                 { this.props.isStartup ? "View" : "Apply" } &nbsp;
-                <FontAwesomeIcon icon={appIcon}></FontAwesomeIcon>
+                <FontAwesomeIcon icon={appIcon} />
               </Link>
               <button className={"button-secondary " + (this.state.bookmarked ? "bookmarked" : "bookmark") } id={"bookmark-button-" + this.props.id} onClick={(e) => {e.preventDefault(); this.bookmarkThis()}} >
-                <FontAwesomeIcon icon={bookmarkIcon}></FontAwesomeIcon>
+                <FontAwesomeIcon icon={bookmarkIcon} />
                 &nbsp; Bookmark
               </button>
               <Link style={{display: "none"}} className="button" id={"edit-button-" + this.props.id} to={"/my-listings/edit/" + this.props.id} >
                 Edit
-                &nbsp; <FontAwesomeIcon icon={editIcon}></FontAwesomeIcon>
+                &nbsp; <FontAwesomeIcon icon={editIcon} />
               </Link>
             </div>
           </div>
-          <div style={{clear: "both"}}></div>
-          <div className="shadow"></div>
+          <div style={{clear: "both"}} />
+          <div className="shadow" />
         </div>
       )
    }

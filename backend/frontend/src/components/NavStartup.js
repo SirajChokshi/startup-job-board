@@ -26,11 +26,8 @@ class NavStartup extends Component {
       this.props.dispatch({ type: "LOGOUT" });
       this.props.history.push('/');
     } catch (error) {
-      if (error.response.status === 401) {
-          this.props.dispatch({ type: "LOGOUT" });
-          this.props.history.push('/');
-      }
-      else console.error(error);
+        this.props.dispatch({ type: "LOGOUT" });
+        this.props.history.push('/');
     }
   }
 
@@ -80,9 +77,8 @@ class NavStartup extends Component {
              </span>
              <div className="dropdown-content">
                <NavLink to={"/org/" + this.props.user.id} >Profile</NavLink>
-               <NavLink to="/favorites">Favorites</NavLink>
-               <hr></hr>
-               <NavLink to="/company-settings">Settings</NavLink>
+               <hr />
+               <NavLink to="/org-settings">Settings</NavLink>
                <a onClick={(e) => {e.preventDefault(); this.logout()}} >Logout</a>
              </div>
            </li>

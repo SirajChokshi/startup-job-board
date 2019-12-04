@@ -2,15 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="38a416c5-8e3b-4fd2-862d-335aa23fc6d9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/views/EditListing.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/OrgSettings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Listing.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Listing.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/NavStartup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NavStartup.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/StudentCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/StudentCard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/EditListing.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/EditListing.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/JobPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/JobPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/MyListings.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/MyListings.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/NewListing.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/NewListing.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/OrgProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/OrgProfile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/Settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Settings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/OrgSettings.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/OrgSettings.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -57,7 +56,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1574816131617</updated>
-      <workItem from="1574816132944" duration="5900000" />
+      <workItem from="1574816132944" duration="11065000" />
     </task>
     <servers />
   </component>
@@ -80,7 +79,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/App.js</url>
-          <line>23</line>
+          <line>24</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="1" />
         </line-breakpoint>

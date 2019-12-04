@@ -21,6 +21,13 @@ class Settings extends Component {
 
   }
 
+  resetErrors() {
+    var errorBlocks = document.getElementsByClassName("error");
+    for (var i = 0; i < errorBlocks.length; ++i) {
+      errorBlocks[i].style.display = 'none';
+    }
+  }
+
   handleUserError() {
     console.error("User Error");
   }
@@ -30,6 +37,25 @@ class Settings extends Component {
   }
 
   async updateSettings() {
+    this.resetErrors();
+    try {
+      const data = { "password" : document.getElementById("confirm-password-1").value };
+      const response = await axios({
+        url: '/api/authusers/confirm',
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json;charset=UTF-8'
+        },
+        data: data
+      });
+      const json = await response.data;
+      console.log(json);
+
+    } catch (error) {
+      console.error(error);
+    }
+
     try {
       const data = {
         "firstName" : document.getElementById("first-name").value,

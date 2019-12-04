@@ -3,6 +3,7 @@ import { Container, Row, Col } from 'react-grid-system';
 import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router-dom';
 import * as axios from 'axios';
+import Select from "react-select";
 // import { Link } from 'react-router-dom';
 
 // Icons
@@ -11,6 +12,23 @@ import * as axios from 'axios';
 // import { faClock as deadlineIcon } from '@fortawesome/free-regular-svg-icons'
 
 /* ------------------------- */
+
+const industryList = [
+  { label: "Accounting/Finance", value: "FIN" },
+  { label: "Administrative", value: "ADM" },
+  { label: "Biotechnology", value: "BIO" },
+  { label: "Chemical/Materials", value: "CHEM" },
+  { label: "Data/Analysis", value: "DATA"},
+  { label: "Engineering", value: "ENG" },
+  { label: "Health/Medicine", value: "MED" },
+  { label: "Project Mangement", value: "PM" },
+  { label: "Marketing/PR", value: "PR" },
+  { label: "Sales/Business", value: "BUS" },
+  { label: "Software Development", value: "DEV" },
+  { label: "Legal", value: "LAW" },
+  { label: "User Experience/Design", value: "UX" },
+  { label: "Other", value: "MISC" }
+];
 
 var date = new Date();
 var minDate = date.getFullYear() - 1;
@@ -35,7 +53,7 @@ class Settings extends Component {
         "firstName" : document.getElementById("first-name").value,
       }
       const profileResponse = await axios({
-          url:' /api/users/' + this.props.user.id + '/update/',
+          url:' /api/startups/' + this.props.user.id + '/update/',
           method: 'PATCH',
           headers: {
             'Accept': 'application/json',
@@ -96,7 +114,7 @@ class Settings extends Component {
         return (
           <Redirect to="/login" />
         )
-      } else if (this.props.isStartup) {
+      } else if (!this.props.isStartup) {
         return (
           <Redirect to="/" />
         )
@@ -111,15 +129,11 @@ class Settings extends Component {
           </div>
           <br />
           <Container id="user-settings">
-            <h1>Account Settings</h1>
+            <h1>Company Settings</h1>
               <form onSubmit={(e) => {e.preventDefault(); this.updateSettings()}}>
                 <Row className="setting-row">
-                  <Col md={2} sm={12}><label htmlFor="first-name" >First Name:</label></Col>
-                  <Col md={10} sm={12}><input id="first-name" defaultValue={this.props.user.firstName} autoComplete="given-name" minLength="1" pattern="[A-Za-z0-9-]+" maxLength="30" title="Enter alphanumeric charcters and hyphens only." /></Col>
-                </Row>
-                <Row className="setting-row">
-                  <Col md={2} sm={12}><label htmlFor="last-name">Last Name:</label></Col>
-                  <Col md={10} sm={12}><input id="last-name" defaultValue={this.props.user.lastName} autoComplete="family-name" minLength="1" pattern="[A-Za-z0-9- ]+" maxLength="50" title="Enter alphanumeric charcters, hyphens and spaces only."/></Col>
+                  <Col md={2} sm={12}><label htmlFor="org-name" >Company Name:</label></Col>
+                  <Col md={10} sm={12}><input id="org-name" defaultValue={this.props.user.orgName} autoComplete="given-name" minLength="1" pattern="[A-Za-z0-9-]+" maxLength="30" title="Enter alphanumeric charcters and hyphens only." /></Col>
                 </Row>
               {/*}
                 <Row className="setting-row">
@@ -132,46 +146,39 @@ class Settings extends Component {
                 </Row>
               {*/}
                 <Row className="setting-row">
-                  <Col md={2} sm={12}><label htmlFor="confirm-password-1">Confirm Password:</label></Col>
-                  <Col md={10} sm={12}><input id="confirm-password-1" type="password" autoComplete="current-password" title="Confirm Password to make changes." required /></Col>
+                  <Col md={2} sm={12}><label htmlFor="desc" >Company Description (220 characters):</label></Col>
+                  <Col md={10} sm={12}><textarea id="desc" maxLength="220" defaultValue={this.props.user.orgDesc} /></Col>
                 </Row>
                 <Row className="setting-row">
-                  <Col md={2} sm={12}><label htmlFor="submit-settings">Submit Changes</label></Col>
-                  <Col md={10} sm={12}><button id="submit-settings" type="submit">Submit Changes</button></Col>
-                </Row>
-              </form>
-            <hr />
-            <h1>Profile Settings</h1>
-              <form onSubmit={(e) => {e.preventDefault(); this.updateProfile()}}>
-                <Row className="setting-row">
-                  <Col md={2} sm={12}><label htmlFor="bio" >Biography (220 characters):</label></Col>
-                  <Col md={10} sm={12}><textarea id="bio" maxLength="220" defaultValue={this.props.user.userPitch} /></Col>
+                  <Col md={2} sm={12}><label htmlFor="desc" >Company Location:</label></Col>
+                  <Col md={10} sm={12}><input id="desc" maxLength="32" defaultValue={this.props.user.orgLocation} /></Col>
                 </Row>
                 <Row className="setting-row">
-                  <Col md={2} sm={12}><label htmlFor="grad-date" >Graduation Year:</label></Col>
-                  <Col md={10} sm={12}><input id="grad-date" type="number" defaultValue={this.props.userGradYear} step="1" min={minDate} max={maxDate} /></Col>
-                </Row>
-                <Row className="setting-row">
-                  <Col md={2} sm={12}><label htmlFor="major">Major:</label></Col>
+                  <Col md={2} sm={12}><label htmlFor="industry">Industry:</label></Col>
                   <Col md={10} sm={12}>
-                    <input id="major" defaultValue={this.props.user.userMajor} minLength="1" pattern="[A-Za-z0-9&/-]+" title="Only use alphanumeric characters and '&', '/' and '-'." maxLength="50">
-                    </input>
-                 </Col>
-                </Row>
-                <Row className="setting-row">
-                  <Col md={2} sm={12}><label htmlFor="gpa" >GPA (Out of 4.00):</label></Col>
-                  <Col md={10} sm={12}><input id="gpa" defaultValue={parseFloat(this.props.user.userGPA).toFixed(2)} type="number" step="0.01" min="0" max="4" /></Col>
-                </Row>
-                <Row className="setting-row">
-                  <Col md={2} sm={12}><label htmlFor="skills" >Skills (seperate each with a comma):</label></Col>
-                  <Col md={10} sm={12}><textarea id="skills" maxLength="220" defaultValue={this.props.user.extraCurriculars} /></Col>
+                    <Select
+                        options={industryList}
+                        className="filter-dropdown"
+                        onChange={this.handleCategoryChange}
+                        theme={theme => ({
+                          ...theme,
+                          borderRadius: "8px",
+                          colors: {
+                            ...theme.colors,
+                            primary25: '#eeeeee',
+                            primary: '#3d5afe',
+                            primary50: '#e8e8e8',
+                          },
+                        })}>
+                    </Select>
+                  </Col>
                 </Row>
                 <Row className="setting-row">
                   <Col md={2} sm={12}><label htmlFor="confirm-password-2">Confirm Password:</label></Col>
                   <Col md={10} sm={12}><input id="confirm-password-2" type="password" autoComplete="current-password" title="Confirm Password to make changes." required /></Col>
                 </Row>
                 <Row className="setting-row">
-                  <Col md={2} sm={12}><label htmlFor="submit-profile">Update Profile</label></Col>
+                  <Col md={2} sm={12}><label htmlFor="submit-profile">Update Settings</label></Col>
                   <Col md={10} sm={12}><button id="submit-profile" type="submit">Update Profile</button></Col>
                 </Row>
               </form>

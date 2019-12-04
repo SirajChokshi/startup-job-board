@@ -4,7 +4,7 @@ import { Link, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faExternalLinkAlt as appIcon, faMapMarkerAlt as locationIcon, faBriefcase as jobCategoryIcon, faCode as Software, faEdit as editIcon } from '@fortawesome/free-solid-svg-icons'
+import { faExternalLinkAlt as appIcon, faMapMarkerAlt as locationIcon, faBriefcase as jobCategoryIcon, faList as Software, faEdit as editIcon } from '@fortawesome/free-solid-svg-icons'
 import { faClock as deadlineIcon } from '@fortawesome/free-regular-svg-icons'
 
 // Components
@@ -47,7 +47,7 @@ class JobPage extends Component {
           .then(res => res.json())
           .then((data) => {
               this.setState({ listing: data })
-              console.log(this.state.listing.listLongDesc)
+              // console.log(this.state.listing.listLongDesc)
           })
           .then(() => {
               fetch('/api/startups/' + this.state.listing.listOrgID + '/?format=json', {
@@ -129,11 +129,11 @@ class JobPage extends Component {
                   <Link className="button">Apply <span className="hide-ext">Externally </span>&nbsp; <FontAwesomeIcon icon={appIcon} /></Link>
                 )}
               </div>
-              <br></br>
-              <hr></hr>
-              <br></br>
+              <br />
+              <hr />
+              <br />
               <Row className="company-profile">
-                <Col md={2} xs={3}><Link className="image-wrapper" to={this.state.company.id}><img onError={this.addDefaultSrc} src={"/img/org/" + this.state.company.id + ".png"} alt={this.state.company.orgName} /></Link></Col>
+                <Col md={2} xs={3}><Link className="image-wrapper" to={"/org/" + this.state.company.id}><img onError={this.addDefaultSrc} src={"/img/org/" + this.state.company.id + ".png"} alt={this.state.company.orgName} /></Link></Col>
                 <Col md={10} xs={9}>
                   <Link to={this.props.jobPage}><h2 style={{display: "inline"}}>{this.state.company.orgName} <span className="hide-pipe">|</span></h2> <p id="company-industry"><FontAwesomeIcon style={{fontSize: "14px"}} icon={Software}></FontAwesomeIcon> &nbsp;{this.state.company.orgIndustry}</p></Link>
                   <p className="sub-title">

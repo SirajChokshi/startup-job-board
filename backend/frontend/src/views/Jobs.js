@@ -53,7 +53,7 @@ export default class Jobs extends Component {
 
   componentDidMount() {
       this.setState({ listings: [] });
-      fetch('/api/listings/?format=json&search=' + this.state.search + '&isPaid=' + this.state.isPaid + '&listCategory=' + this.state.listCategory + '&isOpen=true' )
+      fetch('/api/listings/?format=json&search=' + this.state.search + '&isPaid=' + this.state.isPaid + '&listCategory=' + this.state.listCategory + '&ordering=' + this.state.sort + '&isOpen=true' )
       .then(res => res.json())
       .then((data) => {
         this.setState({ listings: data })
@@ -104,19 +104,19 @@ export default class Jobs extends Component {
             <div className="hero-inner">
               <h1>Look for a job,</h1>
                 <div id="search-bar-wrapper">
-                   <input type="search" id="jobs-search-bar" placeholder="Search for a job or internship..." className="search" onKeyPress={this.keyPressed} ></input>
+                   <input type="search" id="jobs-search-bar" placeholder="Search for a job or internship..." className="search" onKeyPress={this.keyPressed} />
                      <button id="search-icon-wrapper" onClick={this.search} >
                        <FontAwesomeIcon icon={search} style={{verticalAlign: 'middle', color: '#8e8e8e', fontSize: 18 + 'px', marginBottom: 4 + 'px'}} />
                      </button>
                 </div>
-              <br></br>
+              <br />
               <span className="sub-title">
                   <Link to="/applications">My Applications</Link>&nbsp;
                   | &nbsp;<Link to="/bookmarks">Bookmarks</Link>
               </span>
             </div>
           </div>
-          <br></br>
+          <br />
           <Container>
             <Row>
               <Col xl={3} lg={4}>
@@ -139,7 +139,7 @@ export default class Jobs extends Component {
                       },
                       })}>
                   </Select>
-                  <br></br>
+                  <br />
                   <label className="filter-label">Salary</label>
                     <Select
                       options={isPaidList}

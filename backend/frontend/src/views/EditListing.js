@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-grid-system';
 import * as axios from 'axios';
 import Select from 'react-select';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 import {connect} from "react-redux";
 
 // Icons
@@ -63,10 +63,11 @@ class EditListing extends Component {
         "listLongDesc" : document.getElementById("long-desc").value,
         "listDeadline" : document.getElementById("deadline").value,
         "listLocation" : document.getElementById("location").value,
+        "externalLink" : document.getElementById("app-url").value,
         "listCategory": this.state.listCategory
       };
       const response = await axios({
-          url: '/api/listings/',
+          url: '/api/listings/' + this.props.listingID + '/update/',
           method: 'PATCH',
           headers: {
             'Accept': 'application/json',
@@ -83,6 +84,23 @@ class EditListing extends Component {
 //      console.clear();
       if (error.response.status === 400) {
         console.error(error)
+      }
+      else if (error.response.status === 401) {
+        this.props.history.push({
+          pathname: '/login',
+        })
+      }
+      else if (error.response.status === 403) {
+        if (this.props.isStartup) {
+          this.props.history.push({
+            pathname: '/my-listings',
+          })
+        }
+        else {
+          this.props.history.push({
+            pathname: '/',
+          })
+        }
       }
       else console.error('NOT 400: OTHER ERROR')
     }
@@ -126,8 +144,8 @@ class EditListing extends Component {
                   <Col md={10} sm={12}><textarea id="short-desc" defaultValue={this.state.listing.listDesc} maxLength="160" placeholder="" required /></Col>
                 </Row>
                 <Row className="setting-row">
-                  <Col md={2} sm={12}><label htmlFor="app-url" >Application URL:</label></Col>
-                  <Col md={10} sm={12}><input id="app-url" placeholder="Ex. https://mycompany.com/jobs?id=0" type="url" required /></Col>
+                  <Col md={2} sm={12}><label htmlFor="app-url" >Application URL (HTTP or mailto address):</label></Col>
+                  <Col md={10} sm={12}><input id="app-url" defaultValue={this.state.listing.externalLink} placeholder="Ex. https://mycompany.com/jobs?id=0, mailto:jobs@company.com" type="url" required /></Col>
                 </Row>
                 <Row className="setting-row">
                   <Col md={2} sm={12}><label htmlFor="category">Job Category:</label></Col>
@@ -136,7 +154,7 @@ class EditListing extends Component {
                       options={categoryList}
                       className="filter-dropdown"
                       onChange={this.handleCategoryChange}
-                      defaultValue={categoryList[13]}
+                      defaultValue={this.state.listing.listCategory}
                       theme={theme => ({
                        ...theme,
                        borderRadius: "8px",
@@ -179,4 +197,4 @@ const mapStateToProps = (state) => ({
   isStartup: state.isStartup
 });
 
-export default connect(mapStateToProps)(EditListing);
+export default withRouter(connect(mapStateToProps)(EditListing));

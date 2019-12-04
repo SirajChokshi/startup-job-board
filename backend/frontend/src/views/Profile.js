@@ -11,7 +11,6 @@ import { faClock as deadlineIcon } from '@fortawesome/free-regular-svg-icons'
 
 /* ------------------------- */
 
-var profileImage, studentName, studentEmail, studentPitch, gpa, gradDate, major, skills, greeting, degree = "";
 var loggedInID;
 var sameUser = false;
 
@@ -32,44 +31,50 @@ const addListingStyles = {
 
 class Profile extends Component {
   state = {
-
+    student: []
   }
 
   addDefaultSrc(ev) {
     ev.target.src = '/img/usr/missing.png';
   }
+  //
+  // async tryForUser(id) {
+  //   try {
+  //     const userResponse = await axios({
+  //         url: '/api/users/' + id + '/',
+  //         method: 'GET',
+  //         headers: {
+  //           'Accept': 'application/json',
+  //           'Content-Type': 'application/json;charset=UTF-8',
+  //           'Authorization': 'Token ' + localStorage.getItem("token")
+  //         }
+  //     });
+  //     // console.log(userResponse.data);
+  //     const user = await userResponse.data;
+  //     greeting = user.firstName + "'s";
+  //     profileImage = "/dff.g";
+  //     studentName = user.firstName + " " + user.lastName;
+  //     studentEmail = user.email;
+  //     gpa = user.userGPA;
+  //     degree = user.userDegree;
+  //     gradDate = user.userGradYear;
+  //     major = user.userMajor;
+  //     studentPitch = user.userPitch;
+  //     skills= user.extraCurriculars;
+  //   } catch (error) {
+  //     console.error('USER RETRIEVAL ERROR');
+  //   }
+  // }
 
-  async tryForUser(id) {
-    try {
-      const userResponse = await axios({
-          url: '/api/users/' + id + '/',
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json;charset=UTF-8',
-            'Authorization': 'Token ' + localStorage.getItem("token")
-          }
-      });
-      // console.log(userResponse.data);
-      const user = await userResponse.data;
-      greeting = user.firstName + "'s";
-      profileImage = "/dff.g";
-      studentName = user.firstName + " " + user.lastName;
-      studentEmail = user.email;
-      gpa = user.userGPA;
-      degree = user.userDegree;
-      gradDate = user.userGradYear;
-      major = user.userMajor;
-      studentPitch = user.userPitch;
-      skills= user.extraCurriculars;
-    } catch (error) {
-      console.error('USER RETRIEVAL ERROR');
-    }
-  }
-
-  async componentDidMount() {
-    profileImage = studentName = studentEmail = studentPitch = gpa = gradDate = major = skills = greeting = degree = "";
-    this.tryForUser(this.props.userID);
+  componentDidMount() {
+      fetch('/api/users/' + this.props.userID + '/')
+          .then(res => res.json())
+          .then((data) => {
+              this.setState({ student: data })
+          })
+          .catch(
+              console.log
+          )
   }
 
   render () {
@@ -82,10 +87,19 @@ class Profile extends Component {
         <>
           <div className="hero">
             <div className="hero-inner">
-              <h1>{greeting} Profile</h1>
+              <h1>{
+                  sameUser ?
+                      (
+                          <>Your </>
+                      ) :
+                      (
+                          <>{this.state.student.firstName}'s </>
+                      )
+                } Profile
+              </h1>
             </div>
           </div>
-          <br></br>
+          <br />
           <Container id="user-profile">
             { sameUser &&
               (<Link id="new-listing-button" style={addListingStyles} to="/user-settings/">
@@ -96,26 +110,26 @@ class Profile extends Component {
             }
             <Row>
               <Col md={3} xs={4}>
-                <img id="user-profile-image" src={profileImage} onError={this.addDefaultSrc} />
+                <img id="user-profile-image" src={"/ggs??.gw"} onError={this.addDefaultSrc} />
               </Col>
               <Col md={9} xs={8} className="user-profile-header">
-                <h1>{studentName}</h1>
-                <p>{studentPitch}</p>
+                <h1>{this.state.student.firstName + " " + this.state.student.lastName}</h1>
+                <p>{this.state.student.userPitch}</p>
                 <Row id="stats">
                   <Col md={4} sm={12}>
-                    <FontAwesomeIcon icon={educationIcon} /> &nbsp;<strong>Class:</strong>&nbsp; {degree}, {gradDate}
+                    <FontAwesomeIcon icon={educationIcon} /> &nbsp;<strong>Class:</strong>&nbsp; {this.state.student.userDegree}, {this.state.student.userGradYear}
                     <br />
-                    &nbsp;<FontAwesomeIcon icon={majorIcon} /> &nbsp; <strong>Major:</strong>&nbsp; {major}
+                    &nbsp;<FontAwesomeIcon icon={majorIcon} /> &nbsp; <strong>Major:</strong>&nbsp; {this.state.student.userMajor}
                     <br />
-                    &nbsp;<FontAwesomeIcon icon={gradeIcon} /> &nbsp; <strong>GPA:</strong>&nbsp; {parseFloat(gpa).toFixed(2)}
+                    &nbsp;<FontAwesomeIcon icon={gradeIcon} /> &nbsp; <strong>GPA:</strong>&nbsp; {parseFloat(this.state.student.userGPA).toFixed(2)}
                   </Col>
                   <Col md={4} sm={12}>
-                    <FontAwesomeIcon icon={emailIcon} /> &nbsp; <a href={"mailto:" + studentEmail}>{studentEmail}</a>
+                    <FontAwesomeIcon icon={emailIcon} /> &nbsp; <a href={"mailto:" + this.state.student.email}>{this.state.student.email}</a>
                     <br />
                     <FontAwesomeIcon icon={resumeIcon} /> &nbsp;&nbsp; <Link to="/usr/files/resume.pdf">Resume</Link>
                   </Col>
                   <Col md={4} sm={12}>
-                    <FontAwesomeIcon icon={skillsIcon} /> &nbsp; <strong>Skills:</strong>&nbsp; {skills}
+                    <FontAwesomeIcon icon={skillsIcon} /> &nbsp; <strong>Skills:</strong>&nbsp; {this.state.student.extraCurriculars}
                   </Col>
                 </Row>
               </Col>

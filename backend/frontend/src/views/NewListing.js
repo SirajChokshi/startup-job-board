@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-grid-system';
 import * as axios from 'axios';
 import Select from 'react-select';
-// import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 // Icons
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -47,7 +47,7 @@ const categoryList = [
   { label: "Other", value: "MISC" }
 ];
 
-export default class NewListing extends Component {
+class NewListing extends Component {
   state = {
     listCategory: ""
   }
@@ -60,13 +60,13 @@ export default class NewListing extends Component {
         "listLongDesc" : document.getElementById("long-desc").value,
         "listLocation" : document.getElementById("location").value,
         "listDeadline" : document.getElementById("deadline").value,
-        "listOrgID" : 1,
+        "externalLink" : document.getElementById("app-url").value,
         "listCategory": this.state.listCategory,
         "isOpen": true,
         "isPaid": true
       };
       const response = await axios({
-          url: '/api/listings/',
+          url: '/api/listings/manage/add/',
           method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -75,16 +75,23 @@ export default class NewListing extends Component {
           },
           data: data
       });
-      console.log(response.result);
+      // console.log(response.result);
       //console.log(data);
       const json = await response.data;
       console.log('Success:', JSON.stringify(json));
+      this.props.history.push({
+        pathname: '/my-listings',
+        state: {
+          newListing: true
+        }
+      })
     } catch (error) {
 //      console.clear();
-      if (error.response.status === 400) {
-        console.error(error)
-      }
-      else console.error('NOT 400: OTHER ERROR')
+//       if (error.response.status === 400) {
+//         console.error(error)
+//       }
+//       else console.error('NOT 400: OTHER ERROR')
+      console.error(error);
     }
   }
 
@@ -103,7 +110,7 @@ export default class NewListing extends Component {
               <h1>Create a new listing</h1>
             </div>
           </div>
-          <br></br>
+          <br />
 
           <Container id="user-settings">
             <h1>Listing Information</h1>
@@ -111,15 +118,15 @@ export default class NewListing extends Component {
               <form  onSubmit={(e) => {e.preventDefault(); this.postListing()}}>
                 <Row className="setting-row">
                   <Col md={2} sm={12}><label htmlFor="listing-title" >Position Title<Req />:</label></Col>
-                  <Col md={10} sm={12}><input id="listing-title" placeholder="Ex. Public Relations Intern" autoComplete="organization-title" minLength="3" maxLength="50" title="Enter alphanumeric charcters and hyphens only." ></input></Col>
+                  <Col md={10} sm={12}><input id="listing-title" placeholder="Ex. Public Relations Intern" autoComplete="organization-title" minLength="3" maxLength="50" title="Enter alphanumeric charcters and hyphens only." /></Col>
                 </Row>
                 <Row className="setting-row">
                   <Col md={2} sm={12}><label htmlFor="short-desc" >Short Description (160 characters)<Req />:</label></Col>
-                  <Col md={10} sm={12}><textarea id="short-desc" maxLength="160" placeholder="" required></textarea></Col>
+                  <Col md={10} sm={12}><textarea id="short-desc" maxLength="160" placeholder="" required /></Col>
                 </Row>
                 <Row className="setting-row">
                   <Col md={2} sm={12}><label htmlFor="app-url" >Application URL<Req />:</label></Col>
-                  <Col md={10} sm={12}><input id="app-url" placeholder="Ex. https://mycompany.com/jobs?id=0" type="url" required></input></Col>
+                  <Col md={10} sm={12}><input id="app-url" placeholder="Ex. https://mycompany.com/jobs?id=0" type="url" required /></Col>
                 </Row>
                 <Row className="setting-row">
                   <Col md={2} sm={12}><label htmlFor="category">Job Category<Req />:</label></Col>
@@ -144,15 +151,15 @@ export default class NewListing extends Component {
                 </Row>
                 <Row className="setting-row">
                   <Col md={2} sm={12}><label htmlFor="location">Location<Req />:</label></Col>
-                  <Col md={10} sm={12}><input id="location" placeholder="Ex. Champaign, IL" autoComplete="" minLength="1" maxLength="50" title="Enter alphanumeric charcters, hyphens and spaces only." required></input></Col>
+                  <Col md={10} sm={12}><input id="location" placeholder="Ex. Champaign, IL" autoComplete="" minLength="1" maxLength="50" title="Enter alphanumeric charcters, hyphens and spaces only." required /></Col>
                 </Row>
                 <Row className="setting-row">
                   <Col md={2} sm={12}><label htmlFor="deadline">Deadline<Req />:</label></Col>
-                  <Col md={10} sm={12}><input id="deadline" min={minDate} max={maxDate} type="date" required></input></Col>
+                  <Col md={10} sm={12}><input id="deadline" min={minDate} max={maxDate} type="date" required /></Col>
                 </Row>
                 <Row className="setting-row">
                   <Col md={2} sm={12}><label htmlFor="long-desc" >Full Description<Req />:</label></Col>
-                  <Col md={10} sm={12}><textarea id="long-desc" minLength="100" maxLength="7500" required></textarea></Col>
+                  <Col md={10} sm={12}><textarea id="long-desc" minLength="100" maxLength="7500" required /></Col>
                 </Row>
                 <Row className="setting-row">
                   <Col md={2} sm={12}><label htmlFor="create-listing">Create Listing:</label></Col>
@@ -164,3 +171,5 @@ export default class NewListing extends Component {
       )
    }
 }
+
+export default withRouter(NewListing);

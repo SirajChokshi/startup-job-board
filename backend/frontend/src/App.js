@@ -19,6 +19,7 @@ import JobPage from './views/JobPage';
 import InitAccount from './views/InitAccount';
 import Students from './views/Students';
 import EditListing from "./views/EditListing";
+import OrgSettings from "./views/OrgSettings";
 
 // Components
 import MasterNav from './components/MasterNav';
@@ -49,6 +50,9 @@ function App() {
             <Route exact={true} path='/user-settings' render={() => (
                 <Settings />
             )}/>
+            <Route exact={true} path='/org-settings' render={() => (
+                <OrgSettings />
+                )}/>
             <Route exact={true} path='/bookmarks' render={() => (
                 <Bookmarks />
             )}/>

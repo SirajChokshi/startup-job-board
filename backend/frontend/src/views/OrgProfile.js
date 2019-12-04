@@ -9,6 +9,31 @@ import { faList as Software } from '@fortawesome/free-solid-svg-icons'
 import Sort from '../components/Sort';
 import Feed from '../components/Feed';
 
+const industryList = [
+    { label: "Accounting/Finance", value: "FIN" },
+    { label: "Administrative", value: "ADM" },
+    { label: "Biotechnology", value: "BIO" },
+    { label: "Chemical/Materials", value: "CHEM" },
+    { label: "Data/Analysis", value: "DATA"},
+    { label: "Engineering", value: "ENG" },
+    { label: "Health/Medicine", value: "MED" },
+    { label: "Project Mangement", value: "PM" },
+    { label: "Marketing/PR", value: "PR" },
+    { label: "Sales/Business", value: "BUS" },
+    { label: "Software Development", value: "DEV" },
+    { label: "Legal", value: "LAW" },
+    { label: "User Experience/Design", value: "UX" },
+    { label: "Other", value: "MISC" }
+];
+
+function getLabelFromValue(value) {
+    for (const key of Object.keys(industryList)) {
+        if (industryList[key].value === value) {
+            return industryList[key].label;
+        }
+    }
+}
+
 export default class OrgProfile extends Component {
   state = {
     listings: [],
@@ -67,7 +92,7 @@ export default class OrgProfile extends Component {
                 <Col md={2} xs={3}><span className="image-wrapper" ><img onError={this.addDefaultSrc} src={"/img/org/" + this.state.company.id + ".png"} alt={this.props.company} /></span></Col>
                 <Col md={10} xs={9}>
                   <Link to={this.props.jobPage}><h2 style={{display: "inline"}}>{this.state.company.orgName}</h2></Link><br />
-                  <p id="company-industry"><FontAwesomeIcon style={{fontSize: "14px"}} icon={Software} /> &nbsp;{this.state.company.orgIndustry}</p>
+                  <p id="company-industry"><FontAwesomeIcon style={{fontSize: "14px"}} icon={Software} /> &nbsp;{getLabelFromValue(this.state.company.orgIndustry)}</p>
                   <p className="sub-title">
 
                   </p>
