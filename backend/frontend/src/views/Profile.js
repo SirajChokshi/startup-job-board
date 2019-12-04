@@ -104,14 +104,14 @@ class Profile extends Component {
                 <Row id="stats">
                   <Col md={4} sm={12}>
                     <FontAwesomeIcon icon={educationIcon} /> &nbsp;<strong>Class:</strong>&nbsp; {degree}, {gradDate}
-                    <br></br>
+                    <br />
                     &nbsp;<FontAwesomeIcon icon={majorIcon} /> &nbsp; <strong>Major:</strong>&nbsp; {major}
-                    <br></br>
+                    <br />
                     &nbsp;<FontAwesomeIcon icon={gradeIcon} /> &nbsp; <strong>GPA:</strong>&nbsp; {parseFloat(gpa).toFixed(2)}
                   </Col>
                   <Col md={4} sm={12}>
                     <FontAwesomeIcon icon={emailIcon} /> &nbsp; <a href={"mailto:" + studentEmail}>{studentEmail}</a>
-                    <br></br>
+                    <br />
                     <FontAwesomeIcon icon={resumeIcon} /> &nbsp;&nbsp; <Link to="/usr/files/resume.pdf">Resume</Link>
                   </Col>
                   <Col md={4} sm={12}>
