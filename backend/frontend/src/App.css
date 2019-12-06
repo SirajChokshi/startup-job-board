@@ -140,9 +140,10 @@ nav ul li input.search {
   padding: 5px 100px 5px 10px;
 }
 
-span#nav-search-icon-wrapper {
+#nav-search-icon-wrapper {
   padding: 5px 10px 5px 0;
   border-radius: 0 8px 8px 0;
+  border: none;
   background-color: var(--secondary-text-color);
 }
 
@@ -747,12 +748,12 @@ span.req::before {
   content: "*";
 }
 
-form label {
+form label, label.filter-label {
   display: block;
   margin: 20px 0 10px 0;
 }
 
-form input, form textarea {
+form input, form textarea, input.filter-input {
   font-size: 18px;
   border-radius: 10px;
   outline: none;
@@ -773,7 +774,7 @@ form textarea {
   font-family: sans-serif;
 }
 
-form input:focus, form textarea:focus {
+form input:focus, form textarea:focus, input.filter-input:focus {
   border: solid 3px var(--main-color);
 }
 

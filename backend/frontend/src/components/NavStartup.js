@@ -4,8 +4,8 @@ import * as axios from 'axios';
 import { connect } from 'react-redux';
 // Icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit as listingsActive, faBell as bellActive, faBuilding as userActive, faSearch as search, faCaretDown as darr, faAddressCard as studentsActive, faCommentAlt as logoActive, faCompass as dashboardActive } from '@fortawesome/free-solid-svg-icons'
-import { faEdit as listings, faBell as bell, faBuilding as user, faAddressCard as students, faCommentAlt as logo, faCompass as dashboard } from '@fortawesome/free-regular-svg-icons'
+import { faEdit as listingsActive, faBuilding as userActive, faCaretDown as darr, faAddressCard as studentsActive, faCommentAlt as logoActive, faCompass as dashboardActive } from '@fortawesome/free-solid-svg-icons'
+import { faEdit as listings, faBuilding as user, faAddressCard as students, faCommentAlt as logo, faCompass as dashboard } from '@fortawesome/free-regular-svg-icons'
 
 class NavStartup extends Component {
   state = {
@@ -40,7 +40,7 @@ class NavStartup extends Component {
              <NavLink to="/" exact activeClassName="active-nav">
                <FontAwesomeIcon className="def-icon" icon={logo} />
                <FontAwesomeIcon className="act-icon" icon={logoActive} />
-               &nbsp; ProjectName
+               &nbsp; StartupMatch
              </NavLink>
            </li>
            {/* Dashboard */}
@@ -82,17 +82,6 @@ class NavStartup extends Component {
                <a onClick={(e) => {e.preventDefault(); this.logout()}} >Logout</a>
              </div>
            </li>
-           {/*}
-           <li>
-             <NavLink to="/notifications" id="noti-anchor" exact activeClassName="active-nav">
-               <span id="noti-bell">
-                 <FontAwesomeIcon className="def-icon" icon={bell} />
-                 <FontAwesomeIcon className="act-icon" icon={bellActive} />
-                 <div id="alert"></div>
-               </span>
-             </NavLink>}
-           </li>
-           {*/}
           </ul>
         </nav>
       )

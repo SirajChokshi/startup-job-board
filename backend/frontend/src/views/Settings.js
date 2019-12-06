@@ -3,12 +3,8 @@ import { Container, Row, Col } from 'react-grid-system';
 import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router-dom';
 import * as axios from 'axios';
-// import { Link } from 'react-router-dom';
-
-// Icons
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faStar as favoriteIcon, faEnvelope as emailIcon, faGraduationCap as educationIcon, faFile as resumeIcon, faBook as majorIcon, faTools as skillsIcon } from '@fortawesome/free-solid-svg-icons'
-// import { faClock as deadlineIcon } from '@fortawesome/free-regular-svg-icons'
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faExclamationTriangle as errorIcon} from "@fortawesome/free-solid-svg-icons";
 
 /* ------------------------- */
 
@@ -22,6 +18,10 @@ class Settings extends Component {
   }
 
   resetErrors() {
+    document.getElementById('confirm-password-1').style.borderColor = '';
+    document.getElementById('confirm-password-1').style.backgroundColor = 'inherit';
+    document.getElementById('confirm-password-2').style.borderColor = '';
+    document.getElementById('confirm-password-2').style.backgroundColor = 'inherit';
     var errorBlocks = document.getElementsByClassName("error");
     for (var i = 0; i < errorBlocks.length; ++i) {
       errorBlocks[i].style.display = 'none';
@@ -36,81 +36,117 @@ class Settings extends Component {
     this.props.history.push('/login');
   }
 
+  runError(x) {
+    if (x === 1) {
+      document.getElementById('confirm-password-1').style.borderColor = '#ff4444';
+      document.getElementById('confirm-password-1').style.backgroundColor = '#ffe6e6';
+      document.getElementById('update-settings-error').style.display = 'block';
+    } else if (x === 2) {
+      document.getElementById('confirm-password-2').style.borderColor = '#ff4444';
+      document.getElementById('confirm-password-2').style.backgroundColor = '#ffe6e6';
+      document.getElementById('update-profile-error').style.display = 'block';
+    }
+    else {
+
+    }
+  }
+
   async updateSettings() {
     this.resetErrors();
     try {
-      const data = { "password" : document.getElementById("confirm-password-1").value };
       const response = await axios({
-        url: '/api/authusers/confirm',
+        url: '/api/authusers/confirm/',
         method: 'POST',
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json;charset=UTF-8'
+          'Content-Type': 'application/json;charset=UTF-8',
+          'Authorization': 'Token ' + localStorage.getItem("token")
         },
-        data: data
+        data: { "password" : document.getElementById("confirm-password-1").value }
       });
       const json = await response.data;
-      console.log(json);
-
+      if (json.isValid) {
+        try {
+          const data = {
+            "firstName" : document.getElementById("first-name").value,
+            "lastName" : document.getElementById("last-name").value
+          }
+          const profileResponse = await axios({
+            url:' /api/users/' + this.props.user.id + '/update/',
+            method: 'PATCH',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json;charset=UTF-8',
+              'Authorization': 'Token ' + localStorage.getItem("token")
+            },
+            data: data
+          });
+          const userJson = await profileResponse.data;
+          this.props.dispatch({ type: "UPDATEUSER", user: userJson });
+        } catch (error) {
+          if (error.response.status === 400) {
+            this.handleUserError();
+          } else if (error.response.status === 401) {
+            this.bounce();
+          } else console.error(error);
+        }
+      } else {
+        this.runError(1);
+      }
     } catch (error) {
       console.error(error);
-    }
-
-    try {
-      const data = {
-        "firstName" : document.getElementById("first-name").value,
-        "lastName" : document.getElementById("last-name").value
-      }
-      const profileResponse = await axios({
-          url:' /api/users/' + this.props.user.id + '/update/',
-          method: 'PATCH',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json;charset=UTF-8',
-            'Authorization': 'Token ' + localStorage.getItem("token")
-          },
-          data: data
-        });
-      const userJson = await profileResponse.data;
-      this.props.dispatch({ type: "UPDATEUSER", user: userJson });
-    } catch (error) {
-      if (error.response.status === 400) {
-        this.handleUserError();
-      } else if (error.response.status === 401) {
-        this.bounce();
-      } else console.error(error);
     }
   }
 
   async updateProfile() {
+    this.resetErrors();
     try {
-      const data = {
-        "userPitch" : document.getElementById("bio").value,
-        "userMajor" : document.getElementById("major").value,
-        "userGPA" : document.getElementById("gpa").value,
-        "userGradYear" : document.getElementById("grad-date").value
+      const response = await axios({
+        url: '/api/authusers/confirm/',
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json;charset=UTF-8',
+          'Authorization': 'Token ' + localStorage.getItem("token")
+        },
+        data: { "password" : document.getElementById("confirm-password-1").value }
+      });
+      const json = await response.data;
+      if (json.isValid) {
+        try {
+          const data = {
+            "userPitch" : document.getElementById("bio").value,
+            "userMajor" : document.getElementById("major").value,
+            "userGPA" : document.getElementById("gpa").value,
+            "userGradYear" : document.getElementById("grad-date").value
+          }
+          const profileResponse = await axios({
+            url:' /api/users/' + this.props.user.id + '/update/',
+            method: 'PATCH',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json;charset=UTF-8',
+              'Authorization': 'Token ' + localStorage.getItem("token")
+            },
+            data: data
+          });
+          // console.log(profileResponse.data);
+          const userJson = await profileResponse.data;
+          // console.log('Success:', JSON.stringify(userJson));
+          this.props.dispatch({ type: "UPDATEUSER", user: userJson });
+        } catch (error) {
+          if (error.response.status === 400) {
+            this.handleUserError();
+          } else if (error.response.status === 401) {
+            this.bounce();
+          }
+          else console.error(error);
+        }
+      } else {
+        this.runError(2);
       }
-      const profileResponse = await axios({
-          url:' /api/users/' + this.props.user.id + '/update/',
-          method: 'PATCH',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json;charset=UTF-8',
-            'Authorization': 'Token ' + localStorage.getItem("token")
-          },
-          data: data
-        });
-      // console.log(profileResponse.data);
-      const userJson = await profileResponse.data;
-      // console.log('Success:', JSON.stringify(userJson));
-      this.props.dispatch({ type: "UPDATEUSER", user: userJson });
     } catch (error) {
-      if (error.response.status === 400) {
-        this.handleUserError();
-      } else if (error.response.status === 401) {
-        this.bounce();
-      }
-      else console.error(error);
+      console.error(error);
     }
   }
 
@@ -139,7 +175,8 @@ class Settings extends Component {
           <br />
           <Container id="user-settings">
             <h1>Account Settings</h1>
-              <form onSubmit={(e) => {e.preventDefault(); this.updateSettings()}}>
+            <span id="update-settings-error" className="error" style={{ backgroundColor: '#ff4444' }}><FontAwesomeIcon icon={errorIcon} /> &nbsp; Invalid Credentials</span>
+            <form onSubmit={(e) => {e.preventDefault(); this.updateSettings()}}>
                 <Row className="setting-row">
                   <Col md={2} sm={12}><label htmlFor="first-name" >First Name:</label></Col>
                   <Col md={10} sm={12}><input id="first-name" defaultValue={this.props.user.firstName} autoComplete="given-name" minLength="1" pattern="[A-Za-z0-9-]+" maxLength="30" title="Enter alphanumeric charcters and hyphens only." /></Col>
@@ -169,19 +206,20 @@ class Settings extends Component {
               </form>
             <hr />
             <h1>Profile Settings</h1>
-              <form onSubmit={(e) => {e.preventDefault(); this.updateProfile()}}>
+            <span id="update-profile-error" className="error" style={{ backgroundColor: '#ff4444' }}><FontAwesomeIcon icon={errorIcon} /> &nbsp; Invalid Credentials</span>
+            <form onSubmit={(e) => {e.preventDefault(); this.updateProfile()}}>
                 <Row className="setting-row">
                   <Col md={2} sm={12}><label htmlFor="bio" >Biography (220 characters):</label></Col>
                   <Col md={10} sm={12}><textarea id="bio" maxLength="220" defaultValue={this.props.user.userPitch} /></Col>
                 </Row>
                 <Row className="setting-row">
                   <Col md={2} sm={12}><label htmlFor="grad-date" >Graduation Year:</label></Col>
-                  <Col md={10} sm={12}><input id="grad-date" type="number" defaultValue={this.props.userGradYear} step="1" min={minDate} max={maxDate} /></Col>
+                  <Col md={10} sm={12}><input id="grad-date" type="number" defaultValue={this.props.user.userGradYear} step="1" min={minDate} max={maxDate} /></Col>
                 </Row>
                 <Row className="setting-row">
                   <Col md={2} sm={12}><label htmlFor="major">Major:</label></Col>
                   <Col md={10} sm={12}>
-                    <input id="major" defaultValue={this.props.user.userMajor} minLength="1" pattern="[A-Za-z0-9&/-]+" title="Only use alphanumeric characters and '&', '/' and '-'." maxLength="50">
+                    <input id="major" defaultValue={this.props.user.userMajor} minLength="1" pattern="[A-Za-z0-9&/ -]+" title="Only use alphanumeric characters and '&', '/' and '-'." maxLength="50">
                     </input>
                  </Col>
                 </Row>
@@ -204,7 +242,7 @@ class Settings extends Component {
               </form>
               <hr />
               <h1>Upload/Change Avatar</h1>
-                <form>
+              <form>
                   <Row className="setting-row">
                     <Col md={2} sm={12}><label htmlFor="avatar" >
                       Upload A Square PNG:</label>

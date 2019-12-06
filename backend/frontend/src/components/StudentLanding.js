@@ -22,7 +22,7 @@ export default class StudentLanding extends Component {
       return (
         <Container id="below">
           <h2>Welcome back {this.props.userName},<br></br>Here are some newly posted positions:</h2>
-          <Feed listings={this.state.listings} feedLength={4} ></Feed>
+          <Feed listings={this.state.listings} feedLength={4} />
         </Container>
       )
     }

@@ -6,27 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch as search } from '@fortawesome/free-solid-svg-icons'
 
 // Components
-import Filter from '../components/Filter';
 import Feed from '../components/StudentFeed';
-import Search from '../components/Search';
-
-const categoryList = [
-    { label: "Any", value: "" },
-    { label: "Accounting/Finance", value: "FIN" },
-    { label: "Administrative", value: "ADM" },
-    { label: "Biotechnology", value: "BIO" },
-    { label: "Chemical/Materials", value: "CHEM" },
-    { label: "Data/Analysis", value: "DATA"},
-    { label: "Engineering", value: "ENG" },
-    { label: "Health/Medicine", value: "MED" },
-    { label: "Project Mangement", value: "PM" },
-    { label: "Marketing/PR", value: "PR" },
-    { label: "Sales/Business", value: "BUS" },
-    { label: "Software Development", value: "DEV" },
-    { label: "Legal", value: "LAW" },
-    { label: "User Experience/Design", value: "UX" },
-    { label: "Other", value: "MISC" }
-];
 
 const sortOptions = [
   { label: "Graduating (Earliest)", value: "userGradYear" },
@@ -44,29 +24,20 @@ const isPaidList = [
 export default class Jobs extends Component {
   state = {
     users: [],
-    isPaid: "",
-    listCategory: "",
+    minGPA: 0,
     search: "",
-    sort: "listDeadline"
+    sort: "id"
   }
 
   componentDidMount() {
-      this.setState({ listings: [] });
-      fetch('/api/users/?format=json&search=' + this.state.search + '&isPaid=' + this.state.isPaid + '&listCategory=' + this.state.listCategory + '&isOpen=true' )
+      this.setState({ users: [] });
+      fetch('/api/users/?format=json&search=' + this.state.search + '&ordering=' + this.state.sort + '&userGPA__gte=' + this.state.minGPA + '&isOpen=true' )
       .then(res => res.json())
       .then((data) => {
         this.setState({ users: data })
       })
       .catch(console.log)
     }
-
-  handleCategoryChange = (selectedOption) => {
-    this.setState({
-      ...this.state,
-      listCategory: selectedOption.value
-    }, this.componentDidMount);
-//    console.log(this.state.listCategory);
-  }
 
   handleSortChange = (selectedOption) => {
     this.setState({
@@ -76,12 +47,13 @@ export default class Jobs extends Component {
 //    console.log(this.state.listCategory);
   }
 
-  handleIsPaidChange = (selectedOption) => {
-    this.setState({
-      ...this.state,
-      isPaid: selectedOption.value
-    }, this.componentDidMount);
-  }
+  handleGPAFilterChange = () => {
+        this.setState({
+            ...this.state,
+            minGPA: parseFloat(document.getElementById('gpa-filter').value).toFixed(2) - 0.00
+        }, this.componentDidMount);
+//    console.log(this.state.listCategory);
+    }
 
   search = () => {
     this.setState({
@@ -103,60 +75,24 @@ export default class Jobs extends Component {
             <div className="hero-inner">
               <h1>Find the perfect candidate,</h1>
                 <div id="search-bar-wrapper">
-                   <input type="search" id="jobs-search-bar" placeholder="Search for a skill, major or qualification..." className="search" onKeyPress={this.keyPressed} ></input>
+                   <input type="search" id="jobs-search-bar" placeholder="Search for a skill, major or qualification..." className="search" onKeyPress={this.keyPressed} />
                      <button id="search-icon-wrapper" onClick={this.search} >
                        <FontAwesomeIcon icon={search} style={{verticalAlign: 'middle', color: '#8e8e8e', fontSize: 18 + 'px', marginBottom: 4 + 'px'}} />
                      </button>
                 </div>
-              <br></br>
+              <br />
               <span className="sub-title">
-                  <Link to="/my-listings">My Listings</Link>&nbsp;
-                  | &nbsp;<Link to="/favorites">Favorited</Link>
+                  <Link to="/dashboard">Dashboard</Link> &nbsp;|&nbsp; <Link to="/my-listings">My Listings</Link>
               </span>
             </div>
           </div>
-          <br></br>
+          <br />
           <Container>
             <Row>
               <Col xl={3} lg={4}>
                 <h2>Filter</h2>
-                  <>
-                   <label className="filter-label">Industry</label>
-                   <Select
-                     options={categoryList}
-                     className="filter-dropdown"
-                     defaultValue={categoryList[0]}
-                     onChange={this.handleCategoryChange}
-                     theme={theme => ({
-                      ...theme,
-                      borderRadius: "8px",
-                      colors: {
-                        ...theme.colors,
-                        primary25: '#eeeeee',
-                        primary: '#3d5afe',
-                        primary50: '#e8e8e8',
-                      },
-                      })}>
-                  </Select>
-                  <br></br>
-                  <label className="filter-label">Salary</label>
-                    <Select
-                      options={isPaidList}
-                      className="filter-dropdown"
-                      defaultValue={isPaidList[0]}
-                      onChange={this.handleIsPaidChange}
-                      theme={theme => ({
-                       ...theme,
-                       borderRadius: "8px",
-                       colors: {
-                         ...theme.colors,
-                         primary25: '#eeeeee',
-                         primary: '#3d5afe',
-                         primary50: '#e8e8e8',
-                       },
-                       })}>
-                   </Select>
-                </>
+                   <label className="filter-label" htmlFor="gpa-filter" >Minimum GPA</label>
+                   <input className="filter-input" id="gpa-filter" defaultValue={parseFloat(0.00).toFixed(2)} type="number" step="0.01" min="0" max="4" onChange={this.handleGPAFilterChange} />
               </Col>
               <Col xl={9} lg={8}>
                 <div className="result-header-wrapper">
@@ -182,7 +118,7 @@ export default class Jobs extends Component {
 
                   </div>
                 </div>
-                <Feed listings={this.state.users} />
+                <Feed listings={this.state.users} /> {/* FIND CAUSE OF USER REPLACEMENT HERE */}
               </Col>
             </Row>
           </Container>

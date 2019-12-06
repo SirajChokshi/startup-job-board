@@ -4,11 +4,6 @@ import * as axios from 'axios';
 import Select from 'react-select';
 import { withRouter } from 'react-router-dom';
 
-// Icons
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faStar as favoriteIcon, faEnvelope as emailIcon, faGraduationCap as educationIcon, faFile as resumeIcon, faBook as majorIcon, faTools as skillsIcon } from '@fortawesome/free-solid-svg-icons'
-// import { faClock as deadlineIcon } from '@fortawesome/free-regular-svg-icons'
-
 /* ------------------------- */
 
 const Req = () => {

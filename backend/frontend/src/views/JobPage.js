@@ -119,7 +119,7 @@ class JobPage extends Component {
               <h2>About This Position</h2>
               <p id="job-desc" style={{whiteSpace: "pre-line"}}>{this.state.listing.listLongDesc}</p>
               <div className="button-wrapper">
-                { this.props.isStartup ?
+                { this.props.isStartup && this.state.company.id === this.props.user.id ?
                 (
                   <Link className="button" to={"/my-listings/edit/" + this.props.listingID} >
                     Edit
@@ -135,7 +135,7 @@ class JobPage extends Component {
               <Row className="company-profile">
                 <Col md={2} xs={3}><Link className="image-wrapper" to={"/org/" + this.state.company.id}><img onError={this.addDefaultSrc} src={"/img/org/" + this.state.company.id + ".png"} alt={this.state.company.orgName} /></Link></Col>
                 <Col md={10} xs={9}>
-                  <Link to={this.props.jobPage}><h2 style={{display: "inline"}}>{this.state.company.orgName} <span className="hide-pipe">|</span></h2> <p id="company-industry"><FontAwesomeIcon style={{fontSize: "14px"}} icon={Software}></FontAwesomeIcon> &nbsp;{this.state.company.orgIndustry}</p></Link>
+                  <Link to={this.props.jobPage}><h2 style={{display: "inline"}}>{this.state.company.orgName} <span className="hide-pipe">|</span></h2> <p id="company-industry"><FontAwesomeIcon style={{fontSize: "14px"}} icon={Software} /> &nbsp;{getLabelFromValue(this.state.company.orgIndustry)}</p></Link>
                   <p className="sub-title">
 
                   </p>

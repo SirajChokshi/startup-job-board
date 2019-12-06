@@ -14,7 +14,7 @@ export default class Error extends Component {
               <h1>Error 404</h1>
             </div>
           </div>
-          <br></br>
+          <br />
           <Container>
             <Row>
               <Col md={6}>

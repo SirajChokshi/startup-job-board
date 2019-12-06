@@ -131,7 +131,7 @@ export default class Feed extends Component {
               logo={"/img/org/" + post.listOrgID + ".png"}
               jobPage={"/listing/" + post.id}
               id={post.id}
-            ></Listing>
+            />
           ))}
 
           <p style={{fontSize: "22px", color: "#8e8e8e"}}>{errorMessage}</p>

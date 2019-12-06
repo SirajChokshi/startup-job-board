@@ -5,36 +5,49 @@ import { connect } from 'react-redux'
 import * as axios from 'axios';
 
 // Components
-import Sort from '../components/Sort';
 import Feed from '../components/Feed';
+import Select from "react-select";
+
+const sortOptions = [
+    { label: "Deadline (Earliest)", value: "listDeadline" },
+    { label: "Deadline (Lastest)", value: "-listDeadline" },
+    { label: "Name (A - Z)", value: "listName" },
+    { label: "Name (Z - A)", value: "-listName" },
+    { label: "Company", value: "listOrgID" }
+];
 
 class Bookmarks extends Component {
   state = {
-    listings: []
+    listings: [],
+      sort: "listDeadline"
   }
 
-  async findListings() {
-    try {
-      const response = await axios({
-          url: '/api/users/data/bookmarks',
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json;charset=UTF-8',
-            'Authorization': 'Token ' + localStorage.getItem("token")
-          }
-      });
-      const bookmarks = await response.data;
-      this.setState({ listings: bookmarks });
-    } catch (error) {
-      console.error(error);
-      console.error("@ERROR: Bookmark Retrieval Error!")
+  async componentDidMount() {
+      try {
+          const response = await axios({
+              url: '/api/users/data/bookmarks?format=json&ordering=' + this.state.sort,
+              method: 'GET',
+              headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json;charset=UTF-8',
+                  'Authorization': 'Token ' + localStorage.getItem("token")
+              }
+          });
+          const bookmarks = await response.data;
+          this.setState({ listings: bookmarks });
+      } catch (error) {
+          console.error(error);
+          console.error("@ERROR: Bookmark Retrieval Error!")
+      }
+  }
+
+    handleSortChange = (selectedOption) => {
+        this.setState({
+            ...this.state,
+            sort: selectedOption.value
+        }, this.componentDidMount);
+//    console.log(this.state.listCategory);
     }
-  }
-
-  componentDidMount() {
-    this.findListings();
-  }
 
   render () {
     if (!this.props.isAuthenticated) {
@@ -57,9 +70,30 @@ class Bookmarks extends Component {
               </span>
             </div>
           </div>
-          <br></br>
+          <br />
           <Container>
-            <Sort />
+            <div className="result-header-wrapper">
+                  <h2>Results</h2>
+                  <div className="order-wrapper">
+                    <Select
+                        style={{width: "100px !important"}}
+                        options={sortOptions}
+                        className="filter-dropdown results-sort"
+                        defaultValue={sortOptions[0]}
+                        onChange={this.handleSortChange}
+                        theme={theme => ({
+                            ...theme,
+                            borderRadius: "8px",
+                            colors: {
+                                ...theme.colors,
+                                primary25: '#eeeeee',
+                                primary: '#3d5afe',
+                                primary50: '#e8e8e8',
+                            },
+                        })}>
+                    </Select>
+                  </div>
+                </div>
             <Feed listings={this.state.listings} />
           </Container>
         </span>

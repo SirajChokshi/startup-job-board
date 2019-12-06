@@ -30,10 +30,6 @@ const industryList = [
   { label: "Other", value: "MISC" }
 ];
 
-var date = new Date();
-var minDate = date.getFullYear() - 1;
-var maxDate = date.getFullYear() + 9;
-
 class Settings extends Component {
   state = {
 
@@ -47,13 +43,24 @@ class Settings extends Component {
     this.props.history.push('/login');
   }
 
+  handleIndustryChange = (selectedOption) => {
+    this.setState({
+      ...this.state,
+      industry: selectedOption.value
+    });
+//    console.log(this.state.listCategory);
+  }
+
   async updateSettings() {
     try {
       const data = {
-        "firstName" : document.getElementById("first-name").value,
+        "orgName" : document.getElementById("org-name").value,
+        "orgLocation" : document.getElementById("location").value,
+        "orgDesc" : document.getElementById("desc").value,
+        "orgIndustry" : this.state.industry
       }
       const profileResponse = await axios({
-          url:' /api/startups/' + this.props.user.id + '/update/',
+          url:' /api/startups/' + this.props.user.id + '/',
           method: 'PATCH',
           headers: {
             'Accept': 'application/json',
@@ -65,43 +72,7 @@ class Settings extends Component {
       const userJson = await profileResponse.data;
       this.props.dispatch({ type: "UPDATEUSER", user: userJson });
     } catch (error) {
-      if (error.response.status === 400) {
-        this.handleUserError();
-      } else if (error.response.status === 401) {
-        this.bounce();
-      } else console.error(error);
-    }
-  }
-
-  async updateProfile() {
-    try {
-      const data = {
-        "userPitch" : document.getElementById("bio").value,
-        "userMajor" : document.getElementById("major").value,
-        "userGPA" : document.getElementById("gpa").value,
-        "userGradYear" : document.getElementById("grad-date").value
-      }
-      const profileResponse = await axios({
-          url:' /api/users/' + this.props.user.id + '/update/',
-          method: 'PATCH',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json;charset=UTF-8',
-            'Authorization': 'Token ' + localStorage.getItem("token")
-          },
-          data: data
-        });
-      // console.log(profileResponse.data);
-      const userJson = await profileResponse.data;
-      // console.log('Success:', JSON.stringify(userJson));
-      this.props.dispatch({ type: "UPDATEUSER", user: userJson });
-    } catch (error) {
-      if (error.response.status === 400) {
-        this.handleUserError();
-      } else if (error.response.status === 401) {
-        this.bounce();
-      }
-      else console.error(error);
+      console.error(error);
     }
   }
 
@@ -133,7 +104,7 @@ class Settings extends Component {
               <form onSubmit={(e) => {e.preventDefault(); this.updateSettings()}}>
                 <Row className="setting-row">
                   <Col md={2} sm={12}><label htmlFor="org-name" >Company Name:</label></Col>
-                  <Col md={10} sm={12}><input id="org-name" defaultValue={this.props.user.orgName} autoComplete="given-name" minLength="1" pattern="[A-Za-z0-9-]+" maxLength="30" title="Enter alphanumeric charcters and hyphens only." /></Col>
+                  <Col md={10} sm={12}><input id="org-name" defaultValue={this.props.user.orgName} autoComplete="given-name" minLength="1" maxLength="30" title="Enter alphanumeric charcters and hyphens only." /></Col>
                 </Row>
               {/*}
                 <Row className="setting-row">
@@ -150,8 +121,8 @@ class Settings extends Component {
                   <Col md={10} sm={12}><textarea id="desc" maxLength="220" defaultValue={this.props.user.orgDesc} /></Col>
                 </Row>
                 <Row className="setting-row">
-                  <Col md={2} sm={12}><label htmlFor="desc" >Company Location:</label></Col>
-                  <Col md={10} sm={12}><input id="desc" maxLength="32" defaultValue={this.props.user.orgLocation} /></Col>
+                  <Col md={2} sm={12}><label htmlFor="location" >Company Location:</label></Col>
+                  <Col md={10} sm={12}><input id="location" maxLength="32" defaultValue={this.props.user.orgLocation} autoComplete="address-level2" /></Col>
                 </Row>
                 <Row className="setting-row">
                   <Col md={2} sm={12}><label htmlFor="industry">Industry:</label></Col>
@@ -159,7 +130,7 @@ class Settings extends Component {
                     <Select
                         options={industryList}
                         className="filter-dropdown"
-                        onChange={this.handleCategoryChange}
+                        onChange={this.handleIndustryChange}
                         theme={theme => ({
                           ...theme,
                           borderRadius: "8px",
@@ -179,7 +150,7 @@ class Settings extends Component {
                 </Row>
                 <Row className="setting-row">
                   <Col md={2} sm={12}><label htmlFor="submit-profile">Update Settings</label></Col>
-                  <Col md={10} sm={12}><button id="submit-profile" type="submit">Update Profile</button></Col>
+                  <Col md={10} sm={12}><button id="submit-profile" type="submit">Update Settings</button></Col>
                 </Row>
               </form>
               <hr />

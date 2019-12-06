@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-grid-system';
 
 import * as axios from 'axios';
-import PropTypes from 'prop-types';
 
-import { Link, Redirect, withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'

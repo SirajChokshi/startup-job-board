@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-grid-system';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import Select from 'react-select';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch as search } from '@fortawesome/free-solid-svg-icons'
 
 // Components
-import Filter from '../components/Filter';
 import Feed from '../components/Feed';
-import Search from '../components/Search';
 
 const categoryList = [
     { label: "Any", value: "" },
@@ -42,13 +40,21 @@ const isPaidList = [
   { label: "Unpaid Only", value: "false" },
 ];
 
-export default class Jobs extends Component {
+class Jobs extends Component {
   state = {
     listings: [],
     isPaid: "",
     listCategory: "",
     search: "",
     sort: "listDeadline"
+  }
+
+  UNSAFE_componentWillMount() {
+          try {
+              this.setState({search: this.props.location.state.search});
+          } catch (error) {
+              console.error(error);
+          }
   }
 
   componentDidMount() {
@@ -104,7 +110,7 @@ export default class Jobs extends Component {
             <div className="hero-inner">
               <h1>Look for a job,</h1>
                 <div id="search-bar-wrapper">
-                   <input type="search" id="jobs-search-bar" placeholder="Search for a job or internship..." className="search" onKeyPress={this.keyPressed} />
+                   <input type="search" id="jobs-search-bar" defaultValue={this.state.search} placeholder="Search for a job or internship..." className="search" onKeyPress={this.keyPressed} />
                      <button id="search-icon-wrapper" onClick={this.search} >
                        <FontAwesomeIcon icon={search} style={{verticalAlign: 'middle', color: '#8e8e8e', fontSize: 18 + 'px', marginBottom: 4 + 'px'}} />
                      </button>
@@ -139,7 +145,6 @@ export default class Jobs extends Component {
                       },
                       })}>
                   </Select>
-                  <br />
                   <label className="filter-label">Salary</label>
                     <Select
                       options={isPaidList}
@@ -191,3 +196,5 @@ export default class Jobs extends Component {
       )
    }
 }
+
+export default withRouter(Jobs);

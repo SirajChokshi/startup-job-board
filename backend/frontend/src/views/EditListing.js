@@ -5,11 +5,6 @@ import Select from 'react-select';
 import { Redirect, withRouter } from 'react-router-dom';
 import {connect} from "react-redux";
 
-// Icons
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faStar as favoriteIcon, faEnvelope as emailIcon, faGraduationCap as educationIcon, faFile as resumeIcon, faBook as majorIcon, faTools as skillsIcon } from '@fortawesome/free-solid-svg-icons'
-// import { faClock as deadlineIcon } from '@fortawesome/free-regular-svg-icons'
-
 /* ------------------------- */
 
 var d = new Date();

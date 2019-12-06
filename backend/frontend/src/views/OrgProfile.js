@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-grid-system';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faList as Software } from '@fortawesome/free-solid-svg-icons'
 
 // Components
-import Sort from '../components/Sort';
 import Feed from '../components/Feed';
 
 const industryList = [
@@ -34,35 +34,31 @@ function getLabelFromValue(value) {
     }
 }
 
-export default class OrgProfile extends Component {
+class OrgProfile extends Component {
   state = {
     listings: [],
     company: []
   }
 
-  UNSAFE_componentWillMount() {
-      fetch('/api/startups/' + this.props.listingID + '/?format=json', {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'content-type': 'application/json'
-        }
-      })
-      .then(res => res.json())
-      .then((data) => {
-        this.setState({ company: data })
-      })
-      .catch(console.log)
-      fetch('/api/listings/' + this.props.listingID +'/')
-      .then(res => res.json())
-      .then((data) => {
-        this.setState({ listing: data })
-      })
-      .catch(console.log)
-      /* Get Listings of this startup */
-    }
-
     componentDidMount() {
+        fetch('/api/startups/' + this.props.listingID + '/?format=json', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'content-type': 'application/json'
+            }
+        })
+            .then(res => res.json())
+            .then((data) => {
+                this.setState({ company: data })
+            })
+            .catch(console.log);
+        fetch('/api/listings/' + this.props.listingID +'/')
+            .then(res => res.json())
+            .then((data) => {
+                this.setState({ listing: data })
+            })
+            .catch(console.log)
       fetch('/api/listings/?format=json&listOrgID=' + this.props.listingID)
       .then(res => res.json())
       .then((data) => {
@@ -81,11 +77,16 @@ export default class OrgProfile extends Component {
           <div className="hero">
             <div className="hero-inner">
               <span className="sub-title">
-                  <Link to="/jobs">&larr; Back to Job Search</Link>
+                  { this.props.isStartup ? (
+                          <><Link to="/my-listings">My Listings</Link> &nbsp;|&nbsp; <Link to="/recruit"> Recruit a student</Link></>) :
+                      (
+                          <Link to="/jobs">&larr; Back to Job Search</Link>
+                      )
+                  }
               </span>
             </div>
           </div>
-          <br></br>
+          <br />
           <Container>
             <article className="job">
               <Row className="company-profile">
@@ -110,3 +111,11 @@ export default class OrgProfile extends Component {
       )
    }
 }
+
+const mapStateToProps = (state) => ({
+    user: state.user,
+    isAuthenticated: state.isAuthenticated,
+    isStartup: state.isStartup
+});
+
+export default connect(mapStateToProps)(OrgProfile);

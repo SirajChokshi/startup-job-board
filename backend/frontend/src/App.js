@@ -8,7 +8,6 @@ import Jobs from './views/Jobs'
 import Bookmarks from './views/Bookmarks';
 import Profile from './views/Profile';
 import Settings from './views/Settings';
-import Notifications from './views/Notifications';
 import Dashboard from './views/Dashboard';
 import OrgProfile from './views/OrgProfile';
 import MyListings from './views/MyListings';
@@ -55,9 +54,6 @@ function App() {
                 )}/>
             <Route exact={true} path='/bookmarks' render={() => (
                 <Bookmarks />
-            )}/>
-            <Route exact={true} path='/notifications' render={() => (
-                <Notifications />
             )}/>
             <Route exact={true} path='/my-listings' render={() => (
                 <MyListings />

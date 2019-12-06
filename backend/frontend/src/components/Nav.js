@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import * as axios from 'axios';
 // Icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBookmark as bookmarkActive, faBell as bellActive, faUser as userActive, faSearch as search, faCaretDown as darr, faFolderOpen as jobsActive, faCommentAlt as logoActive, faSignInAlt as login, faBars as menu, faListAlt as applicationsActive, faCog as settings, faCogs as settingsActive, faSignOutAlt as signoutIcon } from '@fortawesome/free-solid-svg-icons'
-import { faBookmark as bookmark, faBell as bell, faUser as user, faFolderOpen as jobs, faCommentAlt as logo, faListAlt as applications } from '@fortawesome/free-regular-svg-icons'
+import { faBookmark as bookmarkActive, faUser as userActive, faSearch as search, faCaretDown as darr, faFolderOpen as jobsActive, faCommentAlt as logoActive, faSignInAlt as login, faBars as menu, faCog as settings, faCogs as settingsActive, faSignOutAlt as signoutIcon } from '@fortawesome/free-solid-svg-icons'
+import { faBookmark as bookmark, faUser as user, faFolderOpen as jobs, faCommentAlt as logo } from '@fortawesome/free-regular-svg-icons'
 // redux
 import { connect } from 'react-redux';
 
@@ -12,6 +12,18 @@ class Nav extends Component {
   state = {
     active: false
   }
+
+    searchForward = () => {
+        this.props.history.push({
+            pathname: '/jobs',
+            state: {
+                search: document.getElementById("jobs-search-bar").value
+            }
+        })
+        if(this.props.location.pathname == "/jobs") {
+            window.location.reload();
+        }
+    }
 
   async logout(e) {
     try {
@@ -68,10 +80,10 @@ class Nav extends Component {
              </NavLink>
            </li>
            <li id="search-nav">
-             <input type="text" placeholder={"Search for a job..."} className="search" style={{color: '#8e8e8e'}} />
-             <span id="nav-search-icon-wrapper">
-               <FontAwesomeIcon icon={search} style={{verticalAlign: 'middle', color: '#8e8e8e', fontSize: 14 + 'px', marginBottom: 2.6 + 'px'}} />
-             </span>
+             <input type="search" id="jobs-search-bar" placeholder="Search for a job..." className="search" onSubmit={this.searchForward} />
+             <button id="nav-search-icon-wrapper" onClick={this.searchForward}>
+               <FontAwesomeIcon icon={search} style={{verticalAlign: 'bottom', color: '#8e8e8e', fontSize: 16 + 'px', marginBottom: 2 + 'px'}} />
+             </button>
            </li>
            <li>
              <NavLink to="/jobs" exact activeClassName="active-nav">
@@ -151,4 +163,4 @@ const mapStateToProps = (state) => ({
   isAuthenticated: state.isAuthenticated
 });
 
-export default connect(mapStateToProps)(Nav);
+export default withRouter(connect(mapStateToProps)(Nav));

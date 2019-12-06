@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 
 // Components
-import {Col, Container} from 'react-grid-system';
-import { Link, Redirect, withRouter } from 'react-router-dom';
+import { Container } from 'react-grid-system';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Feed from '../components/Feed';
-import Order from '../components/Order';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faCheckCircle as successIcon, faPlusCircle as addIcon} from '@fortawesome/free-solid-svg-icons'
+import Select from "react-select";
 
 const addListingStyles = {
     width: "100%",
@@ -26,9 +26,17 @@ const addListingStyles = {
     marginBottom: "20px"
 };
 
+const sortOptions = [
+    { label: "Deadline (Earliest)", value: "listDeadline" },
+    { label: "Deadline (Lastest)", value: "-listDeadline" },
+    { label: "Name (A - Z)", value: "listName" },
+    { label: "Name (Z - A)", value: "-listName" }
+];
+
 class MyListings extends Component {
   state = {
-    listings: []
+      listings: [],
+      sort: "listDeadline"
   }
 
   componentDidMount() {
@@ -39,13 +47,21 @@ class MyListings extends Component {
       } catch (error) {
 
       }
-    fetch('/api/listings/?format=json&listOrgID=' + this.props.user.id)
+    fetch('/api/listings/?format=json&listOrgID=' + this.props.user.id + '&ordering=' + this.state.sort)
     .then(res => res.json())
     .then((data) => {
       this.setState({ listings: data })
     })
     .catch(console.log)
   }
+
+    handleSortChange = (selectedOption) => {
+        this.setState({
+            ...this.state,
+            sort: selectedOption.value
+        }, this.componentDidMount);
+//    console.log(this.state.listCategory);
+    }
 
   render () {
     if (!this.props.isAuthenticated) {
@@ -68,12 +84,28 @@ class MyListings extends Component {
               </span>
             </div>
           </div>
-          <br></br>
+          <br />
           <Container>
                 <div className="result-header-wrapper">
                   <h2>Results</h2>
                   <div className="order-wrapper">
-                    <Order className="results-sort" />
+                      <Select
+                          style={{width: "100px !important"}}
+                          options={sortOptions}
+                          className="filter-dropdown results-sort"
+                          defaultValue={sortOptions[0]}
+                          onChange={this.handleSortChange}
+                          theme={theme => ({
+                              ...theme,
+                              borderRadius: "8px",
+                              colors: {
+                                  ...theme.colors,
+                                  primary25: '#eeeeee',
+                                  primary: '#3d5afe',
+                                  primary50: '#e8e8e8',
+                              },
+                          })}>
+                      </Select>
                   </div>
                 </div>
               <span id="new-signup-error" className="error" style={{ backgroundColor: '#00C851' }}><FontAwesomeIcon icon={successIcon} /> &nbsp; Account created! Login below </span>
