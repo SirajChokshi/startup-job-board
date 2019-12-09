@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink, withRouter } from 'react-router-dom';
 import * as axios from 'axios';
+import BannerError from './BannerError';
 // Icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBookmark as bookmarkActive, faUser as userActive, faSearch as search, faCaretDown as darr, faFolderOpen as jobsActive, faCommentAlt as logoActive, faSignInAlt as login, faBars as menu, faCog as settings, faCogs as settingsActive, faSignOutAlt as signoutIcon } from '@fortawesome/free-solid-svg-icons'
@@ -19,8 +20,8 @@ class Nav extends Component {
             state: {
                 search: document.getElementById("jobs-search-bar").value
             }
-        })
-        if(this.props.location.pathname == "/jobs") {
+        });
+        if(this.props.location.pathname === "/jobs") {
             window.location.reload();
         }
     }
@@ -38,18 +39,23 @@ class Nav extends Component {
       });
       localStorage.removeItem("token");
       this.props.dispatch({ type: "LOGOUT" });
-      console.log('Successful Logoff');
     } catch (error) {
-      if (error.response.status == 400 || error.response.status == 401) {
+      if (error.response.status === 400 || error.response.status === 401) {
         localStorage.removeItem("token");
         this.props.dispatch({ type: "LOGOUT" });
-      } else console.error(error);
+      } else {
+          console.error(error);
+          localStorage.removeItem("token");
+          this.props.dispatch({ type: "LOGOUT" });
+      }
     }
+    console.log("logged off");
   }
 
   render () {
       return (
         <nav>
+            {/*<BannerError type="success" message="Test success message STR" />*/}
           <ul className="mobile-nav" id="mobile-nav-fetch">
             <li>
               <NavLink to="/" exact activeClassName="active-nav" id="logo-nav-mobile">
@@ -61,7 +67,7 @@ class Nav extends Component {
             <li>
               <button id="mobile-menu-toggle" onClick={ () =>
                   {
-                    this.setState({active: !this.state.active})
+                    this.setState({active: !this.state.active});
                     var x = document.getElementById('html');
                     if (x.style.overflow === "hidden") x.style.overflow = "auto";
                     else x.style.overflow = "hidden";
@@ -123,13 +129,6 @@ class Nav extends Component {
                   &nbsp; Profile
                 </NavLink>
               </li>
-              {/*<li className="show-on-mobile">*/}
-              {/*  <NavLink to="/applications" exact activeClassName="active-nav">*/}
-              {/*    <FontAwesomeIcon className="def-icon" icon={applications} />*/}
-              {/*    <FontAwesomeIcon className="act-icon" icon={applicationsActive} />*/}
-              {/*    &nbsp; Applications*/}
-              {/*  </NavLink>*/}
-              {/*</li>*/}
               <li className="show-on-mobile">
                 <NavLink to="/user-settings" exact activeClassName="active-nav">
                   <FontAwesomeIcon className="def-icon" icon={settings} />

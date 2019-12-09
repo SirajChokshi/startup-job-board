@@ -35,34 +35,6 @@ class Profile extends Component {
   addDefaultSrc(ev) {
     ev.target.src = '/img/usr/missing.png';
   }
-  //
-  // async tryForUser(id) {
-  //   try {
-  //     const userResponse = await axios({
-  //         url: '/api/users/' + id + '/',
-  //         method: 'GET',
-  //         headers: {
-  //           'Accept': 'application/json',
-  //           'Content-Type': 'application/json;charset=UTF-8',
-  //           'Authorization': 'Token ' + localStorage.getItem("token")
-  //         }
-  //     });
-  //     // console.log(userResponse.data);
-  //     const user = await userResponse.data;
-  //     greeting = user.firstName + "'s";
-  //     profileImage = "/dff.g";
-  //     studentName = user.firstName + " " + user.lastName;
-  //     studentEmail = user.email;
-  //     gpa = user.userGPA;
-  //     degree = user.userDegree;
-  //     gradDate = user.userGradYear;
-  //     major = user.userMajor;
-  //     studentPitch = user.userPitch;
-  //     skills= user.extraCurriculars;
-  //   } catch (error) {
-  //     console.error('USER RETRIEVAL ERROR');
-  //   }
-  // }
 
   componentDidMount() {
       fetch('/api/users/' + this.props.userID + '/')

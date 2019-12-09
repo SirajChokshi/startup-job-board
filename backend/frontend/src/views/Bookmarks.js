@@ -8,13 +8,7 @@ import * as axios from 'axios';
 import Feed from '../components/Feed';
 import Select from "react-select";
 
-const sortOptions = [
-    { label: "Deadline (Earliest)", value: "listDeadline" },
-    { label: "Deadline (Lastest)", value: "-listDeadline" },
-    { label: "Name (A - Z)", value: "listName" },
-    { label: "Name (Z - A)", value: "-listName" },
-    { label: "Company", value: "listOrgID" }
-];
+import { sortOptions } from '../static/constants'
 
 class Bookmarks extends Component {
   state = {
@@ -56,7 +50,7 @@ class Bookmarks extends Component {
       )
     } else if (this.props.isStartup) {
       return (
-        <Redirect to="/" />
+        <Redirect to="/my-listings" />
       )
     }
       return (

@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-grid-system';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 import Select from 'react-select';
 
 // Icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserPlus as signupIcon, faExclamationTriangle as errorIcon } from '@fortawesome/free-solid-svg-icons'
 import { faEyeSlash as hideIcon, faEye as showIcon } from '@fortawesome/free-regular-svg-icons'
+
+import { degreeList } from '../static/constants'
 
 
 /* ------------------------- */
@@ -16,18 +18,18 @@ const Req = () => {
   return <span className="req" />
 };
 
-var date = new Date();
-var minDate = date.getFullYear() - 1;
-var maxDate = date.getFullYear() + 9;
+const date = new Date();
+const minDate = date.getFullYear() - 1;
+const maxDate = date.getFullYear() + 9;
 
-var successfulRegister = true;
+let successfulRegister = true;
 
-var passMatch = true;
+let passMatch = true;
 
 function printSkills(x) {
   if (x.length < 1) return "";
-  var out = x[0] + "";
-  var i = 1;
+  let out = x[0] + "";
+  let i = 1;
   while (i < x.length) {
     out += ", " + x[i];
     i = i + 1;
@@ -36,8 +38,8 @@ function printSkills(x) {
 }
 
 function showSignupPass() {
-  var x = document.getElementById("new-user-pass");
-  var y = document.getElementById("confirm-user-pass");
+  let x = document.getElementById("new-user-pass");
+  let y = document.getElementById("confirm-user-pass");
   if (x.type === "password") {
     x.type = "text";
     y.type = "text";
@@ -46,13 +48,6 @@ function showSignupPass() {
     y.type = "password";
   }
 }
-
-const degreeList = [
-  { label: "Bachelors", value: "Bachelors" },
-  { label: "Masters", value: "Masters" },
-  { label: "Doctorate", value: "Doctorate" },
-  { label: "Other", value: "Other" }
-];
 
 class InitAccount extends Component {
   constructor(props) {
@@ -75,7 +70,7 @@ class InitAccount extends Component {
 
   checkPassMatch() {
     try {
-      if (document.getElementById("new-user-pass").value == document.getElementById("confirm-user-pass").value || document.getElementById("confirm-user-pass").value == "") {
+      if (document.getElementById("new-user-pass").value === document.getElementById("confirm-user-pass").value || document.getElementById("confirm-user-pass").value === "") {
         passMatch = true;
         document.getElementById('match-confirm-pass').style.display = 'none';
       } else {
@@ -90,7 +85,7 @@ class InitAccount extends Component {
 
   async registerUser() {
     try {
-      if (this.state.degree == "") throw "badDegree";
+      if (this.state.degree === "") throw "badDegree";
       //if (this.state.degree == "") throw "badGradYear";
 
       const data = { "username" : document.getElementById("new-user-email").value, "email" : document.getElementById("new-user-email").value, "password" : document.getElementById("new-user-pass").value };
@@ -152,7 +147,12 @@ class InitAccount extends Component {
   }
 
   render () {
+    if (this.props.isAuthenticated) {
       return (
+          <Redirect to="/" />
+      )
+    }
+    else return (
         <>
           <div className="hero">
             <div className="hero-inner">

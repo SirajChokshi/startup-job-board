@@ -7,25 +7,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExternalLinkAlt as appIcon, faMapMarkerAlt as locationIcon, faBriefcase as jobCategoryIcon, faList as Software, faEdit as editIcon } from '@fortawesome/free-solid-svg-icons'
 import { faClock as deadlineIcon } from '@fortawesome/free-regular-svg-icons'
 
-// Components
+import { categoryList } from '../static/constants'
 
-const categoryList = [
-    { label: "Any", value: "" },
-    { label: "Accounting/Finance", value: "FIN" },
-    { label: "Administrative", value: "ADM" },
-    { label: "Biotechnology", value: "BIO" },
-    { label: "Chemical/Materials", value: "CHEM" },
-    { label: "Data/Analysis", value: "DATA"},
-    { label: "Engineering", value: "ENG" },
-    { label: "Health/Medicine", value: "MED" },
-    { label: "Project Mangement", value: "PM" },
-    { label: "Marketing/PR", value: "PR" },
-    { label: "Sales/Business", value: "BUS" },
-    { label: "Software Development", value: "DEV" },
-    { label: "Legal", value: "LAW" },
-    { label: "User Experience/Design", value: "UX" },
-    { label: "Other", value: "MISC" }
-];
+// Components
 
 function getLabelFromValue(value) {
   for (const key of Object.keys(categoryList)) {

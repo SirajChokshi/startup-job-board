@@ -5,28 +5,13 @@ import Select from 'react-select';
 import { Redirect, withRouter } from 'react-router-dom';
 import {connect} from "react-redux";
 
+import { categoryList } from '../static/constants'
+
 /* ------------------------- */
 
-var d = new Date();
-var minDate  = d.getFullYear() + "-" + d.getMonth() + "-" + ('0' + (d.getDay())).slice(-2);
-var maxDate  = (d.getFullYear() + 1) + "-" + d.getMonth() + "-" + ('0' + (d.getDay())).slice(-2);
-
-const categoryList = [
-  { label: "Accounting/Finance", value: "FIN" },
-  { label: "Administrative", value: "ADM" },
-  { label: "Biotechnology", value: "BIO" },
-  { label: "Chemical/Materials", value: "CHEM" },
-  { label: "Data/Analysis", value: "DATA"},
-  { label: "Engineering", value: "ENG" },
-  { label: "Health/Medicine", value: "MED" },
-  { label: "Project Mangement", value: "PM" },
-  { label: "Marketing/PR", value: "PR" },
-  { label: "Sales/Business", value: "BUS" },
-  { label: "Software Development", value: "DEV" },
-  { label: "Legal", value: "LAW" },
-  { label: "User Experience/Design", value: "UX" },
-  { label: "Other", value: "MISC" }
-];
+const d = new Date();
+const minDate  = d.getFullYear() + "-" + d.getMonth() + "-" + ('0' + (d.getDay())).slice(-2);
+const maxDate  = (d.getFullYear() + 1) + "-" + d.getMonth() + "-" + ('0' + (d.getDay())).slice(-2);
 
 class EditListing extends Component {
   state = {
@@ -118,7 +103,7 @@ class EditListing extends Component {
           <Redirect to="/" />
       )
     }
-      return (
+    else return (
         <>
           <div className="hero">
             <div className="hero-inner">

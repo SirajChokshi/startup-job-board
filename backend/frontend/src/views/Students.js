@@ -1,27 +1,17 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-grid-system';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Select from 'react-select';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch as search } from '@fortawesome/free-solid-svg-icons'
+import { studentSortOptions } from '../static/constants'
+import { connect } from 'react-redux'
+
 
 // Components
 import Feed from '../components/StudentFeed';
 
-const sortOptions = [
-  { label: "Graduating (Earliest)", value: "userGradYear" },
-  { label: "Graduating (Lastest)", value: "-userGradYear" },
-  { label: "Name (A - Z)", value: "firstname" },
-  { label: "Name (Z - A)", value: "-firstName" }
-];
-
-const isPaidList = [
-  { label: "Any", value: "" },
-  { label: "Paid Only", value: "true" },
-  { label: "Unpaid Only", value: "false" },
-];
-
-export default class Jobs extends Component {
+class Students extends Component {
   state = {
     users: [],
     minGPA: 0,
@@ -69,7 +59,17 @@ export default class Jobs extends Component {
   }
 
   render () {
-      return (
+      if (!this.props.isAuthenticated ) {
+          return (
+              <Redirect to="/login" />
+          )
+      }
+      else if (!this.props.isStartup) {
+          return (
+              <Redirect to="/jobs" />
+          )
+      }
+      else return (
         <>
           <div className="hero" id="search-hero">
             <div className="hero-inner">
@@ -100,9 +100,9 @@ export default class Jobs extends Component {
                   <div className="order-wrapper">
                     <Select
                       style={{width: "100px !important"}}
-                      options={sortOptions}
+                      options={studentSortOptions}
                       className="filter-dropdown results-sort"
-                      defaultValue={sortOptions[0]}
+                      defaultValue={studentSortOptions[0]}
                       onChange={this.handleSortChange}
                       theme={theme => ({
                        ...theme,
@@ -126,3 +126,11 @@ export default class Jobs extends Component {
       )
    }
 }
+
+const mapStateToProps = (state) => ({
+    user: state.user,
+    isAuthenticated: state.isAuthenticated,
+    isStartup: state.isStartup
+});
+
+export default connect(mapStateToProps)(Students);

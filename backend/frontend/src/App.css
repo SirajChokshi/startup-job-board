@@ -883,6 +883,36 @@ button#mobile-menu-toggle {
   display: inline;
 }
 
+/* Heads-Up Banners */
+
+.banner-error {
+  z-index: 5;
+  position: absolute;
+  left: 15%;
+  top: 10vh;
+  border-radius: 12px;
+  width: 70%;
+  padding: 0 20px;
+  background-color: var(--alert-color);
+}
+
+.banner-error p.message {
+  color: var(--secondary-text-color);
+  font-size: 18px;
+}
+
+.banner-error.success {
+  background-color: var(--success-color);
+}
+
+.banner-error.error {
+  background-color: var(--alert-color);
+}
+
+.banner-error.info {
+  background-color: var(--main-color);
+}
+
 @media only screen and (max-width: 500px) {
   .company-profile .hide-pipe {
     display: none;

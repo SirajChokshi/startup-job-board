@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 /* ------------------------- */
 
 const Req = () => {
-  return <span className="req"></span>
+  return <span className="req" />
 };
 
 // var profileImage = "";

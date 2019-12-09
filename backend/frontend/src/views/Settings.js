@@ -8,9 +8,9 @@ import {faExclamationTriangle as errorIcon} from "@fortawesome/free-solid-svg-ic
 
 /* ------------------------- */
 
-var date = new Date();
-var minDate = date.getFullYear() - 1;
-var maxDate = date.getFullYear() + 9;
+const date = new Date();
+const minDate = date.getFullYear() - 1;
+const maxDate = date.getFullYear() + 9;
 
 class Settings extends Component {
   state = {
@@ -161,11 +161,10 @@ class Settings extends Component {
         )
       } else if (this.props.isStartup) {
         return (
-          <Redirect to="/" />
+          <Redirect to="/org-settings" />
         )
       }
-
-      return (
+      else return (
         <>
           <div className="hero">
             <div className="hero-inner">

@@ -4,31 +4,9 @@ import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router-dom';
 import * as axios from 'axios';
 import Select from "react-select";
-// import { Link } from 'react-router-dom';
-
-// Icons
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faStar as favoriteIcon, faEnvelope as emailIcon, faGraduationCap as educationIcon, faFile as resumeIcon, faBook as majorIcon, faTools as skillsIcon } from '@fortawesome/free-solid-svg-icons'
-// import { faClock as deadlineIcon } from '@fortawesome/free-regular-svg-icons'
+import { industryList } from '../static/constants'
 
 /* ------------------------- */
-
-const industryList = [
-  { label: "Accounting/Finance", value: "FIN" },
-  { label: "Administrative", value: "ADM" },
-  { label: "Biotechnology", value: "BIO" },
-  { label: "Chemical/Materials", value: "CHEM" },
-  { label: "Data/Analysis", value: "DATA"},
-  { label: "Engineering", value: "ENG" },
-  { label: "Health/Medicine", value: "MED" },
-  { label: "Project Mangement", value: "PM" },
-  { label: "Marketing/PR", value: "PR" },
-  { label: "Sales/Business", value: "BUS" },
-  { label: "Software Development", value: "DEV" },
-  { label: "Legal", value: "LAW" },
-  { label: "User Experience/Design", value: "UX" },
-  { label: "Other", value: "MISC" }
-];
 
 class Settings extends Component {
   state = {

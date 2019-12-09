@@ -11,10 +11,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignInAlt as loginIcon, faUserPlus as signupIcon, faExclamationTriangle as errorIcon, faCheckCircle as successIcon } from '@fortawesome/free-solid-svg-icons'
 import { faEyeSlash as hideIcon, faEye as showIcon } from '@fortawesome/free-regular-svg-icons'
 
-var passMatch = true;
+let passMatch = true;
 
 function showPass() {
-  var x = document.getElementById("user-pass");
+  const x = document.getElementById("user-pass");
   if (x.type === "password") {
     x.type = "text";
   } else {
@@ -23,8 +23,8 @@ function showPass() {
 }
 
 function showSignupPass() {
-  var x = document.getElementById("new-user-pass");
-  var y = document.getElementById("confirm-user-pass");
+  const x = document.getElementById("new-user-pass");
+  const y = document.getElementById("confirm-user-pass");
   if (x.type === "password") {
     x.type = "text";
     y.type = "text";
