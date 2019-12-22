@@ -52,6 +52,12 @@ class Nav extends Component {
     console.log("logged off");
   }
 
+    keyPressed(event) {
+        if (event.key === "Enter") {
+            document.getElementById("nav-search-icon-wrapper").click();
+        }
+    }
+
   render () {
       return (
         <nav>
@@ -67,6 +73,7 @@ class Nav extends Component {
             <li>
               <button id="mobile-menu-toggle" onClick={ () =>
                   {
+                      window.scrollTo(0, 0);
                     this.setState({active: !this.state.active});
                     var x = document.getElementById('html');
                     if (x.style.overflow === "hidden") x.style.overflow = "auto";
@@ -86,7 +93,7 @@ class Nav extends Component {
              </NavLink>
            </li>
            <li id="search-nav">
-             <input type="search" id="jobs-search-bar" placeholder="Search for a job..." className="search" onSubmit={this.searchForward} />
+             <input type="search" id="jobs-search-bar" placeholder="Search for a job..." className="search" onKeyPress={this.keyPressed} />
              <button id="nav-search-icon-wrapper" onClick={this.searchForward}>
                <FontAwesomeIcon icon={search} style={{verticalAlign: 'bottom', color: '#8e8e8e', fontSize: 16 + 'px', marginBottom: 2 + 'px'}} />
              </button>
@@ -117,13 +124,13 @@ class Nav extends Component {
                 <div className="dropdown-content">
                   <NavLink to={"/user-profile/" + this.props.user.id}>Profile</NavLink>
                   {/*<NavLink to="/applications/">Applied</NavLink>*/}
-                  <hr></hr>
+                  <hr />
                   <NavLink to="/user-settings">Settings</NavLink>
                   <a onClick={(e) => {e.preventDefault(); this.logout()}} >Logout</a>
                 </div>
               </li>
               <li className="show-on-mobile">
-                <NavLink to="/user-profile" exact activeClassName="active-nav">
+                <NavLink to={"/user-profile/" + this.props.user.id} exact activeClassName="active-nav">
                   <FontAwesomeIcon className="def-icon" icon={user} />
                   <FontAwesomeIcon className="act-icon" icon={userActive} />
                   &nbsp; Profile

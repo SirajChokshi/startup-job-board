@@ -12,11 +12,12 @@ import { sortOptions } from '../static/constants'
 
 class Bookmarks extends Component {
   state = {
-    listings: [],
+      listings: [],
       sort: "listDeadline"
-  }
+  };
 
   async componentDidMount() {
+      this.setState({listings: []});
       try {
           const response = await axios({
               url: '/api/users/data/bookmarks?format=json&ordering=' + this.state.sort,
@@ -31,7 +32,7 @@ class Bookmarks extends Component {
           this.setState({ listings: bookmarks });
       } catch (error) {
           console.error(error);
-          console.error("@ERROR: Bookmark Retrieval Error!")
+          console.error("@ERROR: Bookmark Retrieval Error!");
       }
   }
 

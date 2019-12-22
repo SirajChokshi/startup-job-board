@@ -72,7 +72,7 @@ class JobPage extends Component {
               </span>
             </div>
           </div>
-          <br></br>
+          <br />
           <Container>
             <article className="job">
               <Row>
@@ -93,9 +93,9 @@ class JobPage extends Component {
                           &nbsp; <FontAwesomeIcon icon={editIcon} />
                         </Link>
                       ) : (
-                        <Link className="button" >
+                        <a href={this.state.listing.externalLink} rel="noopener" target="_blank" className="button" >
                           Apply <span className="hide-ext">Externally </span>&nbsp; <FontAwesomeIcon icon={appIcon} />
-                        </Link>
+                        </a>
                       )}
                   </div>
                 </Col>
@@ -110,7 +110,7 @@ class JobPage extends Component {
                     &nbsp; <FontAwesomeIcon icon={editIcon} />
                   </Link>
                 ) : (
-                  <Link className="button">Apply <span className="hide-ext">Externally </span>&nbsp; <FontAwesomeIcon icon={appIcon} /></Link>
+                  <a href={this.state.listing.externalLink} rel="noopener" target="_blank" className="button">Apply <span className="hide-ext">Externally </span>&nbsp; <FontAwesomeIcon icon={appIcon} /></a>
                 )}
               </div>
               <br />

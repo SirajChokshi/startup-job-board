@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router-dom';
 import * as axios from 'axios';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faExclamationTriangle as errorIcon} from "@fortawesome/free-solid-svg-icons";
+import {faExclamationTriangle as errorIcon, faCheckCircle as successIcon } from "@fortawesome/free-solid-svg-icons";
 
 /* ------------------------- */
 
@@ -15,15 +15,15 @@ const maxDate = date.getFullYear() + 9;
 class Settings extends Component {
   state = {
 
-  }
+  };
 
   resetErrors() {
     document.getElementById('confirm-password-1').style.borderColor = '';
     document.getElementById('confirm-password-1').style.backgroundColor = 'inherit';
     document.getElementById('confirm-password-2').style.borderColor = '';
     document.getElementById('confirm-password-2').style.backgroundColor = 'inherit';
-    var errorBlocks = document.getElementsByClassName("error");
-    for (var i = 0; i < errorBlocks.length; ++i) {
+    const errorBlocks = document.getElementsByClassName("error");
+    for (let i = 0; i < errorBlocks.length; ++i) {
       errorBlocks[i].style.display = 'none';
     }
   }
@@ -36,7 +36,7 @@ class Settings extends Component {
     this.props.history.push('/login');
   }
 
-  runError(x) {
+  runResponse(x) {
     if (x === 1) {
       document.getElementById('confirm-password-1').style.borderColor = '#ff4444';
       document.getElementById('confirm-password-1').style.backgroundColor = '#ffe6e6';
@@ -46,8 +46,11 @@ class Settings extends Component {
       document.getElementById('confirm-password-2').style.backgroundColor = '#ffe6e6';
       document.getElementById('update-profile-error').style.display = 'block';
     }
-    else {
-
+    else if (x === 3) {
+      document.getElementById('update-settings-success').style.display = 'block';
+    }
+    else if (x === 4) {
+      document.getElementById('update-profile-success').style.display = 'block';
     }
   }
 
@@ -83,6 +86,7 @@ class Settings extends Component {
           });
           const userJson = await profileResponse.data;
           this.props.dispatch({ type: "UPDATEUSER", user: userJson });
+          this.runResponse(3);
         } catch (error) {
           if (error.response.status === 400) {
             this.handleUserError();
@@ -91,7 +95,7 @@ class Settings extends Component {
           } else console.error(error);
         }
       } else {
-        this.runError(1);
+        this.runResponse(1);
       }
     } catch (error) {
       console.error(error);
@@ -109,7 +113,7 @@ class Settings extends Component {
           'Content-Type': 'application/json;charset=UTF-8',
           'Authorization': 'Token ' + localStorage.getItem("token")
         },
-        data: { "password" : document.getElementById("confirm-password-1").value }
+        data: { "password" : document.getElementById("confirm-password-2").value }
       });
       const json = await response.data;
       if (json.isValid) {
@@ -134,6 +138,7 @@ class Settings extends Component {
           const userJson = await profileResponse.data;
           // console.log('Success:', JSON.stringify(userJson));
           this.props.dispatch({ type: "UPDATEUSER", user: userJson });
+          this.runResponse(4);
         } catch (error) {
           if (error.response.status === 400) {
             this.handleUserError();
@@ -143,7 +148,7 @@ class Settings extends Component {
           else console.error(error);
         }
       } else {
-        this.runError(2);
+        this.runResponse(2);
       }
     } catch (error) {
       console.error(error);
@@ -175,6 +180,7 @@ class Settings extends Component {
           <Container id="user-settings">
             <h1>Account Settings</h1>
             <span id="update-settings-error" className="error" style={{ backgroundColor: '#ff4444' }}><FontAwesomeIcon icon={errorIcon} /> &nbsp; Invalid Credentials</span>
+            <span id="update-settings-success" className="error" style={{ backgroundColor: '#00C851' }}><FontAwesomeIcon icon={successIcon} /> &nbsp; Successful Updated Settings</span>
             <form onSubmit={(e) => {e.preventDefault(); this.updateSettings()}}>
                 <Row className="setting-row">
                   <Col md={2} sm={12}><label htmlFor="first-name" >First Name:</label></Col>
@@ -206,6 +212,7 @@ class Settings extends Component {
             <hr />
             <h1>Profile Settings</h1>
             <span id="update-profile-error" className="error" style={{ backgroundColor: '#ff4444' }}><FontAwesomeIcon icon={errorIcon} /> &nbsp; Invalid Credentials</span>
+            <span id="update-profile-success" className="error" style={{ backgroundColor: '#00C851' }}><FontAwesomeIcon icon={successIcon} /> &nbsp; Successful Updated Profile</span>
             <form onSubmit={(e) => {e.preventDefault(); this.updateProfile()}}>
                 <Row className="setting-row">
                   <Col md={2} sm={12}><label htmlFor="bio" >Biography (220 characters):</label></Col>
