@@ -17,8 +17,11 @@ class Jobs extends Component {
         listCategory: "",
         search: "",
         sort: "listDeadline"
-    }
+    };
 
+    /*
+     *
+     */
     UNSAFE_componentWillMount() {
         try {
             this.setState({search: this.props.location.state.search});
@@ -42,7 +45,6 @@ class Jobs extends Component {
             ...this.state,
             listCategory: selectedOption.value
         }, this.componentDidMount);
-//    console.log(this.state.listCategory);
     };
 
     handleSortChange = (selectedOption) => {
@@ -50,7 +52,6 @@ class Jobs extends Component {
             ...this.state,
             sort: selectedOption.value
         }, this.componentDidMount);
-//    console.log(this.state.listCategory);
     };
 
     handleIsPaidChange = (selectedOption) => {

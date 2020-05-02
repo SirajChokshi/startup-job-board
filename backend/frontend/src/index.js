@@ -20,11 +20,11 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
       case "LOGIN":
         state = {
-          ...state,
-          user: action.user,
-          isAuthenticated: true,
-          isStartup: action.isStartup
-        };
+        ...state,
+        user: action.user,
+        isAuthenticated: true,
+        isStartup: action.isStartup
+      };
         break;
       case "LOGOUT":
         state = {
@@ -48,10 +48,10 @@ const reducer = (state = initialState, action) => {
 
 const persistConfig = {
   key: 'root',
-  storage,
-}
+  storage
+};
 
-const persistedReducer = persistReducer(persistConfig, reducer)
+const persistedReducer = persistReducer(persistConfig, reducer);
 
 let store = createStore(persistedReducer);
 let persistor = persistStore(store);

@@ -9,8 +9,8 @@ import { faEnvelope as emailIcon, faGraduationCap as educationIcon, faFile as re
 
 /* ------------------------- */
 
-var loggedInID;
-var sameUser = false;
+let loggedInID;
+let sameUser = false;
 
 const addListingStyles = {
     width: "100%",
@@ -30,7 +30,7 @@ const addListingStyles = {
 class Profile extends Component {
   state = {
     student: []
-  }
+  };
 
   addDefaultSrc(ev) {
     ev.target.src = '/img/usr/missing.png';

@@ -405,6 +405,21 @@ button.button-secondary.bookmarked {
   cursor: pointer;
 }
 
+.button-secondary, .button {
+  transition: box-shadow 0.1s;
+}
+
+.button-secondary:hover, .button:hover {
+  box-shadow:
+          0 2.8px 2.4px rgba(0, 0, 0, 0.02),
+          0 6.7px 5.7px rgba(0, 0, 0, 0.028),
+          0 12.5px 10.6px rgba(0, 0, 0, 0.035),
+          0 22.3px 19px rgba(0, 0, 0, 0.042),
+          0 41.8px 35.5px rgba(0, 0, 0, 0.05),
+          0 100px 85px rgba(0, 0, 0, 0.07)
+  ;
+}
+
 button.button-secondary.bookmark {
   background-color: var(--background-color);
   color: var(--tertiary-text-color);
@@ -703,6 +718,7 @@ article.job .company-profile p {
   border-radius: 8px;
   color: var(--secondary-text-color);
   font-weight: 700;
+  margin-bottom: 15px;
 }
 
 #remember-me-wrapper {
@@ -961,6 +977,9 @@ button#mobile-menu-toggle {
   .student-card:nth-child(odd) {
     margin-left: 0%;
   }
+  #hero {
+    background-size: 300vw;
+  }
 }
 
 @media only screen and (max-width: 769px) {
@@ -1104,5 +1123,21 @@ button#mobile-menu-toggle {
     top: 10%;
     position: absolute;
     height: 80%;
+  }
+}
+
+@media only screen and (max-width: 453px) {
+  .button-wrapper {
+    margin-top: 14px;
+  }
+  .button {
+    width: 100%;
+    display: block;
+    text-align: center;
+  }
+  .button-secondary {
+    margin-top: 7px;
+    width: 100%;
+    display: block;
   }
 }

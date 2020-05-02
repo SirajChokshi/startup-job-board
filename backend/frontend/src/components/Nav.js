@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 class Nav extends Component {
   state = {
     active: false
-  }
+  };
 
     searchForward = () => {
         this.props.history.push({
@@ -24,7 +24,7 @@ class Nav extends Component {
         if(this.props.location.pathname === "/jobs") {
             window.location.reload();
         }
-    }
+    };
 
   async logout(e) {
     try {
@@ -75,9 +75,9 @@ class Nav extends Component {
                   {
                       window.scrollTo(0, 0);
                     this.setState({active: !this.state.active});
-                    var x = document.getElementById('html');
-                    if (x.style.overflow === "hidden") x.style.overflow = "auto";
-                    else x.style.overflow = "hidden";
+                    const page = document.getElementById('html');
+                    if (page.style.overflow === "hidden") page.style.overflow = "auto";
+                    else page.style.overflow = "hidden";
                   }
                 }>
                 <FontAwesomeIcon icon={menu} />
@@ -123,7 +123,6 @@ class Nav extends Component {
                 </span>
                 <div className="dropdown-content">
                   <NavLink to={"/user-profile/" + this.props.user.id}>Profile</NavLink>
-                  {/*<NavLink to="/applications/">Applied</NavLink>*/}
                   <hr />
                   <NavLink to="/user-settings">Settings</NavLink>
                   <a onClick={(e) => {e.preventDefault(); this.logout()}} >Logout</a>

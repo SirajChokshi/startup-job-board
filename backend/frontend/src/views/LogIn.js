@@ -94,7 +94,7 @@ class LogIn extends Component {
         // console.log(userResponse.data);
         const userJson = await userResponse.data;
         // console.log('Success:', JSON.stringify(userJson));
-        this.props.dispatch({ type: "LOGIN", user: userJson, isStartup: json.is_startup })
+        this.props.dispatch({ type: "LOGIN", user: userJson, isStartup: json.is_startup });
         this.props.history.push('/');
       } catch (error) {
         console.error(error);

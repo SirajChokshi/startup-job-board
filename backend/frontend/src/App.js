@@ -24,12 +24,6 @@ import OrgSettings from "./views/OrgSettings";
 import MasterNav from './components/MasterNav';
 import Footer from './components/Footer';
 
-/*
- * TEMP: To switch between startup/student navigation bars just
- * change the <NavAdmin /> OR <Nav /> request while we wait for
- * user auth to be prepared
- */
-
 function App() {
   return (
     <div className="App" >
